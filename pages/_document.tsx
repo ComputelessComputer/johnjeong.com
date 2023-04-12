@@ -15,7 +15,10 @@ export default function Document() {
           name="og:description"
           content="I am John Jeong, currently the Business Owner @ Team Normal."
         />
-        <meta name="og:image" content="/images/johnjeong_og_image.png" />
+        <meta
+          name="og:image"
+          content="https://johnjeong.com/images/johnjeong_og_image.png"
+        />
         <meta name="og:url" content="https://johnjeong.com" />
         <meta name="og:site_name" content="John Jeong" />
         <meta name="og:type" content="website" />
