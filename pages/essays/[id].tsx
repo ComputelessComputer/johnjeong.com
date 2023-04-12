@@ -28,8 +28,14 @@ const Essay = ({ essay }: Props) => {
       </Head>
       <Layout title={essay.title}>
         <section id="essay">
-          <p className="text-sm mb-2">{formatYYYYMMdd(essay.createdAt)}</p>
-          <p>{essay.content}</p>
+          <p className="text-sm mb-2">
+            Created at: {formatYYYYMMdd(essay.createdAt)}
+          </p>
+          {essay.content.split("\n").map((paragraph, index) => (
+            <p className="mb-2" key={index}>
+              {paragraph}
+            </p>
+          ))}
         </section>
       </Layout>
     </>

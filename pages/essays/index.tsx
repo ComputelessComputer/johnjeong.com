@@ -22,7 +22,7 @@ const Essays = ({ essayPreviews }: Props) => {
       </Head>
       <Layout title={"Essays"}>
         <section id="essays">
-          <ul className="ml-4">
+          <ul className="ml-4 list-disc">
             {essayPreviews.map((essayPreview) => (
               <li key={essayPreview.id}>
                 <Link
