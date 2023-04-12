@@ -63,7 +63,7 @@ const Home = () => {
                 href="https://johnjeong.substack.com/"
                 className="hover:text-blue-400 text-blue-600 underline"
               >
-                Chef John's Knowledge Omakase
+                {"Chef John's Knowledge Omakase"}
               </Link>
             </li>
           </ul>
