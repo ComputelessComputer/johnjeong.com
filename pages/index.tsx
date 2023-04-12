@@ -7,6 +7,18 @@ const Home = () => {
     <>
       <Head>
         <title>John Jeong</title>
+        <meta
+          name="description"
+          content="I am John Jeong, currently the Business Owner @ Team Normal."
+        />
+        <meta name="og:title" content="John Jeong" />
+        <meta
+          name="og:description"
+          content="I am John Jeong, currently the Business Owner @ Team Normal."
+        />
+        <meta name="og:url" content="https://johnjeong.com" />
+        <meta name="og:site_name" content="John Jeong" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Layout title={"John Jeong"}>
         <section id="bio" className="mb-4">
@@ -52,6 +64,16 @@ const Home = () => {
           <ul className="list-disc ml-4">
             <li>
               <Link
+                href="/essays"
+                className="hover:text-blue-400 text-blue-600 underline"
+              >
+                Essays
+              </Link>
+            </li>
+            <li>
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://ergosphere.co/john"
                 className="hover:text-blue-400 text-blue-600 underline"
               >
@@ -60,6 +82,8 @@ const Home = () => {
             </li>
             <li>
               <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://johnjeong.substack.com/"
                 className="hover:text-blue-400 text-blue-600 underline"
               >
