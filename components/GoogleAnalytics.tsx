@@ -17,7 +17,7 @@ const GoogleAnalytics = () => {
       page_path: window.location.pathname,
       send_to: trackingId,
     });
-  }, []);
+  }, [router.isPreview]);
   // 👇 send page views on route change
   useEffect(() => {
     if (!isProduction) return;
