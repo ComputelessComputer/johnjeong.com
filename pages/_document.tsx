@@ -19,7 +19,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <Script>
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){window.dataLayer.push(arguments);}
