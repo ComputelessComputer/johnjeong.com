@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "13.3.0",
     "@supabase/supabase-js": "^2.20.0",
     "@types/gtag.js": "^0.0.12",
     "@types/node": "18.15.11",
