@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -18,15 +19,13 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        <Script>
+          {`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
-          `,
-          }}
-        />
+          `}
+        </Script>
       </body>
     </Html>
   );

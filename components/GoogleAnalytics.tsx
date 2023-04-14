@@ -47,16 +47,13 @@ const GoogleAnalytics = () => {
         src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`}
         strategy="afterInteractive"
       />
-      <Script
-        id="gtag-init"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-          `,
-        }}
-      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+        `}
+      </Script>
     </>
   );
 };
