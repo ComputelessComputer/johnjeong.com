@@ -9,8 +9,7 @@ const GoogleAnalytics = () => {
   const router = useRouter();
   // 👇 send page views when users gets to the landing page
   useEffect(() => {
-    if (!isProduction) return;
-    if (!trackingId || router.isPreview) return;
+    if (!isProduction || !trackingId || router.isPreview) return;
     gtag("config", trackingId, {
       send_page_view: false, //manually send page views to have full control
     });
@@ -37,23 +36,27 @@ const GoogleAnalytics = () => {
       router.events.off("hashChangeComplete", handleRouteChange);
     };
   }, [router.events, router.isPreview]);
-  // 👇 prevent rendering scripts if there is no TRACKING_ID or if it's preview mode.
-  if (!trackingId || router.isPreview) {
+
+  if (!isProduction || !trackingId || router.isPreview) {
     return null;
   }
+
   return (
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`}
         strategy="afterInteractive"
       />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-        `}
-      </Script>
+      <Script
+        id="gtag-init"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `,
+        }}
+      />
     </>
   );
 };
