@@ -48,16 +48,17 @@ const GoogleAnalytics = () => {
         strategy="afterInteractive"
       />
       {/* 👇 gtag function definition. notice that we don't send page views at this point.  */}
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
           window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
+          function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', ${trackingId},{
-            page_path: window.location.pathname,
-          });
-        `}
-      </Script>
+        `,
+        }}
+      />
     </>
   );
 };
