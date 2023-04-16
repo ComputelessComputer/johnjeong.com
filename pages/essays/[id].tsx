@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { formatYYYYMMdd } from "@/lib/formator";
+import { formatDate } from "@/lib/formator";
 import { supabase } from "@/lib/supabase";
 import Essay from "@/models/Essay";
 import Head from "next/head";
@@ -29,7 +29,7 @@ const Essay = ({ essay }: Props) => {
       <Layout title={essay.title}>
         <section id="essay">
           <p className="text-sm mb-2">
-            Created at: {formatYYYYMMdd(essay.createdAt)}
+            Created at: {formatDate(essay.createdAt)}
           </p>
           {essay.content.split("\n").map((paragraph, index) => (
             <p className="mb-2" key={index}>
