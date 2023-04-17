@@ -34,10 +34,9 @@ const Essay = ({ essay }: Props) => {
             Created at: {formatDate(essay.createdAt)}
           </p>
           <div className="prose">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              children={essay.content}
-            />
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {essay.content}
+            </ReactMarkdown>
           </div>
         </section>
       </Layout>
