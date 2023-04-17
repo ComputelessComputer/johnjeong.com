@@ -1,8 +1,10 @@
 import Layout from "@/components/Layout";
-import { formatDate } from "@/lib/formator";
+import formatDate from "@/lib/formatDate";
 import { supabase } from "@/lib/supabase";
 import Essay from "@/models/Essay";
 import Head from "next/head";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Props = {
   essay: Essay;
@@ -31,11 +33,12 @@ const Essay = ({ essay }: Props) => {
           <p className="text-sm mb-2">
             Created at: {formatDate(essay.createdAt)}
           </p>
-          {essay.content.split("\n").map((paragraph, index) => (
-            <p className="mb-2" key={index}>
-              {paragraph}
-            </p>
-          ))}
+          <div className="prose">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              children={essay.content}
+            />
+          </div>
         </section>
       </Layout>
     </>
@@ -85,6 +88,6 @@ export const getStaticProps = async (context: any) => {
     props: {
       essay,
     },
-    revalidate: 3600,
+    revalidate: 60,
   };
 };
