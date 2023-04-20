@@ -9,21 +9,20 @@ const Home = () => {
         <title>John Jeong</title>
         <meta
           name="description"
-          content="I am John Jeong, currently the Business Owner @ Team Normal."
+          content="I am John Jeong, cofounder and Business Owner of Team Normal."
         />
         <meta name="og:title" content="John Jeong" />
         <meta
           name="og:description"
-          content="I am John Jeong, currently the Business Owner @ Team Normal."
+          content="I am John Jeong, cofounder and Business Owner of Team Normal."
         />
-        <meta name="og:url" content="https://johnjeong.com" />
         <meta name="og:site_name" content="John Jeong" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout title={"John Jeong"}>
+      <Layout subtitle={"Me"}>
         <section id="bio" className="mb-4">
           <p>Hello world!</p>
-          <p>I am John Jeong, currently the Business Owner @ Team Normal.</p>
+          <p>I am John Jeong, cofounder and Business Owner of Team Normal.</p>
           <p>I love simple, intuitive designs.</p>
           <p>
             I love listening to music. Below are the songs that I listen on

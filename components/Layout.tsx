@@ -2,14 +2,14 @@ import Footer from "./Footer";
 import Header from "./Header";
 
 type Props = {
-  title: string;
+  subtitle: string;
   children: React.ReactNode;
 };
 
-const Layout = ({ title, children }: Props) => {
+const Layout = ({ subtitle, children }: Props) => {
   return (
     <div>
-      <Header title={title} />
+      <Header subtitle={subtitle} />
       <main className="px-4">{children}</main>
       <Footer />
     </div>

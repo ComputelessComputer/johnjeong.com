@@ -17,10 +17,9 @@ const Essays = ({ essayPreviews }: Props) => {
         <meta name="description" content="Essays by John Jeong" />
         <meta property="og:title" content="Essays · John Jeong" />
         <meta property="og:description" content="Essays by John Jeong" />
-        <meta property="og:url" content="https://johnjeong.com/essays" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout title={"Essays"}>
+      <Layout subtitle={"Essays"}>
         <section id="essays">
           <ul className="ml-4 list-disc">
             {essayPreviews.map((essayPreview) => (

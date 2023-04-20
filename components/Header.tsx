@@ -1,11 +1,18 @@
+import Link from "next/link";
+
 type Props = {
-  title: string;
+  subtitle: string;
 };
 
-const Header = ({ title }: Props) => {
+const Header = ({ subtitle }: Props) => {
   return (
     <header className="w-full p-4">
-      <h1 className="font-bold text-2xl">{title}</h1>
+      <h1 className="font-bold text-2xl">
+        <span>
+          <Link href="/">Johntopia</Link>
+        </span>{" "}
+        / {subtitle}
+      </h1>
     </header>
   );
 };

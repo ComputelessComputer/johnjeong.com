@@ -22,13 +22,9 @@ const Essay = ({ essay }: Props) => {
           content={essay.content.substring(0, 120)}
         />
         <meta property="og:type" content="article" />
-        <meta
-          property="og:url"
-          content={`https://johnjeong.com/essays/${essay.id}`}
-        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout title={essay.title}>
+      <Layout subtitle={essay.title}>
         <section id="essay">
           <p className="text-sm mb-2">
             Created at: {formatDate(essay.createdAt)}
