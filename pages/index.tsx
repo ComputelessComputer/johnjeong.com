@@ -19,9 +19,8 @@ const Home = () => {
         <meta name="og:site_name" content="John Jeong" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout subtitle={"Me"}>
-        <section id="bio" className="mb-4">
-          <p>Hello world!</p>
+      <Layout dir={"About"} dirPath="/">
+        <section id="bio" className="mb-4 text-sm">
           <p>I am John Jeong, cofounder and Business Owner of Team Normal.</p>
           <p>I love simple, intuitive designs.</p>
           <p>
@@ -60,13 +59,29 @@ const Home = () => {
           />
         </section>
         <section id="links">
-          <ul className="list-disc ml-4">
+          <ul className="list-disc ml-4 text-sm">
             <li>
               <Link
                 href="/essays"
                 className="hover:text-blue-400 text-blue-600 underline"
               >
                 Essays
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/readings"
+                className="hover:text-blue-400 text-blue-600 underline"
+              >
+                Readings
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/inspirations"
+                className="hover:text-blue-400 text-blue-600 underline"
+              >
+                Inspirations
               </Link>
             </li>
             <li>

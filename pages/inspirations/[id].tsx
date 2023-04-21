@@ -1,37 +1,51 @@
 import Layout from "@/components/Layout";
 import formatDate from "@/lib/formatDate";
 import { supabase } from "@/lib/supabase";
-import Essay from "@/models/Essay";
+import Inspiration from "@/models/Inspiration";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import YouTube from "react-youtube";
 
 type Props = {
-  essay: Essay;
+  inspiration: Inspiration;
 };
 
-const Essay = ({ essay }: Props) => {
+const Inspiration = ({ inspiration }: Props) => {
   return (
     <>
       <Head>
-        <title>{essay.title}</title>
-        <meta name="description" content={essay.content.substring(0, 120)} />
-        <meta property="og:title" content={essay.title} />
+        <title>{inspiration.title}</title>
+        <meta
+          name="description"
+          content={inspiration.content.substring(0, 120)}
+        />
+        <meta property="og:title" content={inspiration.title} />
         <meta
           property="og:description"
-          content={essay.content.substring(0, 120)}
+          content={inspiration.content.substring(0, 120)}
         />
         <meta property="og:type" content="article" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout dir={"Essays"} dirPath="/essays" subDir={essay.title}>
-        <section id="essay">
+      <Layout
+        dir={"Inspirations"}
+        dirPath="/inspirations"
+        subDir={inspiration.title}
+      >
+        <section id="inspiration-youtube" className="mb-4">
+          <YouTube
+            videoId={inspiration.youtubeVideoId}
+            id="inspiration-youtube-video"
+          />
+        </section>
+        <section id="inspiration-content">
           <p className="text-sm mb-4">
-            Created at: {formatDate(essay.createdAt)}
+            Created at: {formatDate(inspiration.createdAt)}
           </p>
           <div className="prose">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {essay.content}
+              {inspiration.content}
             </ReactMarkdown>
           </div>
         </section>
@@ -40,16 +54,16 @@ const Essay = ({ essay }: Props) => {
   );
 };
 
-export default Essay;
+export default Inspiration;
 
 export const getStaticPaths = async () => {
   const { data } = await supabase
-    .from("essays")
+    .from("inspirations")
     .select("id")
     .order("id", { ascending: false });
 
-  const paths = data?.map((essay) => ({
-    params: { id: String(essay.id) },
+  const paths = data?.map((inspiration) => ({
+    params: { id: String(inspiration.id) },
   }));
 
   return {
@@ -60,7 +74,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context: any) => {
   const { data, error } = await supabase
-    .from("essays")
+    .from("inspirations")
     .select("*")
     .eq("id", Number(context.params.id))
     .single();
@@ -72,16 +86,17 @@ export const getStaticProps = async (context: any) => {
     };
   }
 
-  const essay: Essay = {
+  const inspiration: Inspiration = {
     id: data.id,
     title: data.title,
     content: data.content,
     createdAt: data.created_at,
+    youtubeVideoId: data.youtube_video_id,
   };
 
   return {
     props: {
-      essay,
+      inspiration,
     },
     revalidate: 60,
   };

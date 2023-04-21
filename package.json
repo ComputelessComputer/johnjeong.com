@@ -1,6 +1,6 @@
 {
   "name": "johnjeong",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -22,6 +22,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.7",
+    "react-youtube": "^10.1.0",
     "remark-gfm": "^3.0.1",
     "typescript": "5.0.4"
   },

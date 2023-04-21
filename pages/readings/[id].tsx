@@ -1,37 +1,42 @@
 import Layout from "@/components/Layout";
 import formatDate from "@/lib/formatDate";
 import { supabase } from "@/lib/supabase";
-import Essay from "@/models/Essay";
+import Reading from "@/models/Reading";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 type Props = {
-  essay: Essay;
+  reading: Reading;
 };
 
-const Essay = ({ essay }: Props) => {
+const Reading = ({ reading }: Props) => {
   return (
     <>
       <Head>
-        <title>{essay.title}</title>
-        <meta name="description" content={essay.content.substring(0, 120)} />
-        <meta property="og:title" content={essay.title} />
+        <title>
+          {reading.title} by {reading.author}
+        </title>
+        <meta name="description" content={reading.content.substring(0, 120)} />
+        <meta
+          property="og:title"
+          content={`${reading.title} by ${reading.author}`}
+        />
         <meta
           property="og:description"
-          content={essay.content.substring(0, 120)}
+          content={reading.content.substring(0, 120)}
         />
         <meta property="og:type" content="article" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout dir={"Essays"} dirPath="/essays" subDir={essay.title}>
-        <section id="essay">
+      <Layout dir={"Readings"} dirPath="/readings" subDir={reading.title}>
+        <section id="reading">
           <p className="text-sm mb-4">
-            Created at: {formatDate(essay.createdAt)}
+            Created at: {formatDate(reading.createdAt)}
           </p>
           <div className="prose">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {essay.content}
+              {reading.content}
             </ReactMarkdown>
           </div>
         </section>
@@ -40,16 +45,16 @@ const Essay = ({ essay }: Props) => {
   );
 };
 
-export default Essay;
+export default Reading;
 
 export const getStaticPaths = async () => {
   const { data } = await supabase
-    .from("essays")
+    .from("readings")
     .select("id")
     .order("id", { ascending: false });
 
-  const paths = data?.map((essay) => ({
-    params: { id: String(essay.id) },
+  const paths = data?.map((reading) => ({
+    params: { id: String(reading.id) },
   }));
 
   return {
@@ -60,7 +65,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context: any) => {
   const { data, error } = await supabase
-    .from("essays")
+    .from("readings")
     .select("*")
     .eq("id", Number(context.params.id))
     .single();
@@ -72,16 +77,17 @@ export const getStaticProps = async (context: any) => {
     };
   }
 
-  const essay: Essay = {
+  const reading: Reading = {
     id: data.id,
     title: data.title,
     content: data.content,
     createdAt: data.created_at,
+    author: data.author,
   };
 
   return {
     props: {
-      essay,
+      reading,
     },
     revalidate: 60,
   };

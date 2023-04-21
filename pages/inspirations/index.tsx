@@ -1,34 +1,34 @@
 import Layout from "@/components/Layout";
 import { supabase } from "@/lib/supabase";
-import EssayPreview from "@/models/EssayPreview";
+import InspirationPreview from "@/models/InspirationPreview";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
 type Props = {
-  essayPreviews: EssayPreview[];
+  previews: InspirationPreview[];
 };
 
-const Essays = ({ essayPreviews }: Props) => {
+const Inspirations = ({ previews }: Props) => {
   return (
     <>
       <Head>
-        <title>Essays · John Jeong</title>
-        <meta name="description" content="Essays by John Jeong" />
-        <meta property="og:title" content="Essays · John Jeong" />
-        <meta property="og:description" content="Essays by John Jeong" />
+        <title>Inspirations · John Jeong</title>
+        <meta name="description" content="Inspirations by John Jeong" />
+        <meta property="og:title" content="Inspirations · John Jeong" />
+        <meta property="og:description" content="Inspirations by John Jeong" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout dir={"Essays"} dirPath="/essays">
+      <Layout dir={"Inspirations"} dirPath="/inspirations">
         <section id="essays">
           <ul className="ml-4 list-disc">
-            {essayPreviews.map((essayPreview) => (
-              <li key={essayPreview.id}>
+            {previews.map((preview) => (
+              <li key={preview.id}>
                 <Link
                   className="hover:text-blue-400 text-blue-600 underline"
-                  href={`/essays/${essayPreview.id}`}
+                  href={`/inspirations/${preview.id}`}
                 >
-                  {essayPreview.title}
+                  {preview.title}
                 </Link>
               </li>
             ))}
@@ -39,12 +39,12 @@ const Essays = ({ essayPreviews }: Props) => {
   );
 };
 
-export default Essays;
+export default Inspirations;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { data, error } = await supabase
-    .from("essays")
-    .select("id,title, created_at")
+    .from("inspirations")
+    .select("id,title,created_at")
     .order("id", { ascending: false });
 
   if (error) {
@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   }
 
-  const essayPreviews: EssayPreview[] = data.map((essay) => ({
+  const previews: InspirationPreview[] = data.map((essay) => ({
     id: essay.id,
     title: essay.title,
     createdAt: essay.created_at,
@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      essayPreviews,
+      previews,
     },
     revalidate: 60,
   };
