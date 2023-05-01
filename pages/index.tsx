@@ -9,29 +9,40 @@ const Home = () => {
         <title>John Jeong</title>
         <meta
           name="description"
-          content="I am John Jeong, cofounder and Business Owner of Team Normal."
+          content="I am John Jeong, cofounder and Business Owner of Pado."
         />
         <meta name="og:title" content="John Jeong" />
         <meta
           name="og:description"
-          content="I am John Jeong, cofounder and Business Owner of Team Normal."
+          content="I am John Jeong, cofounder and Business Owner of Pado."
         />
         <meta name="og:site_name" content="John Jeong" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Layout dir={"About"} dirPath="/">
         <section id="bio" className="mb-4 text-sm">
-          <p>I am John Jeong, cofounder and Business Owner of Team Normal.</p>
+          <p>
+            I am John Jeong, co-founder and Business Owner of{" "}
+            <span>
+              <Link
+                href="https://padocorp.com"
+                className="hover:text-blue-400 text-blue-600 underline"
+              >
+                Pado
+              </Link>
+            </span>
+            .
+          </p>
           <p>I love simple, intuitive designs.</p>
           <p>
-            I love listening to music. Below are the songs that I listen on
+            I enjoy listening to music; below are the songs that I listen on
             repeat.
           </p>
           <p>
             Feel free to contact me via{" "}
             <span>
               <Link
-                href="mailto:jeeheontransformers@gmail.com"
+                href="mailto:john@padocorp.com"
                 className="hover:text-blue-400 text-blue-600 underline"
               >
                 email
