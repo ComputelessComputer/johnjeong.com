@@ -48,13 +48,13 @@ const Home = () => {
                 email
               </Link>
             </span>{" "}
-            or{" "}
+            or just arrange a{" "}
             <span>
               <Link
-                href="https://linkedin.com/in/johntopia"
+                href="https://www.sendtime.io/ko/reservation?i=I2heZH"
                 className="hover:text-blue-400 text-blue-600 underline"
               >
-                LinkedIn
+                meeting
               </Link>
             </span>
             .
@@ -113,6 +113,16 @@ const Home = () => {
                 className="hover:text-blue-400 text-blue-600 underline"
               >
                 {"Chef John's Knowledge Omakase"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://linkedin.com/in/johntopia"
+                className="hover:text-blue-400 text-blue-600 underline"
+              >
+                LinkedIn
               </Link>
             </li>
           </ul>
