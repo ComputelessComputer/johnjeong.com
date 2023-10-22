@@ -1,4 +1,5 @@
 import Bio from "@/components/Bio";
+import CalendlyWidget from "@/components/Calendly";
 import Layout from "@/components/Layout";
 import LinksList from "@/components/LinksList";
 import Spotify from "@/components/Spotify";

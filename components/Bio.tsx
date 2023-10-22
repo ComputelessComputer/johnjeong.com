@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Bio = () => {
   return (
-    <section id="bio" className="mb-4 text-sm">
+    <section id="bio" className="mb-4 text-sm max-w-sm">
       <p>
         I am John Jeong, co-founder and Business Owner of{" "}
         <span>
@@ -13,11 +13,8 @@ const Bio = () => {
             Pado
           </Link>
         </span>
-        .
-      </p>
-      <p>I love simple, intuitive designs.</p>
-      <p>
-        I enjoy listening to music; below are the songs that I listen on repeat.
+        . I love simple, intuitive designs and enjoy listening to music; below
+        are the songs that I listen on repeat.
       </p>
       <p>
         Feel free to contact me via{" "}
@@ -32,7 +29,7 @@ const Bio = () => {
         or just arrange a{" "}
         <span>
           <Link
-            href="https://www.sendtime.app/ko/reservation?i=I2heZH"
+            href="https://calendly.com/john-jeong/1hr"
             className="hover:text-blue-400 text-blue-600 underline"
           >
             meeting
