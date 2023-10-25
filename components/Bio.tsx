@@ -13,11 +13,27 @@ const Bio = () => {
             Pado
           </Link>
         </span>
-        . I love simple, intuitive designs and enjoy listening to music; below
-        are the songs that I listen on repeat.
-      </p>
-      <p>
-        Feel free to contact me via{" "}
+        . Prior experiences include Sales & Business Development Manager @{" "}
+        <span>
+          <Link
+            href="https://deering.co"
+            className="hover:text-blue-400 text-blue-600 underline"
+          >
+            Deer
+          </Link>
+        </span>
+        , an e-cooter startup based in Seoul, and Product Owner @{" "}
+        <span>
+          <Link
+            href="https://youha.info"
+            className="hover:text-blue-400 text-blue-600 underline"
+          >
+            YOUHA
+          </Link>
+        </span>
+        , an influencer discovery platform for marketers. I love simple,
+        intuitive designs and enjoy listening to music; below are the songs that
+        I listen on repeat. Also, Feel free to contact me via{" "}
         <span>
           <Link
             href="mailto:john@padocorp.com"

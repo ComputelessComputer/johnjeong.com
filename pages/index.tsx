@@ -3,9 +3,6 @@ import Layout from "@/components/Layout";
 import LinksList from "@/components/LinksList";
 import Spotify from "@/components/Spotify";
 import Head from "next/head";
-import Link from "next/link";
-import ReactPlayer from "react-player";
-import SoundCloudPlayer from "react-player/soundcloud";
 
 const Home = () => {
   return (
