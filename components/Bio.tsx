@@ -13,7 +13,7 @@ const Bio = () => {
             Pado
           </Link>
         </span>
-        . Prior experiences include Sales & Business Development Manager @{" "}
+        . My prior experiences include Sales & Business Development Manager @{" "}
         <span>
           <Link
             href="https://deering.co"
@@ -31,9 +31,11 @@ const Bio = () => {
             YOUHA
           </Link>
         </span>
-        , an influencer discovery platform for marketers. I love simple,
-        intuitive designs and enjoy listening to music; below are the songs that
-        I listen on repeat. Also, Feel free to contact me via{" "}
+        , an influencer discovery platform for marketers. I received my B.S. in
+        Nuclear Engineering @ Seoul National University. Also, I graduated early
+        from Sejong Science High School (was really a nerd for Physics). I love
+        simple, intuitive designs and enjoy listening to music; below are the
+        songs that I listen on repeat. Also, Feel free to contact me via{" "}
         <span>
           <Link
             href="mailto:john@padocorp.com"
