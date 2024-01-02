@@ -39,8 +39,7 @@ const Inspiration = ({ inspiration }: Props) => {
               <YouTube
                 videoId={inspiration.youtubeVideoId}
                 id='inspiration-youtube-video'
-                containerClassName='w-full h-auto' // This will be the class for the div wrapping the iframe
-                className='w-full h-full' // This will be the class for the iframe itself
+                className='w-full h-full'
               />
             </div>
           </div>
