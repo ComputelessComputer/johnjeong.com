@@ -17,33 +17,39 @@ const Inspiration = ({ inspiration }: Props) => {
       <Head>
         <title>{inspiration.title}</title>
         <meta
-          name="description"
+          name='description'
           content={inspiration.content.substring(0, 120)}
         />
-        <meta property="og:title" content={inspiration.title} />
+        <meta property='og:title' content={inspiration.title} />
         <meta
-          property="og:description"
+          property='og:description'
           content={inspiration.content.substring(0, 120)}
         />
-        <meta property="og:type" content="article" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property='og:type' content='article' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
       </Head>
       <Layout
         dir={"Inspirations"}
-        dirPath="/inspirations"
+        dirPath='/inspirations'
         subDir={inspiration.title}
       >
-        <section id="inspiration-youtube" className="mb-4">
-          <YouTube
-            videoId={inspiration.youtubeVideoId}
-            id="inspiration-youtube-video"
-          />
+        <section id='inspiration-youtube' className='mb-4'>
+          <div className='w-full'>
+            <div className='aspect-w-16 aspect-h-9'>
+              <YouTube
+                videoId={inspiration.youtubeVideoId}
+                id='inspiration-youtube-video'
+                containerClassName='w-full h-auto' // This will be the class for the div wrapping the iframe
+                className='w-full h-full' // This will be the class for the iframe itself
+              />
+            </div>
+          </div>
         </section>
-        <section id="inspiration-content">
-          <p className="text-sm mb-4">
+        <section id='inspiration-content'>
+          <p className='text-sm mb-4'>
             Created at: {formatDate(inspiration.createdAt)}
           </p>
-          <div className="prose">
+          <div className='prose'>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {inspiration.content}
             </ReactMarkdown>

@@ -2,13 +2,13 @@ import Link from "next/link";
 
 const Bio = () => {
   return (
-    <section id="bio" className="mb-4 text-sm max-w-sm">
-      <p>
+    <section id='bio' className='mb-4 text-sm max-w-sm'>
+      <p className='mb-2'>
         I am John Jeong, co-founder and Business Owner of{" "}
         <span>
           <Link
-            href="https://padocorp.com"
-            className="hover:text-blue-400 text-blue-600 underline"
+            href='https://padocorp.com'
+            className='hover:text-blue-400 text-blue-600 underline'
           >
             Pado
           </Link>
@@ -16,8 +16,8 @@ const Bio = () => {
         . My prior experiences include Sales & Business Development Manager @{" "}
         <span>
           <Link
-            href="https://deering.co"
-            className="hover:text-blue-400 text-blue-600 underline"
+            href='https://deering.co'
+            className='hover:text-blue-400 text-blue-600 underline'
           >
             Deer
           </Link>
@@ -25,21 +25,26 @@ const Bio = () => {
         , an e-cooter startup based in Seoul, and Product Owner @{" "}
         <span>
           <Link
-            href="https://youha.info"
-            className="hover:text-blue-400 text-blue-600 underline"
+            href='https://youha.info'
+            className='hover:text-blue-400 text-blue-600 underline'
           >
             YOUHA
           </Link>
         </span>
-        , an influencer discovery platform for marketers. I received my B.S. in
-        Nuclear Engineering @ Seoul National University. Also, I graduated early
-        from Sejong Science High School (was really a nerd for Physics). I love
-        simple, intuitive designs and enjoy listening to music; below are the
-        songs that I listen on repeat. Also, Feel free to contact me via{" "}
+        , an influencer discovery platform.
+      </p>
+      <p className='mb-2'>
+        I received my B.S. in Nuclear Engineering @ Seoul National University.
+        Before that, I graduated early from Sejong Science High School (wanted
+        to become a theoretical physicist).
+      </p>
+      <p>
+        I love simple, intuitive designs and enjoy listening to music; below are
+        the songs that I listen on repeat. Feel free to contact me via{" "}
         <span>
           <Link
-            href="mailto:john@padocorp.com"
-            className="hover:text-blue-400 text-blue-600 underline"
+            href='mailto:john@padocorp.com'
+            className='hover:text-blue-400 text-blue-600 underline'
           >
             email
           </Link>
@@ -47,8 +52,8 @@ const Bio = () => {
         or just arrange a{" "}
         <span>
           <Link
-            href="https://calendly.com/john-jeong/1hr"
-            className="hover:text-blue-400 text-blue-600 underline"
+            href='https://calendly.com/john-jeong/1hr'
+            className='hover:text-blue-400 text-blue-600 underline'
           >
             meeting
           </Link>
