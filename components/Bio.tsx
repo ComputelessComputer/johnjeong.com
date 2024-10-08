@@ -4,16 +4,16 @@ const Bio = () => {
   return (
     <section id='bio' className='mb-4 text-sm max-w-sm'>
       <p className='mb-2'>
-        I am John Jeong, co-founder and Business Owner of{" "}
+        Welcome to Johntopia, a digital home of John Jeong. I am currently co-founder and CEO of{" "}
         <span>
           <Link
             href='https://padocorp.com'
             className='hover:text-blue-400 text-blue-600 underline'
           >
-            Pado
+            Pado Labs
           </Link>
         </span>
-        . My prior experiences include Sales & Business Development Manager @{" "}
+        . My prior experiences include Business Development & Sales Manager @{" "}
         <span>
           <Link
             href='https://deering.co'
