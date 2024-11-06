@@ -32,10 +32,20 @@ const LinksList = () => {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://ergosphere.co/john"
+            href="https://www.linkedin.com/in/johntopia/"
             className="hover:text-blue-400 text-blue-600 underline"
           >
-            My Projects
+            LinkedIn
+          </Link>
+        </li>
+        <li>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/ComputelessComputer"
+            className="hover:text-blue-400 text-blue-600 underline"
+          >
+            GitHub
           </Link>
         </li>
         <li>

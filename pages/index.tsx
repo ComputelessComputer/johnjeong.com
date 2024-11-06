@@ -11,12 +11,12 @@ const Home = () => {
         <title>John Jeong</title>
         <meta
           name="description"
-          content="Hey, I'm John. I am co-founder and CEO of Pado Labs."
+          content="Hey, I'm John. I am co-founder and CEO of Fastrepl."
         />
         <meta name="og:title" content="John Jeong" />
         <meta
           name="og:description"
-          content="Hey, I'm John. I am co-founder and CEO of Pado Labs."
+          content="Hey, I'm John. I am co-founder and CEO of Fastrepl."
         />
         <meta name="og:site_name" content="John Jeong" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
