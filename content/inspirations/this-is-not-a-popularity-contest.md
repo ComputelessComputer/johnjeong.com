@@ -4,7 +4,6 @@ created_at: "2023-04-21 12:37:42.294351+00"
 updated_at: "2023-04-21 12:37:42.294351+00"
 youtube_video_id: "oiWwyt3HVT0"
 ---
-
 > You want to be in a growing expanding industry, because that's where the opportunities will be.
 
 > Okay is terrible. You want great. You want fantastic. You want wow.
@@ -24,5 +23,3 @@ youtube_video_id: "oiWwyt3HVT0"
 > What's really important for entrepreneurs is that struggle and failure is not just normal, but it's the norm. I mean failure and struggle are very, very common. Successes are rare.
 
 > When you fail, it's not a signal that you're no good. It just means that you need to learn. And now you are.
-
-<YouTubePlayer id="oiWwyt3HVT0" />

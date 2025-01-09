@@ -1,13 +1,11 @@
 import { getContentBySlug, getContentList } from '@/utils/content'
 import type { Reading } from '@/utils/content'
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import Layout from '@/components/Layout'
 import { Metadata } from 'next'
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -18,7 +16,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { frontmatter } = await getContentBySlug('readings', params.slug)
+  const {slug} = await params
+  const { frontmatter } = await getContentBySlug('readings', slug)
 
   return {
     title: frontmatter.title,
@@ -34,10 +33,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ReadingPage({ params }: Props) {
-  const { content, frontmatter } = await getContentBySlug('readings', params.slug)
+  const {slug} = await params
+  const { content, frontmatter } = await getContentBySlug('readings', slug)
 
   return (
-    <Layout dir="Readings" dirPath="/readings">
       <article className="max-w-4xl mx-auto py-8 px-4">
         <header className="mb-8">
           <h1 className="text-4xl font-bold">{frontmatter.title}</h1>
@@ -50,6 +49,5 @@ export default async function ReadingPage({ params }: Props) {
           {content}
         </div>
       </article>
-    </Layout>
   )
 }

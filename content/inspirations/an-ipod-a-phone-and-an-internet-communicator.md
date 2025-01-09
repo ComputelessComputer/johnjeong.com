@@ -4,7 +4,3 @@ created_at: "2023-04-21 12:35:19.447351+00"
 updated_at: "2023-04-21 12:35:19.447351+00"
 youtube_video_id: "MnrJzXM7a6o"
 ---
-
-
-
-<YouTubePlayer id="MnrJzXM7a6o" />

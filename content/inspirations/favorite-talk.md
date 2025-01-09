@@ -4,7 +4,4 @@ created_at: "2025-01-09T22:36:25+09:00"
 updated_at: "2025-01-09T22:36:25+09:00"
 youtube_video_id: "dQw4w9WgXcQ"
 ---
-
 This talk changed my perspective on programming.
-
-<YouTubePlayer id={youtube_video_id} />

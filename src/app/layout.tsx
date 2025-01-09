@@ -1,19 +1,22 @@
+import Header from '@/components/Header'
+import './globals.css'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import Layout from '@/components/Layout'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://johnjeong.com'),
   title: {
     default: 'John Jeong',
     template: '%s · John Jeong',
   },
-  description: 'Software Engineer based in Seoul, Korea',
+  description: "It's time to build!",
   openGraph: {
     title: 'John Jeong',
-    description: 'Software Engineer based in Seoul, Korea',
+    description: "It's time to build!",
     url: 'https://johnjeong.com',
     siteName: 'John Jeong',
     locale: 'en_US',
@@ -26,8 +29,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'John Jeong',
-    description: 'Software Engineer based in Seoul, Korea',
-    creator: '@johnjeong',
+    description: "It's time to build!",
+    creator: '@computeless',
   },
 }
 
@@ -38,8 +41,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} antialiased`}>
+        <Header/>
+       <div className='mx-auto container px-4 py-8'>
         {children}
+        </div> 
+        <Footer/>
       </body>
     </html>
   )

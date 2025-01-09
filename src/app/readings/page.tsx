@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { getContentList } from '@/utils/content'
 import type { ContentItem } from '@/utils/content'
-import Layout from '@/components/Layout'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -17,13 +16,12 @@ export default async function ReadingsPage() {
   const readings = await getContentList('readings')
 
   return (
-    <Layout dir="Readings" dirPath="/readings">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Reading Notes</h1>
         <div className="space-y-6">
           {readings.map((reading: ContentItem) => (
-            <article key={reading.id} className="border-b pb-6">
-              <Link href={`/readings/${reading.slug}`} className="group">
+            <article key={reading.slug} className="border-b pb-6">
+              <Link href={`/readings/${encodeURIComponent(reading.slug)}`} className="group">
                 <h2 className="text-xl font-semibold group-hover:text-blue-600">
                   {reading.title}
                 </h2>
@@ -36,6 +34,5 @@ export default async function ReadingsPage() {
           ))}
         </div>
       </div>
-    </Layout>
   )
 }
