@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import PadoEmblem from "./PadoEmblem";
 
 interface HeaderProps {
   dir?: string;
@@ -14,19 +15,18 @@ export default function Header({ dir, dirPath, subDir }: HeaderProps) {
 
   const navItems = [
     { href: "/about", label: "About" },
-    { href: "/essays", label: "Essays" },
-    { href: "/readings", label: "Readings" },
-    { href: "/inspirations", label: "Inspirations" },
-    { href: "/projects", label: "Projects" },
+    { href: "/blog", label: "Blog" },
   ];
 
   return (
     <header className="border-b relative">
       <nav className="max-w-4xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold hover:text-blue-600">
-            John Jeong
-          </Link>
+          <div className="flex items-baseline space-x-2">
+            <Link href="/" className="text-xl font-bold hover:text-blue-600">
+              <PadoEmblem height={24} />
+            </Link>
+          </div>
 
           {/* Hamburger button for mobile */}
           <button

@@ -1,66 +1,71 @@
-import Bio from "@/components/Bio";
-import { getContentList } from "@/utils/content";
-import type { ContentItem } from "@/utils/content";
 import Link from "next/link";
 
 export default async function Home() {
-  const essays: ContentItem[] = await getContentList("essays");
-  const inspirations: ContentItem[] = await getContentList("inspirations");
-  const readings: ContentItem[] = await getContentList("readings");
-
   return (
-    <>
-      <Bio />
-
-      <div className="grid md:grid-cols-3 gap-8 mt-12">
-        <section>
-          <h2 className="text-xl font-bold mb-4">Latest Essays</h2>
-          <ul className="space-y-2">
-            {essays.slice(0, 5).map((essay: ContentItem) => (
-              <li key={essay.slug}>
-                <Link
-                  href={`/essays/${essay.slug}`}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  {essay.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-bold mb-4">Recent Inspirations</h2>
-          <ul className="space-y-2">
-            {inspirations.slice(0, 5).map((inspiration: ContentItem) => (
-              <li key={inspiration.slug}>
-                <Link
-                  href={`/inspirations/${inspiration.slug}`}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  {inspiration.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-bold mb-4">Reading Notes</h2>
-          <ul className="space-y-2">
-            {readings.slice(0, 5).map((reading: ContentItem) => (
-              <li key={reading.slug}>
-                <Link
-                  href={`/readings/${reading.slug}`}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  {reading.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+    <main className="relative flex min-h-screen flex-col items-center justify-between py-8">
+      <div className="absolute left-0 top-0 z-0 h-full w-full">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          poster="/bg-video-poster.jpg"
+          className="h-full w-full object-cover"
+        >
+          <source src="/bg-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
-    </>
+
+      <div className="relative z-10 flex flex-grow flex-col items-center justify-center px-4 font-mono">
+        <h1 className="mt-12 text-center text-4xl font-bold">John Jeong</h1>
+        <h2 className="mt-12 text-center text-xl">Dreamer. Builder. Artist.</h2>
+      </div>
+      <footer className="fixed bottom-0 left-0 flex w-full flex-wrap items-center justify-center gap-2 p-4 text-xs sm:justify-between">
+        <div className="flex flex-wrap justify-center gap-4 sm:flex-1 sm:justify-start">
+          <Link
+            href="mailto:jeeheontransformers@gmail.com"
+            className="text-center decoration-dotted hover:underline sm:text-left"
+          >
+            Contact
+          </Link>
+          <Link
+            href="https://github.com/ComputeLessComputer"
+            className="text-center decoration-dotted hover:underline sm:text-left"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </Link>
+          <Link
+            href="https://www.x.com/company/computeless/"
+            className="text-center decoration-dotted hover:underline sm:text-left"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            X
+          </Link>
+          <Link
+            href="https://www.linkedin.com/company/johntopia/"
+            className="text-center decoration-dotted hover:underline sm:text-left"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </Link>
+          <Link
+            href="/blog"
+            className="text-center decoration-dotted hover:underline sm:text-left"
+          >
+            Blog
+          </Link>
+        </div>
+
+        <div className="w-full text-center text-black sm:w-auto sm:text-left md:text-white/70">
+          <p>© 2024 John Jeong. All rights reserved.</p>
+        </div>
+      </footer>
+    </main>
   );
 }
