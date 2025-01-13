@@ -1,16 +1,17 @@
-import Bio from '@/components/Bio'
-import { getContentList } from '@/utils/content'
-import type { ContentItem } from '@/utils/content'
-import Link from 'next/link'
+import Bio from "@/components/Bio";
+import { getContentList } from "@/utils/content";
+import type { ContentItem } from "@/utils/content";
+import Link from "next/link";
 
 export default async function Home() {
-  const essays: ContentItem[] = await getContentList('essays')
-  const inspirations: ContentItem[] = await getContentList('inspirations')
-  const readings: ContentItem[] = await getContentList('readings')
+  const essays: ContentItem[] = await getContentList("essays");
+  const inspirations: ContentItem[] = await getContentList("inspirations");
+  const readings: ContentItem[] = await getContentList("readings");
 
-  return (<>
+  return (
+    <>
       <Bio />
-      
+
       <div className="grid md:grid-cols-3 gap-8 mt-12">
         <section>
           <h2 className="text-xl font-bold mb-4">Latest Essays</h2>
@@ -60,6 +61,6 @@ export default async function Home() {
           </ul>
         </section>
       </div>
-      </>
-  )
+    </>
+  );
 }

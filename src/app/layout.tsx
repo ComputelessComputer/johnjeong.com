@@ -45,7 +45,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_TRACKING_ID!} />
         <Header />
-        <div className="mx-auto container px-4 py-8">{children}</div>
+        <div className="max-w-4xl mx-auto px-4 py-8">{children}</div>
         <Footer />
       </body>
     </html>
