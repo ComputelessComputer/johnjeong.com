@@ -19,7 +19,9 @@ export default async function Home() {
       </div>
 
       <div className="relative z-10 flex flex-grow flex-col items-center justify-center px-4 font-mono">
-        <h1 className="mt-12 text-center text-4xl font-bold">John Jeong</h1>
+        <h1 className="mt-12 text-center text-4xl font-bold cursor-pointer hover:text-blue-600">
+          <Link href="/about">John Jeong</Link>
+        </h1>
         <h2 className="mt-12 text-center text-xl">Dreamer. Builder. Artist.</h2>
       </div>
       <footer className="fixed bottom-0 left-0 flex w-full flex-wrap items-center justify-center gap-2 p-4 text-xs sm:justify-between">
