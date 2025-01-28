@@ -42,7 +42,7 @@ export default async function Home() {
             GitHub
           </Link>
           <Link
-            href="https://www.x.com/company/computeless/"
+            href="https://www.x.com/computeless/"
             className="text-center decoration-dotted hover:underline sm:text-left"
             target="_blank"
             rel="noopener noreferrer"
@@ -50,7 +50,7 @@ export default async function Home() {
             X
           </Link>
           <Link
-            href="https://www.linkedin.com/company/johntopia/"
+            href="https://www.linkedin.com/in/johntopia/"
             className="text-center decoration-dotted hover:underline sm:text-left"
             target="_blank"
             rel="noopener noreferrer"
