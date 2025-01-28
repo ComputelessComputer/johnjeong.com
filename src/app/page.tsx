@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-between py-8">
+    <main className="relative flex min-h-screen flex-col items-center justify-between">
       <div className="absolute left-0 top-0 z-0 h-full w-full">
         <video
           autoPlay
@@ -24,7 +24,8 @@ export default async function Home() {
         </h1>
         <h2 className="mt-12 text-center text-xl">Dreamer. Builder. Artist.</h2>
       </div>
-      <footer className="fixed bottom-0 left-0 flex w-full flex-wrap items-center justify-center gap-2 p-4 text-xs sm:justify-between">
+
+      <footer className="relative z-10 w-full flex flex-wrap items-center justify-center gap-2 px-4 pb-4 text-xs sm:justify-between">
         <div className="flex flex-wrap justify-center gap-4 sm:flex-1 sm:justify-start">
           <Link
             href="mailto:jeeheontransformers@gmail.com"
@@ -65,7 +66,7 @@ export default async function Home() {
         </div>
 
         <div className="w-full text-center text-black sm:w-auto sm:text-left md:text-white/70">
-          <p>© 2024 John Jeong. All rights reserved.</p>
+          <p> 2024 John Jeong. All rights reserved.</p>
         </div>
       </footer>
     </main>
