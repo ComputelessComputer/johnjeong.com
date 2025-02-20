@@ -1,5 +1,12 @@
+import {
+  RiGithubFill,
+  RiLinkedinBoxFill,
+  RiThreadsFill,
+  RiTwitterXFill,
+} from "@remixicon/react";
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About | John Jeong",
@@ -63,48 +70,60 @@ export default function About() {
         <p className="text-lg text-gray-800">
           I love simple, intuitive designs and enjoy listening to music. Feel
           free to contact me via{" "}
-          <a
-            href="mailto:john@johntopia.com"
+          <Link
+            href="mailto:jeeheontransformers@gmail.com"
             className="text-blue-600 hover:text-blue-800"
           >
             email
-          </a>{" "}
+          </Link>{" "}
           or just{" "}
-          <a
+          <Link
             href="https://cal.com/john.jeong/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800"
           >
             arrange a meeting
-          </a>
+          </Link>
           .
         </p>
-        <div className="flex space-x-6 mt-4">
-          <a
+
+        <div className="flex space-x-4 mt-4">
+          <Link
             href="https://github.com/johnjeong"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900"
           >
-            GitHub
-          </a>
-          <a
-            href="https://twitter.com/johnjeong_"
+            <RiGithubFill size={24} />
+          </Link>
+
+          <Link
+            href="https://linkedin.com/in/johntopia"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900"
           >
-            Twitter
-          </a>
-          <a
-            href="https://linkedin.com/in/johnjeong"
+            <RiLinkedinBoxFill size={24} />
+          </Link>
+
+          <Link
+            href="https://x.com/johnjeong_"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900"
           >
-            LinkedIn
-          </a>
+            <RiTwitterXFill size={24} />
+          </Link>
+
+          <Link
+            href="https://www.threads.net/@jonnyjohnj"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-gray-900"
+          >
+            <RiThreadsFill size={24} />
+          </Link>
         </div>
       </section>
 
