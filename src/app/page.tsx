@@ -34,7 +34,7 @@ export default async function Home() {
             Contact
           </Link>
           <Link
-            href="https://github.com/ComputeLessComputer"
+            href="https://github.com/ComputelessComputer"
             className="text-center decoration-dotted hover:underline sm:text-left"
             target="_blank"
             rel="noopener noreferrer"

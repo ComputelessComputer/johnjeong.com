@@ -90,7 +90,7 @@ export default function About() {
 
         <div className="flex space-x-4 mt-4">
           <Link
-            href="https://github.com/johnjeong"
+            href="https://github.com/ComputelessComputer"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900"
@@ -108,7 +108,7 @@ export default function About() {
           </Link>
 
           <Link
-            href="https://x.com/johnjeong_"
+            href="https://x.com/Computeless"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900"
