@@ -134,14 +134,14 @@ export default function About() {
           role="CEO"
           company="Fastrepl"
           period="Aug 2024 - Present"
-          location="San Francisco Bay Area"
+          location="Seoul/San Francisco Bay Area"
         />
 
         <ExperienceItem
           role="CEO, Co-founder"
           company="Pado Labs"
           period="Apr 2023 - Aug 2024"
-          location="San Francisco Bay Area"
+          location="Seoul"
         >
           <p className="mt-2 text-gray-800">
             Led AI-driven product development for Philo, an agentic search
