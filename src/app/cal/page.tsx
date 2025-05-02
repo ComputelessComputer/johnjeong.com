@@ -1,5 +1,5 @@
 import { permanentRedirect } from "next/navigation";
 
 export default function Page() {
-  permanentRedirect("https://cal.com/john.jeong");
+  permanentRedirect("https://cal.com/john.jeong/30min");
 }
