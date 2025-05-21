@@ -1,7 +1,6 @@
 import {
   RiGithubFill,
   RiLinkedinBoxFill,
-  RiThreadsFill,
   RiTwitterXFill,
 } from "@remixicon/react";
 import { Metadata } from "next";
@@ -59,7 +58,7 @@ export default function About() {
 
       <div className="relative size-32 mb-8">
         <Image
-          src="/john.jpeg"
+          src="/john.png"
           alt="John Jeong"
           fill
           className="rounded-full object-cover"
@@ -115,15 +114,6 @@ export default function About() {
           >
             <RiTwitterXFill size={24} />
           </Link>
-
-          <Link
-            href="https://www.threads.net/@jonnyjohnj"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 hover:text-gray-900"
-          >
-            <RiThreadsFill size={24} />
-          </Link>
         </div>
       </section>
 
@@ -131,54 +121,52 @@ export default function About() {
         <h2 className="text-2xl font-bold mb-6">Experience</h2>
 
         <ExperienceItem
-          role="CEO"
-          company="Fastrepl"
-          period="Aug 2024 - Present"
-          location="Seoul/San Francisco Bay Area"
-        />
+          role="Co-Founder"
+          company="Hyprnote - AI Notepad for Meetings"
+          period="Aug 2024 - Present · 10 mos"
+          location="San Francisco Bay Area"
+        >
+          <p className="mt-2 text-gray-800">
+            Privacy-first AI note-taker - take control over your conversational data.
+          </p>
+        </ExperienceItem>
 
         <ExperienceItem
-          role="CEO, Co-founder"
+          role="Co-founder & CEO"
           company="Pado Labs"
-          period="Apr 2023 - Aug 2024"
-          location="Seoul"
+          period="Apr 2023 - Aug 2024 · 1 yr 5 mos"
+          location="San Francisco Bay Area"
         >
           <p className="mt-2 text-gray-800">
-            Led AI-driven product development for Philo, an agentic search
-            engine for stock investors.
+            Ultimately failed. However, loved the journey of building.
+          </p>
+          <p className="mt-2 text-gray-800">
+            AI Research Analyst agents for investors<br />
+            - Eli: An AI Meeting Copilot that give real-time suggestions (e.g., background info, technical info, acronym/jargon explanations, potential follow-up questions)<br />
+            - Philo: A search engine for stock investors - think DeepResearch but for stocks / markets<br />
+            - among other tools: RAG for EDGAR, multi-agent orchestration, research ops, etc.
           </p>
         </ExperienceItem>
 
         <ExperienceItem
-          role="Business Development Manager"
-          company="Deer Corporation"
-          period="Dec 2022 - Mar 2023"
-          location="Seoul"
+          role="Product & GTM"
+          company="Various Startups"
+          period="2021 - 2023 · 2 yrs"
+          location=""
         >
           <p className="mt-2 text-gray-800">
-            Worked on onboarding new customers, conducted door-to-door sales,
-            and built an analytics dashboard for trucking industry products.
+            Product & GTM teams including:
           </p>
-        </ExperienceItem>
-
-        <ExperienceItem
-          role="Software Engineer, Co-founder"
-          company="NextSingular"
-          period="Aug 2021 - Jul 2022"
-          location="Seoul"
-        >
           <p className="mt-2 text-gray-800">
-            Experimented various consumer mobile apps.
+            🚚 Middle-mile logistics (Series B)<br />
+            - GTM to onboard trucking brokers on to the logistics platform<br />
+            - built internal pipeline analytics tools & revamped onboarding UX
           </p>
-        </ExperienceItem>
-
-        <ExperienceItem
-          role="Software Engineer, Co-founder"
-          company="SingularLab Corp."
-          period="Nov 2020 - Jun 2021"
-          location="Seoul"
-        >
-          <p className="mt-2 text-gray-800">Worked on ed-tech mobile apps.</p>
+          <p className="mt-2 text-gray-800">
+            👾 Creator economy (Series A)<br />
+            - launched a squarespace-like website builder for creators to monetize<br />
+            - led early-product strategy including discovery and MVP development
+          </p>
         </ExperienceItem>
       </section>
 
