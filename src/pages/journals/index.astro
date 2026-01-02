@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const journals = await getCollection("journals");
+const sortedJournals = journals.sort((a, b) => b.id.localeCompare(a.id));
+---
+
+<Base title="Journals - John Jeong">
+  <nav style="margin-bottom: 2rem;">
+    <a href="/">← Home</a>
+  </nav>
+
+  <h1>Journals</h1>
+
+  <ul style="margin-top: 2rem;">
+    {sortedJournals.map((journal) => {
+      const dateStr = journal.id.replace(/_/g, "-");
+      const date = new Date(dateStr).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      return (
+        <li style="margin-bottom: 0.5rem;">
+          <a href={`/journals/${journal.id}`}>{date}</a>
+        </li>
+      );
+    })}
+  </ul>
+</Base>

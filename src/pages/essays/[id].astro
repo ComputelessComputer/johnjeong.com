@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Giscus from "../../components/Giscus.astro";
+
+export async function getStaticPaths() {
+  const essays = await getCollection("essays");
+  return essays.map((essay) => ({
+    params: { id: essay.id },
+    props: { essay },
+  }));
+}
+
+const { essay } = Astro.props;
+const { Content } = await render(essay);
+
+const date = essay.data.created_at.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<Base title={essay.data.title}>
+  <nav style="margin-bottom: 2rem;">
+    <a href="/">← Home</a>
+  </nav>
+
+  <article>
+    <header>
+      <h1>{essay.data.title}</h1>
+      <time datetime={essay.data.created_at.toISOString()}>{date}</time>
+      {essay.data.tags && (
+        <p style="margin-top: 0.5rem; color: #666;">
+          {essay.data.tags.map((tag) => `#${tag}`).join(" ")}
+        </p>
+      )}
+    </header>
+
+    <div class="prose" style="margin-top: 2rem;">
+      <Content />
+    </div>
+  </article>
+
+  <Giscus category="Essays" categoryId="" />
+</Base>

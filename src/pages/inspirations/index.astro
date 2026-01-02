@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const inspirations = await getCollection("inspirations");
+const sortedInspirations = inspirations.sort((a, b) =>
+  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+);
+---
+
+<Base title="Inspirations - John Jeong">
+  <nav style="margin-bottom: 2rem;">
+    <a href="/">← Home</a>
+  </nav>
+
+  <h1>Inspirations</h1>
+
+  <ul style="margin-top: 2rem;">
+    {sortedInspirations.map((inspiration) => (
+      <li style="margin-bottom: 1rem;">
+        <a href={`/inspirations/${inspiration.id}`}>{inspiration.data.title}</a>
+        <br />
+        <small style="color: #666;">
+          {inspiration.data.type}
+          {inspiration.data.speaker && ` · ${inspiration.data.speaker}`}
+        </small>
+      </li>
+    ))}
+  </ul>
+</Base>

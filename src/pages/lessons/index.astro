@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const lessons = await getCollection("lessons");
+const sortedLessons = lessons.sort((a, b) =>
+  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+);
+---
+
+<Base title="Lessons - John Jeong">
+  <nav style="margin-bottom: 2rem;">
+    <a href="/">← Home</a>
+  </nav>
+
+  <h1>Lessons</h1>
+
+  <ul style="margin-top: 2rem;">
+    {sortedLessons.map((lesson) => (
+      <li style="margin-bottom: 1rem;">
+        <a href={`/lessons/${lesson.id}`}>{lesson.data.title}</a>
+        <br />
+        <small style="color: #666;">
+          {lesson.data.author}
+          {lesson.data.type && ` · ${lesson.data.type}`}
+        </small>
+      </li>
+    ))}
+  </ul>
+</Base>

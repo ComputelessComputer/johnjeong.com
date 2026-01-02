@@ -1,0 +1,40 @@
+---
+interface Props {
+  category: string;
+  categoryId: string;
+}
+
+const { category, categoryId } = Astro.props;
+
+// Get these values from https://giscus.app after configuring
+const REPO = "ComputelessComputer/part-of-my-brain";
+const REPO_ID = ""; // TODO: Get from giscus.app
+---
+
+<section class="giscus-container">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo={REPO}
+    data-repo-id={REPO_ID}
+    data-category={category}
+    data-category-id={categoryId}
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>
+
+<style>
+  .giscus-container {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+</style>

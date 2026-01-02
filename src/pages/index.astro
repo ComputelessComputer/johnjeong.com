@@ -1,16 +1,72 @@
 ---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
 
+const essays = await getCollection("essays");
+const journals = await getCollection("journals");
+const inspirations = await getCollection("inspirations");
+const lessons = await getCollection("lessons");
+
+// Sort by date descending
+const sortedEssays = essays.sort((a, b) =>
+  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+);
+const sortedJournals = journals.sort((a, b) => b.id.localeCompare(a.id));
+const sortedInspirations = inspirations.sort((a, b) =>
+  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+);
+const sortedLessons = lessons.sort((a, b) =>
+  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="John Jeong">
+  <header>
+    <h1>John Jeong</h1>
+    <p>Part of my brain.</p>
+  </header>
+
+  <nav style="margin: 2rem 0;">
+    <a href="/essays">Essays</a> ·
+    <a href="/journals">Journals</a> ·
+    <a href="/inspirations">Inspirations</a> ·
+    <a href="/lessons">Lessons</a> ·
+    <a href="/questions">Questions</a>
+  </nav>
+
+  <section>
+    <h2>Recent Essays</h2>
+    <ul>
+      {sortedEssays.slice(0, 5).map((essay) => (
+        <li><a href={`/essays/${essay.id}`}>{essay.data.title}</a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recent Journals</h2>
+    <ul>
+      {sortedJournals.slice(0, 5).map((journal) => (
+        <li><a href={`/journals/${journal.id}`}>{journal.id.replace(/_/g, "-")}</a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recent Inspirations</h2>
+    <ul>
+      {sortedInspirations.slice(0, 5).map((inspiration) => (
+        <li><a href={`/inspirations/${inspiration.id}`}>{inspiration.data.title}</a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recent Lessons</h2>
+    <ul>
+      {sortedLessons.slice(0, 5).map((lesson) => (
+        <li><a href={`/lessons/${lesson.id}`}>{lesson.data.title}</a></li>
+      ))}
+    </ul>
+  </section>
+</Base>

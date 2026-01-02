@@ -1,0 +1,3 @@
+[submodule "part-of-my-brain"]
+	path = part-of-my-brain
+	url = https://github.com/ComputelessComputer/part-of-my-brain

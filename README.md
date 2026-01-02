@@ -1,43 +1,90 @@
-# Astro Starter Kit: Minimal
+# johnjeong.com
 
-```sh
-pnpm create astro@latest -- --template minimal
+Personal website built with Astro.
+
+## Architecture
+
+Two-repo setup:
+
 ```
+part-of-my-brain/           # github.com/ComputelessComputer/part-of-my-brain
+├── essays/
+├── journals/
+├── inspirations/
+└── lessons/
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
+johnjeong/                  # github.com/ComputelessComputer/johnjeong.com (this repo)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── pages/
+│   ├── layouts/
+│   └── components/
+├── part-of-my-brain/       # git submodule
+└── public/
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content Management
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- **CMS**: Obsidian (separate repo)
+- **Sync**: Git submodule links vault to site
+- **Build**: Push to either repo triggers rebuild
+- **Schema**: Each content type has required frontmatter
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Frontmatter Schemas
 
-## 🧞 Commands
+**Essays** - Original thoughts
+```yaml
+---
+title: string
+created_at: date
+updated_at: date (optional)
+published: boolean (default: false)
+tags: string[] (optional)
+---
+```
 
-All commands are run from the root of the project, from a terminal:
+**Journals** - Daily logs
+- No frontmatter needed
+- Date derived from filename: `2026_01_02.md`
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+**Inspirations** - Motivational content (podcasts, YouTube, talks)
+```yaml
+---
+title: string
+created_at: date
+type: "youtube" | "podcast" | "talk" | "article"
+source_url: string (optional)
+youtube_video_id: string (optional)
+speaker: string (optional)
+---
+```
 
-## 👀 Want to learn more?
+**Lessons** - Knowledge from books/courses
+```yaml
+---
+title: string
+author: string
+created_at: date
+type: "book" | "course" | "article" (optional)
+source_url: string (optional)
+---
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Community Features
+
+Powered by GitHub Discussions on the vault repo.
+
+### Comments (Giscus)
+- Each essay maps to a discussion in `Essays` category
+- Readers authenticate via GitHub
+
+### Questions (AMA)
+- Form submits to `Questions` category
+- Answered questions displayed on site
+
+## Commands
+
+| Command | Action |
+|:--------|:-------|
+| `pnpm dev` | Start dev server at `localhost:4321` |
+| `pnpm build` | Build production site to `./dist/` |
+| `pnpm preview` | Preview build locally |

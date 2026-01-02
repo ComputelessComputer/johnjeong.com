@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.6"
+    "astro": "^5.16.6",
+    "remark-unwrap-images": "^5.0.0"
   }
 }
