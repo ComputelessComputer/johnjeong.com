@@ -1,0 +1,37 @@
+name: Sync Submodule
+
+on:
+  # Run on schedule (every 12 hours)
+  schedule:
+    - cron: "0 */12 * * *"
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Update submodule to latest
+        run: |
+          git submodule update --init --recursive --remote
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check for changes and commit
+        id: commit
+        run: |
+          if git diff --quiet; then
+            echo "No submodule updates"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            git add part-of-my-brain
+            git commit -m "chore: sync part-of-my-brain submodule"
+            git push
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
