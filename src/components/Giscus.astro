@@ -1,14 +1,22 @@
 ---
 interface Props {
-  category: string;
-  categoryId: string;
+  category: "essays" | "inspirations" | "journals" | "lessons" | "questions";
 }
 
-const { category, categoryId } = Astro.props;
+const { category } = Astro.props;
 
-// Get these values from https://giscus.app after configuring
 const REPO = "ComputelessComputer/part-of-my-brain";
-const REPO_ID = ""; // TODO: Get from giscus.app
+const REPO_ID = "R_kgDOQyThnQ";
+
+const CATEGORY_IDS: Record<string, string> = {
+  essays: "DIC_kwDOQyThnc4C0ehA",
+  inspirations: "DIC_kwDOQyThnc4C0ehC",
+  journals: "DIC_kwDOQyThnc4C0eg4",
+  lessons: "DIC_kwDOQyThnc4C0ehD",
+  questions: "DIC_kwDOQyThnc4C0ehE",
+};
+
+const categoryId = CATEGORY_IDS[category];
 ---
 
 <section class="giscus-container">
@@ -23,7 +31,7 @@ const REPO_ID = ""; // TODO: Get from giscus.app
     data-reactions-enabled="1"
     data-emit-metadata="0"
     data-input-position="top"
-    data-theme="light"
+    data-theme="preferred_color_scheme"
     data-lang="en"
     data-loading="lazy"
     crossorigin="anonymous"

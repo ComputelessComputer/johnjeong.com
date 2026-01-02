@@ -9,6 +9,7 @@ const essays = defineCollection({
     updated_at: z.coerce.date().optional(),
     published: z.boolean().default(false),
     tags: z.array(z.string()).optional(),
+    lang: z.enum(["en", "ko"]).default("en"),
   }),
 });
 
