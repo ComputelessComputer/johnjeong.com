@@ -32,6 +32,7 @@ johnjeong/                  # github.com/ComputelessComputer/johnjeong.com (this
 ### Frontmatter Schemas
 
 **Essays** - Original thoughts
+
 ```yaml
 ---
 title: string
@@ -43,10 +44,12 @@ tags: string[] (optional)
 ```
 
 **Journals** - Daily logs
+
 - No frontmatter needed
 - Date derived from filename: `2026_01_02.md`
 
 **Inspirations** - Motivational content (podcasts, YouTube, talks)
+
 ```yaml
 ---
 title: string
@@ -59,6 +62,7 @@ speaker: string (optional)
 ```
 
 **Lessons** - Knowledge from books/courses
+
 ```yaml
 ---
 title: string
@@ -74,17 +78,19 @@ source_url: string (optional)
 Powered by GitHub Discussions on the vault repo.
 
 ### Comments (Giscus)
+
 - Each essay maps to a discussion in `Essays` category
 - Readers authenticate via GitHub
 
 ### Questions (AMA)
+
 - Form submits to `Questions` category
 - Answered questions displayed on site
 
 ## Commands
 
-| Command | Action |
-|:--------|:-------|
-| `pnpm dev` | Start dev server at `localhost:4321` |
-| `pnpm build` | Build production site to `./dist/` |
-| `pnpm preview` | Preview build locally |
+| Command        | Action                               |
+| :------------- | :----------------------------------- |
+| `pnpm dev`     | Start dev server at `localhost:4321` |
+| `pnpm build`   | Build production site to `./dist/`   |
+| `pnpm preview` | Preview build locally                |
