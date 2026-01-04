@@ -13,6 +13,9 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <title>{title}</title>
     <style is:global>
       :root {
@@ -26,11 +29,15 @@ const { title } = Astro.props;
         padding: 0;
       }
 
+      html {
+        overflow-y: scroll;
+      }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         line-height: 1.6;
         color: #1a1a1a;
-        max-width: var(--max-width);
+        width: var(--max-width);
+        min-height: 100vh;
         margin: 0 auto;
         padding: 2rem 1rem;
       }
@@ -45,9 +52,22 @@ const { title } = Astro.props;
         margin-bottom: 0.5em;
       }
 
-      h1 { font-size: 1.75rem; }
-      h2 { font-size: 1.25rem; }
-      h3 { font-size: 1rem; }
+      h1 {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 2.25rem;
+        font-weight: 400;
+      }
+      h2 {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+      }
+      h3 {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.25rem;
+        font-weight: 400;
+      }
 
       p {
         margin-bottom: 1em;
@@ -89,6 +109,28 @@ const { title } = Astro.props;
       .prose img {
         max-width: 100%;
         height: auto;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.4rem 0.75rem;
+        background: #fff;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        box-shadow: 0 2px 0 #c0c0c0;
+        text-decoration: none;
+        color: #333;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 0 #c0c0c0;
+      }
+      .btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 0 0 #c0c0c0;
       }
     </style>
   </head>
