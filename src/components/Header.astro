@@ -3,9 +3,10 @@ interface Props {
   currentPage?: string;
   title?: string;
   subtitle?: string;
+  showGoBack?: boolean;
 }
 
-const { currentPage, title = "John Jeong", subtitle = "Co-founder & Co-CEO at Hyprnote" } = Astro.props;
+const { currentPage, title = "John Jeong", subtitle = "Co-founder & Co-CEO at Hyprnote", showGoBack = false } = Astro.props;
 
 const navItems = [
   { href: "/", label: "About", key: "home" },
@@ -29,7 +30,12 @@ const navItems = [
 
 <nav class="main-nav">
   {navItems.map((item) => (
-    <a href={item.href} class:list={[{ active: currentPage === item.key }]}>{item.label}</a>
+    <div class="nav-item">
+      <a href={item.href} class:list={[{ active: currentPage === item.key }]}>{item.label}</a>
+      {showGoBack && currentPage === item.key && (
+        <span class="go-back">Go back?</span>
+      )}
+    </div>
   ))}
 </nav>
 
@@ -52,18 +58,35 @@ const navItems = [
     display: flex;
     gap: 1rem;
   }
-  .main-nav a {
+  .nav-item a {
     text-decoration: none;
     color: #666;
     padding-bottom: 0.25rem;
     font-family: var(--font-mono);
     font-size: 0.8rem;
+    cursor: pointer !important;
   }
-  .main-nav a:hover {
+  .nav-item a:hover {
     color: #1a1a1a;
   }
-  .main-nav a.active {
+  .nav-item a.active {
     color: #1a1a1a !important;
     border-bottom: 2px solid #1a1a1a !important;
+  }
+  .nav-item {
+    position: relative;
+    cursor: pointer;
+  }
+  .go-back {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    color: #666;
+    opacity: 0.5;
+    white-space: nowrap;
+    margin-top: 0.25rem;
   }
 </style>

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
 import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
@@ -19,25 +20,16 @@ const date = inspiration.data.created_at.toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
 });
+
+const subtitle = `${inspiration.data.type}${inspiration.data.speaker ? ` · ${inspiration.data.speaker}` : ""} · ${date}`;
 ---
 
 <Base title={inspiration.data.title}>
-  <nav style="margin-bottom: 2rem;">
-    <a href="/">← Home</a>
-  </nav>
+  <Header currentPage="inspirations" showGoBack={true} title={inspiration.data.title} subtitle={subtitle} />
 
   <article>
-    <header>
-      <h1>{inspiration.data.title}</h1>
-      <p style="color: #666;">
-        {inspiration.data.type}
-        {inspiration.data.speaker && ` · ${inspiration.data.speaker}`}
-        {" · "}{date}
-      </p>
-    </header>
-
     {inspiration.data.youtube_video_id && (
-      <div style="margin: 2rem 0; aspect-ratio: 16/9;">
+      <div style="margin-bottom: 2rem; aspect-ratio: 16/9;">
         <iframe
           width="100%"
           height="100%"
@@ -49,7 +41,7 @@ const date = inspiration.data.created_at.toLocaleDateString("en-US", {
       </div>
     )}
 
-    <div class="prose" style="margin-top: 2rem;">
+    <div class="prose">
       <Content />
     </div>
   </article>

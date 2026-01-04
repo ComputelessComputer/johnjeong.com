@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
 import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
@@ -19,27 +20,19 @@ const date = lesson.data.created_at.toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
 });
+
+const subtitle = `${lesson.data.author}${lesson.data.type ? ` · ${lesson.data.type}` : ""} · ${date}`;
 ---
 
 <Base title={lesson.data.title}>
-  <nav style="margin-bottom: 2rem;">
-    <a href="/">← Home</a>
-  </nav>
+  <Header currentPage="lessons" showGoBack={true} title={lesson.data.title} subtitle={subtitle} />
 
   <article>
-    <header>
-      <h1>{lesson.data.title}</h1>
-      <p style="color: #666;">
-        {lesson.data.author}
-        {lesson.data.type && ` · ${lesson.data.type}`}
-        {" · "}{date}
-      </p>
-      {lesson.data.source_url && (
-        <p><a href={lesson.data.source_url} target="_blank">Source</a></p>
-      )}
-    </header>
+    {lesson.data.source_url && (
+      <p style="margin-bottom: 1rem;"><a href={lesson.data.source_url} target="_blank">Source</a></p>
+    )}
 
-    <div class="prose" style="margin-top: 2rem;">
+    <div class="prose">
       <Content />
     </div>
   </article>

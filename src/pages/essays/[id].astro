@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
 import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
@@ -22,22 +23,10 @@ const date = essay.data.created_at.toLocaleDateString("en-US", {
 ---
 
 <Base title={essay.data.title}>
-  <nav style="margin-bottom: 2rem;">
-    <a href="/">← Home</a>
-  </nav>
+  <Header currentPage="essays" showGoBack={true} title={essay.data.title} subtitle={date} />
 
   <article>
-    <header>
-      <h1>{essay.data.title}</h1>
-      <time datetime={essay.data.created_at.toISOString()}>{date}</time>
-      {essay.data.tags && (
-        <p style="margin-top: 0.5rem; color: #666;">
-          {essay.data.tags.map((tag) => `#${tag}`).join(" ")}
-        </p>
-      )}
-    </header>
-
-    <div class="prose" style="margin-top: 2rem;">
+    <div class="prose">
       <Content />
     </div>
   </article>

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
 import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
@@ -16,7 +17,33 @@ const { Content } = await render(journal);
 
 // Parse date from filename (2026_01_02 -> 2026-01-02)
 const dateStr = journal.id.replace(/_/g, "-");
-const date = new Date(dateStr).toLocaleDateString("en-US", {
+const journalDate = new Date(dateStr);
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+journalDate.setHours(0, 0, 0, 0);
+
+const diffTime = today.getTime() - journalDate.getTime();
+const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+let relativeDate: string;
+if (diffDays === 0) {
+  relativeDate = "Today";
+} else if (diffDays === 1) {
+  relativeDate = "Yesterday";
+} else if (diffDays < 7) {
+  relativeDate = `${diffDays} days ago`;
+} else if (diffDays < 14) {
+  const dayName = journalDate.toLocaleDateString("en-US", { weekday: "long" });
+  relativeDate = `Last ${dayName}`;
+} else {
+  relativeDate = journalDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+const fullDate = journalDate.toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
@@ -24,16 +51,10 @@ const date = new Date(dateStr).toLocaleDateString("en-US", {
 ---
 
 <Base title={`Journal: ${dateStr}`}>
-  <nav style="margin-bottom: 2rem;">
-    <a href="/">← Home</a>
-  </nav>
+  <Header currentPage="journals" showGoBack={true} title={relativeDate} subtitle={fullDate} />
 
   <article>
-    <header>
-      <h1>{date}</h1>
-    </header>
-
-    <div class="prose" style="margin-top: 2rem;">
+    <div class="prose">
       <Content />
     </div>
   </article>
