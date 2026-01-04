@@ -7,8 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "fmt": "bunx prettier . --write",
-    "fmt:check": "npx prettier . --check"
+    "fmt": "bunx prettier . --write --ignore-path .prettierignore",
+    "fmt:check": "bunx prettier . --check --ignore-path .prettierignore"
   },
   "dependencies": {
     "astro": "^5.16.6",
