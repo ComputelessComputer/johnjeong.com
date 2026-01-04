@@ -23,7 +23,9 @@ const { title } = Astro.props;
         --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
@@ -44,7 +46,6 @@ const { title } = Astro.props;
 
       a {
         color: inherit;
-        cursor: pointer;
       }
 
       h1, h2, h3 {
