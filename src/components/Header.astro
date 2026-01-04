@@ -25,7 +25,10 @@ const navItems = [
       <a href="/">{title}</a>
     )}
   </h1>
-  <p class="subtitle">{subtitle}</p>
+  <p class="subtitle" data-full-text={subtitle}>
+    <span class="subtitle-text">{subtitle}</span>
+    <button class="see-more" aria-label="Expand subtitle">see more</button>
+  </p>
 </header>
 
 <nav class="main-nav">
@@ -51,6 +54,42 @@ const navItems = [
     text-decoration: none;
   }
   .subtitle {
+    color: #666;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .subtitle .subtitle-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    flex: 1;
+    min-width: 0;
+  }
+  .subtitle.expanded .subtitle-text {
+    display: block;
+    -webkit-line-clamp: unset;
+  }
+  .subtitle .see-more {
+    display: none;
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 0.85em;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+  .subtitle.needs-truncation .see-more {
+    display: inline;
+  }
+  .subtitle .see-more:hover {
     color: #666;
   }
   .main-nav {
@@ -88,3 +127,34 @@ const navItems = [
     margin-top: 0.25rem;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const subtitle = document.querySelector('.subtitle');
+    const subtitleText = subtitle?.querySelector('.subtitle-text') as HTMLElement | null;
+    const seeMoreBtn = subtitle?.querySelector('.see-more');
+
+    if (!subtitle || !subtitleText || !seeMoreBtn) return;
+
+    // Check if text overflows (is clamped)
+    const checkOverflow = () => {
+      return subtitleText.scrollHeight > subtitleText.clientHeight;
+    };
+
+    // Initialize - check if we need to show the "see more" button
+    if (checkOverflow()) {
+      subtitle.classList.add('needs-truncation');
+    }
+
+    // Toggle expansion
+    seeMoreBtn.addEventListener('click', () => {
+      if (!subtitle.classList.contains('expanded')) {
+        subtitle.classList.add('expanded');
+        seeMoreBtn.textContent = 'see less';
+      } else {
+        subtitle.classList.remove('expanded');
+        seeMoreBtn.textContent = 'see more';
+      }
+    });
+  });
+</script>

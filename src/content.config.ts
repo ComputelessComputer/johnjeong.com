@@ -5,6 +5,7 @@ const essays = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/essays" }),
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
     created_at: z.coerce.date(),
     updated_at: z.coerce.date().optional(),
     published: z.boolean().default(false),
@@ -22,6 +23,7 @@ const inspirations = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/inspirations" }),
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
     created_at: z.coerce.date(),
     updated_at: z.coerce.date().optional(),
     type: z.enum(["youtube", "podcast", "talk", "article"]).optional(),
@@ -35,6 +37,7 @@ const lessons = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/lessons" }),
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
     author: z.string(),
     created_at: z.coerce.date(),
     type: z.enum(["book", "course", "article"]).optional(),

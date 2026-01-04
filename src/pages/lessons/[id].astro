@@ -21,7 +21,7 @@ const date = lesson.data.created_at.toLocaleDateString("en-US", {
   day: "numeric",
 });
 
-const subtitle = `${lesson.data.author}${lesson.data.type ? ` · ${lesson.data.type}` : ""} · ${date}`;
+const subtitle = lesson.data.description || "";
 ---
 
 <Base title={lesson.data.title}>
@@ -35,7 +35,18 @@ const subtitle = `${lesson.data.author}${lesson.data.type ? ` · ${lesson.data.t
     <div class="prose">
       <Content />
     </div>
+    <p class="content-date">{date}</p>
   </article>
 
   <Giscus category="lessons" />
 </Base>
+
+<style>
+  .content-date {
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: left;
+    font-family: var(--font-mono);
+  }
+</style>

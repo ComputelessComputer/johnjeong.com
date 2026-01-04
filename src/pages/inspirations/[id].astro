@@ -21,7 +21,7 @@ const date = inspiration.data.created_at.toLocaleDateString("en-US", {
   day: "numeric",
 });
 
-const subtitle = `${inspiration.data.type}${inspiration.data.speaker ? ` · ${inspiration.data.speaker}` : ""} · ${date}`;
+const subtitle = inspiration.data.description || "";
 ---
 
 <Base title={inspiration.data.title}>
@@ -44,7 +44,18 @@ const subtitle = `${inspiration.data.type}${inspiration.data.speaker ? ` · ${in
     <div class="prose">
       <Content />
     </div>
+    <p class="content-date">{date}</p>
   </article>
 
   <Giscus category="inspirations" />
 </Base>
+
+<style>
+  .content-date {
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: left;
+    font-family: var(--font-mono);
+  }
+</style>

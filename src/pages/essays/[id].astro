@@ -20,16 +20,29 @@ const date = essay.data.created_at.toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
 });
+
+const subtitle = essay.data.description || "";
 ---
 
 <Base title={essay.data.title}>
-  <Header currentPage="essays" showGoBack={true} title={essay.data.title} subtitle={date} />
+  <Header currentPage="essays" showGoBack={true} title={essay.data.title} subtitle={subtitle} />
 
   <article>
     <div class="prose">
       <Content />
     </div>
+    <p class="content-date">{date}</p>
   </article>
 
   <Giscus category="essays" />
 </Base>
+
+<style>
+  .content-date {
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: left;
+    font-family: var(--font-mono);
+  }
+</style>
