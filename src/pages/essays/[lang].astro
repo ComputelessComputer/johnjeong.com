@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "en" } },
+    { params: { lang: "ko" } },
+  ];
+}
+
+const { lang } = Astro.params;
+const essays = await getCollection("essays", ({ data }) => data.lang === lang);
+const sortedEssays = essays.sort((a, b) =>
+  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+);
+---
+
+<Base title="Essays - John Jeong">
+  <Header currentPage="essays" subtitle="My thoughts about the world">
+    <Fragment slot="title-extra">
+      Essays <span class="lang-part">in <a class="lang-toggle" href={lang === "en" ? "/essays/ko" : "/essays/en"}>{lang === "en" ? "English" : "Korean"}</a></span>
+    </Fragment>
+  </Header>
+
+  <ul style="margin-top: 2rem;">
+    {sortedEssays.map((essay) => (
+      <li style="margin-bottom: 1rem;">
+        <a href={`/essays/${essay.id}`}>{essay.data.title}</a>
+        <br />
+        <small style="color: #666;">
+          {essay.data.created_at.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </small>
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .lang-part {
+    font-style: normal;
+    color: #666;
+  }
+  .lang-toggle {
+    color: inherit;
+    text-decoration: none;
+  }
+  .lang-toggle:hover {
+    text-decoration: underline;
+  }
+</style>

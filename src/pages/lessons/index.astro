@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
 
 const lessons = await getCollection("lessons");
 const sortedLessons = lessons.sort((a, b) =>
@@ -9,11 +10,7 @@ const sortedLessons = lessons.sort((a, b) =>
 ---
 
 <Base title="Lessons - John Jeong">
-  <nav style="margin-bottom: 2rem;">
-    <a href="/">← Home</a>
-  </nav>
-
-  <h1>Lessons</h1>
+  <Header currentPage="lessons" title="Lessons" subtitle="What I learned from others" />
 
   <ul style="margin-top: 2rem;">
     {sortedLessons.map((lesson) => (

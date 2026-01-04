@@ -1,0 +1,73 @@
+---
+interface Props {
+  currentPage?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+const { currentPage, title = "John Jeong", subtitle = "Co-founder & Co-CEO at Hyprnote" } = Astro.props;
+
+const navItems = [
+  { href: "/", label: "Home", key: "home" },
+  { href: "/essays", label: "Essays", key: "essays" },
+  { href: "/journals", label: "Daily Logs", key: "journals" },
+  { href: "/inspirations", label: "Inspirations", key: "inspirations" },
+  { href: "/lessons", label: "Lessons", key: "lessons" },
+].filter(item => item.key !== currentPage);
+---
+
+<header>
+  <h1>
+    {currentPage ? (
+      Astro.slots.has('title-extra') ? <slot name="title-extra" /> : title
+    ) : (
+      <a href="/">{title}</a>
+    )}
+  </h1>
+  <p class="subtitle">{subtitle}</p>
+</header>
+
+<nav class="main-nav">
+  {navItems.map((item, index) => (
+    <>
+      <a href={item.href}>{item.label}</a>
+      {index < navItems.length - 1 && <span class="separator">*</span>}
+    </>
+  ))}
+</nav>
+
+<hr class="header-separator" />
+
+<style>
+  header {
+    margin-bottom: 1rem;
+  }
+
+  header h1 {
+    margin-top: 0;
+  }
+  header h1 a {
+    text-decoration: none;
+  }
+  .subtitle {
+    color: #666;
+  }
+  .main-nav {
+    margin-bottom: 1rem;
+  }
+  .main-nav a {
+    text-decoration: none;
+  }
+  .main-nav a:hover {
+    text-decoration: underline;
+  }
+  .separator {
+    margin: 0 0.5rem;
+    color: #999;
+  }
+  .header-separator {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin-bottom: 2rem;
+  }
+</style>

@@ -1,17 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
 
 const journals = await getCollection("journals");
 const sortedJournals = journals.sort((a, b) => b.id.localeCompare(a.id));
 ---
 
-<Base title="Journals - John Jeong">
-  <nav style="margin-bottom: 2rem;">
-    <a href="/">← Home</a>
-  </nav>
-
-  <h1>Journals</h1>
+<Base title="Daily Logs - John Jeong">
+  <Header currentPage="journals" title="Daily Logs" subtitle="What I did today" />
 
   <ul style="margin-top: 2rem;">
     {sortedJournals.map((journal) => {
