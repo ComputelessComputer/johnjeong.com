@@ -1,0 +1,107 @@
+---
+import ExifReader from 'exifreader';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const REMOTE_BASE = 'https://raw.githubusercontent.com/ComputelessComputer/part-of-my-brain/main/gallery';
+const galleryDir = path.join(process.cwd(), 'part-of-my-brain/gallery');
+const files = fs.readdirSync(galleryDir).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
+
+interface ImageData {
+  src: string;
+  filename: string;
+  date: string | null;
+  location: string | null;
+}
+
+const images: ImageData[] = await Promise.all(
+  files.map(async (filename) => {
+    const filePath = path.join(galleryDir, filename);
+    const buffer = fs.readFileSync(filePath);
+
+    let date: string | null = null;
+    let location: string | null = null;
+
+    try {
+      const tags = ExifReader.load(buffer);
+
+      // Get date
+      if (tags['DateTimeOriginal']) {
+        const rawDate = tags['DateTimeOriginal'].description;
+        // Format: "2024:01:15 14:30:00" -> "Jan 15, 2024"
+        const [datePart] = rawDate.split(' ');
+        const [year, month, day] = datePart.split(':');
+        const dateObj = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+        date = dateObj.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+
+      // Get GPS location
+      if (tags['GPSLatitude'] && tags['GPSLongitude']) {
+        const lat = parseFloat(tags['GPSLatitude'].description).toFixed(6);
+        const lng = parseFloat(tags['GPSLongitude'].description).toFixed(6);
+        location = `${lat}, ${lng}`;
+      }
+    } catch (e) {
+      // EXIF parsing failed, continue without metadata
+    }
+
+    return {
+      src: `${REMOTE_BASE}/${filename}`,
+      filename,
+      date,
+      location,
+    };
+  })
+);
+
+// Sort by date (newest first), images without dates go last
+images.sort((a, b) => {
+  if (!a.date && !b.date) return 0;
+  if (!a.date) return 1;
+  if (!b.date) return -1;
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
+---
+
+<div class="gallery">
+  {images.map((image) => (
+    <figure class="gallery-item">
+      <img src={image.src} alt={image.filename} loading="lazy" />
+      {(image.date || image.location) && (
+        <figcaption>
+          {image.date}{image.date && image.location && ' · '}{image.location}
+        </figcaption>
+      )}
+    </figure>
+  ))}
+</div>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .gallery-item {
+    margin: 0;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: #666;
+  }
+</style>
