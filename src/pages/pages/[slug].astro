@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Giscus from "../../components/Giscus.astro";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("pages");
+  return pages.map((page) => ({
+    // Convert page name to URL slug: lowercase and replace spaces with dashes
+    params: { slug: page.id.toLowerCase().replace(/\s+/g, "-") },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+
+// Use original filename as title (preserving spaces)
+const title = page.id;
+---
+
+<Base title={title}>
+  <Header currentPage="pages" showGoBack={false} title={title} subtitle="" />
+
+  <article>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+
+  <Giscus category="pages" />
+</Base>

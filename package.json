@@ -13,7 +13,8 @@
   "dependencies": {
     "astro": "^5.16.6",
     "exifreader": "^4.33.1",
-    "remark-unwrap-images": "^5.0.0"
+    "remark-unwrap-images": "^5.0.0",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "prettier": "3.7.4"

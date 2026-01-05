@@ -45,4 +45,9 @@ const lessons = defineCollection({
   }),
 });
 
-export const collections = { essays, journals, inspirations, lessons };
+// Pages: wiki-style pages linked from journals via [[page name]]
+const pages = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/pages" }),
+});
+
+export const collections = { essays, journals, inspirations, lessons, pages };
