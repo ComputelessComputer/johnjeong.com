@@ -42,6 +42,7 @@ const lessons = defineCollection({
     created_at: z.coerce.date(),
     type: z.enum(["book", "course", "article"]).optional(),
     source_url: z.string().optional(),
+    link: z.string().optional(),
   }),
 });
 

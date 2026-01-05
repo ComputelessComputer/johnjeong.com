@@ -31,16 +31,18 @@ const navItems = [
   </p>
 </header>
 
-<nav class="main-nav">
-  {navItems.map((item) => (
-    <div class="nav-item">
-      <a href={item.href} class:list={[{ active: currentPage === item.key }]}>{item.label}</a>
-      {showGoBack && currentPage === item.key && (
-        <span class="go-back">Go back?</span>
-      )}
-    </div>
-  ))}
-</nav>
+<div class="nav-container">
+  <nav class="main-nav">
+    {navItems.map((item) => (
+      <div class="nav-item">
+        <a href={item.href} class:list={[{ active: currentPage === item.key }]}>{item.label}</a>
+        {showGoBack && currentPage === item.key && (
+          <span class="go-back">Go back?</span>
+        )}
+      </div>
+    ))}
+  </nav>
+</div>
 
 <style is:global>
   header {
@@ -92,10 +94,46 @@ const navItems = [
   .subtitle .see-more:hover {
     color: #666;
   }
-  .main-nav {
+  .nav-container {
+    position: relative;
     margin-bottom: 2rem;
+  }
+  .nav-container::before,
+  .nav-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
+  .nav-container::before {
+    left: 0;
+    background: linear-gradient(to right, #fff 0%, transparent 100%);
+  }
+  .nav-container::after {
+    right: 0;
+    background: linear-gradient(to left, #fff 0%, transparent 100%);
+  }
+  .nav-container.scroll-left::before {
+    opacity: 1;
+  }
+  .nav-container.scroll-right::after {
+    opacity: 1;
+  }
+  .main-nav {
     display: flex;
     gap: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .main-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-item a {
     text-decoration: none;
@@ -113,6 +151,7 @@ const navItems = [
   }
   .nav-item {
     position: relative;
+    flex-shrink: 0;
   }
   .go-back {
     position: absolute;
@@ -130,31 +169,47 @@ const navItems = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Subtitle expand/collapse
     const subtitle = document.querySelector('.subtitle');
     const subtitleText = subtitle?.querySelector('.subtitle-text') as HTMLElement | null;
     const seeMoreBtn = subtitle?.querySelector('.see-more');
 
-    if (!subtitle || !subtitleText || !seeMoreBtn) return;
+    if (subtitle && subtitleText && seeMoreBtn) {
+      const checkOverflow = () => {
+        return subtitleText.scrollHeight > subtitleText.clientHeight;
+      };
 
-    // Check if text overflows (is clamped)
-    const checkOverflow = () => {
-      return subtitleText.scrollHeight > subtitleText.clientHeight;
-    };
+      if (checkOverflow()) {
+        subtitle.classList.add('needs-truncation');
+      }
 
-    // Initialize - check if we need to show the "see more" button
-    if (checkOverflow()) {
-      subtitle.classList.add('needs-truncation');
+      seeMoreBtn.addEventListener('click', () => {
+        if (!subtitle.classList.contains('expanded')) {
+          subtitle.classList.add('expanded');
+          seeMoreBtn.textContent = 'see less';
+        } else {
+          subtitle.classList.remove('expanded');
+          seeMoreBtn.textContent = 'see more';
+        }
+      });
     }
 
-    // Toggle expansion
-    seeMoreBtn.addEventListener('click', () => {
-      if (!subtitle.classList.contains('expanded')) {
-        subtitle.classList.add('expanded');
-        seeMoreBtn.textContent = 'see less';
-      } else {
-        subtitle.classList.remove('expanded');
-        seeMoreBtn.textContent = 'see more';
-      }
-    });
+    // Nav scroll fade indicators
+    const navContainer = document.querySelector('.nav-container');
+    const nav = document.querySelector('.main-nav');
+
+    if (navContainer && nav) {
+      const updateScrollIndicators = () => {
+        const scrollLeft = nav.scrollLeft;
+        const maxScroll = nav.scrollWidth - nav.clientWidth;
+
+        navContainer.classList.toggle('scroll-left', scrollLeft > 2);
+        navContainer.classList.toggle('scroll-right', scrollLeft < maxScroll - 2);
+      };
+
+      nav.addEventListener('scroll', updateScrollIndicators);
+      window.addEventListener('resize', updateScrollIndicators);
+      updateScrollIndicators();
+    }
   });
 </script>

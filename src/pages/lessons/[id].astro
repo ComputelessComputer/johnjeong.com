@@ -28,8 +28,8 @@ const subtitle = lesson.data.description || "";
   <Header currentPage="lessons" showGoBack={true} title={lesson.data.title} subtitle={subtitle} />
 
   <article>
-    {lesson.data.source_url && (
-      <p style="margin-bottom: 1rem;"><a href={lesson.data.source_url} target="_blank">Source</a></p>
+    {lesson.data.link && (
+      <p class="lesson-link"><span class="link-label">link:</span> <a href={lesson.data.link} target="_blank">{lesson.data.link}</a></p>
     )}
 
     <div class="prose">
@@ -42,6 +42,20 @@ const subtitle = lesson.data.description || "";
 </Base>
 
 <style>
+  .lesson-link {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+  }
+  .lesson-link .link-label {
+    color: #999;
+  }
+  .lesson-link a {
+    color: #666;
+    text-decoration: underline;
+    word-break: break-all;
+  }
   .content-date {
     margin-top: 2rem;
     color: #666;
