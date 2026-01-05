@@ -2,7 +2,6 @@
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
-import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
   const pages = await getCollection("pages");
@@ -28,6 +27,4 @@ const title = page.id;
       <Content />
     </div>
   </article>
-
-  <Giscus category="pages" />
 </Base>
