@@ -11,7 +11,7 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const essays = await getCollection("essays", ({ data }) => data.lang === lang);
+const essays = await getCollection("essays", ({ data }) => data.published && data.lang === lang);
 const sortedEssays = essays.sort((a, b) =>
   new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
 );

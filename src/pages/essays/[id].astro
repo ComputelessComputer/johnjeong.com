@@ -5,7 +5,7 @@ import Header from "../../components/Header.astro";
 import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
-  const essays = await getCollection("essays");
+  const essays = await getCollection("essays", ({ data }) => data.published);
   return essays.map((essay) => ({
     params: { id: essay.id },
     props: { essay },
