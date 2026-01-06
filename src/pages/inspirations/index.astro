@@ -12,7 +12,7 @@ const sortedInspirations = inspirations.sort((a, b) =>
 <Base title="Inspirations - John Jeong">
   <Header currentPage="inspirations" title="Inspirations" subtitle="Things that inspire me" />
 
-  <ul style="margin-top: 2rem;">
+  <ul>
     {sortedInspirations.map((inspiration) => (
       <li style="margin-bottom: 1rem;">
         <a href={`/inspirations/${inspiration.id}`}>{inspiration.data.title}</a>

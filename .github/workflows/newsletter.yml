@@ -1,0 +1,29 @@
+name: Newsletter
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  send-newsletter:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Parse newsletter commands and send
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://johnjeong.com' }}
+        run: bun run .github/scripts/send-newsletter.ts

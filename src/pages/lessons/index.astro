@@ -12,7 +12,7 @@ const sortedLessons = lessons.sort((a, b) =>
 <Base title="Lessons - John Jeong">
   <Header currentPage="lessons" title="Lessons" subtitle="What I learned from others" />
 
-  <ul style="margin-top: 2rem;">
+  <ul>
     {sortedLessons.map((lesson) => (
       <li style="margin-bottom: 1rem;">
         <a href={`/lessons/${lesson.id}`}>{lesson.data.title}</a>

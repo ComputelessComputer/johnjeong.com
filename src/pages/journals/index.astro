@@ -34,7 +34,7 @@ function getRelativeDate(dateStr: string): string {
 <Base title="Daily Logs - John Jeong">
   <Header currentPage="journals" title="Daily Logs" subtitle="What I did today" />
 
-  <ul style="margin-top: 2rem;">
+  <ul>
     {sortedJournals.map((journal) => {
       const dateStr = journal.id.replace(/_/g, "-");
       const relativeDate = getRelativeDate(dateStr);

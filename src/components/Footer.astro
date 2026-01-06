@@ -1,0 +1,147 @@
+---
+---
+
+<footer>
+  <div class="newsletter">
+    <h3>Subscribe to updates</h3>
+    <form id="newsletter-form">
+      <div class="email-row">
+        <input type="email" name="email" placeholder="your@email.com" required />
+        <button type="submit" class="btn">Subscribe</button>
+      </div>
+    </form>
+  </div>
+  <p class="copyright">© 2026 John Jeong</p>
+</footer>
+
+<style>
+  footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+
+  .newsletter h3 {
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    font-weight: 500;
+  }
+
+  .email-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .email-row input[type="email"] {
+    flex: 1;
+    max-width: 220px;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    font-size: 0.875rem;
+  }
+
+  .email-row input[type="email"]:focus {
+    outline: none;
+    border-color: #888;
+  }
+
+  .btn.success {
+    background: #16a34a;
+    border-color: #16a34a;
+    box-shadow: 0 2px 0 #15803d;
+    color: #fff;
+  }
+
+  .btn.error {
+    background: #dc2626;
+    border-color: #dc2626;
+    box-shadow: 0 2px 0 #b91c1c;
+    color: #fff;
+  }
+
+  .email-row .btn {
+    min-width: 116px;
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn.loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    animation: spin 1s steps(8) infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .copyright {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: #999;
+  }
+</style>
+
+<script>
+  const form = document.getElementById("newsletter-form") as HTMLFormElement;
+  const button = form?.querySelector("button") as HTMLButtonElement;
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const email = formData.get("email");
+
+    button.innerHTML = `<svg class="spinner" viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="1" width="2" height="4" rx="1" opacity=".14"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".29" transform="rotate(45 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".43" transform="rotate(90 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".57" transform="rotate(135 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".71" transform="rotate(180 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".86" transform="rotate(225 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(270 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(315 8 8)"/></svg>Subscribing`;
+    button.disabled = true;
+    button.className = "btn loading";
+
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        button.textContent = "Subscribed!";
+        button.className = "btn success";
+        form.reset();
+        setTimeout(() => {
+          button.textContent = "Subscribe";
+          button.className = "btn";
+          button.disabled = false;
+        }, 2000);
+      } else {
+        const data = await res.json();
+        button.textContent = data.error || "Failed";
+        button.className = "btn error";
+        setTimeout(() => {
+          button.textContent = "Subscribe";
+          button.className = "btn";
+          button.disabled = false;
+        }, 2000);
+      }
+    } catch {
+      button.textContent = "Failed";
+      button.className = "btn error";
+      setTimeout(() => {
+        button.textContent = "Subscribe";
+        button.className = "btn";
+        button.disabled = false;
+      }, 2000);
+    }
+  });
+</script>

@@ -32,7 +32,7 @@ const navItems = [
 </header>
 
 <div class="nav-container">
-  <nav class="main-nav">
+  <nav class:list={["main-nav", { "has-go-back": showGoBack }]}>
     {navItems.map((item) => (
       <div class="nav-item">
         <a href={item.href} class:list={[{ active: currentPage === item.key }]}>{item.label}</a>
@@ -96,14 +96,14 @@ const navItems = [
   }
   .nav-container {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
   }
   .nav-container::before,
   .nav-container::after {
     content: '';
     position: absolute;
     top: 0;
-    bottom: 0;
+    height: 1.5rem;
     width: 2rem;
     pointer-events: none;
     opacity: 0;
@@ -128,6 +128,7 @@ const navItems = [
     display: flex;
     gap: 1rem;
     overflow-x: auto;
+    padding-bottom: 1.5rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;

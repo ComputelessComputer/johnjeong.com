@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Astro v5.16.6" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <title>You have to be obsolete</title>
+    <script type="module">
+      document.addEventListener("DOMContentLoaded", () => {
+        const t = document.querySelector(".scroll-blur-bottom");
+        if (!t) return;
+        const e = () => {
+          const o = window.scrollY,
+            n = document.documentElement.scrollHeight,
+            l = window.innerHeight,
+            c = n - l;
+          t.classList.toggle("visible", o < c - 10);
+        };
+        (window.addEventListener("scroll", e),
+          window.addEventListener("resize", e),
+          e());
+      });
+    </script>
+    <style>
+      header {
+        margin-bottom: 1rem;
+      }
+      header h1 {
+        margin-top: 0;
+      }
+      header h1 a {
+        text-decoration: none;
+      }
+      .subtitle {
+        color: #666;
+        position: relative;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+      }
+      .subtitle .subtitle-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        flex: 1;
+        min-width: 0;
+      }
+      .subtitle.expanded .subtitle-text {
+        display: block;
+        -webkit-line-clamp: unset;
+      }
+      .subtitle .see-more {
+        display: none;
+        background: none;
+        border: none;
+        color: #999;
+        font-size: 0.85em;
+        cursor: pointer;
+        padding: 0;
+        text-decoration: underline;
+        font-family: inherit;
+        flex-shrink: 0;
+      }
+      .subtitle.needs-truncation .see-more {
+        display: inline;
+      }
+      .subtitle .see-more:hover {
+        color: #666;
+      }
+      .nav-container {
+        position: relative;
+        margin-bottom: 2rem;
+      }
+      .nav-container:before,
+      .nav-container:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 2rem;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 1;
+      }
+      .nav-container:before {
+        left: 0;
+        background: linear-gradient(to right, #fff 0%, transparent 100%);
+      }
+      .nav-container:after {
+        right: 0;
+        background: linear-gradient(to left, #fff 0%, transparent 100%);
+      }
+      .nav-container.scroll-left:before {
+        opacity: 1;
+      }
+      .nav-container.scroll-right:after {
+        opacity: 1;
+      }
+      .main-nav {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .main-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .nav-item a {
+        text-decoration: none;
+        color: #666;
+        padding-bottom: 0.25rem;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+      }
+      .nav-item a:hover {
+        color: #1a1a1a;
+      }
+      .nav-item a.active {
+        color: #1a1a1a !important;
+        border-bottom: 2px solid #1a1a1a !important;
+      }
+      .nav-item {
+        position: relative;
+        flex-shrink: 0;
+      }
+      .go-back {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%);
+        font-family: var(--font-sans);
+        font-size: 0.65rem;
+        color: #666;
+        opacity: 0.5;
+        white-space: nowrap;
+        margin-top: 0.25rem;
+      }
+      footer[data-astro-cid-sz7xmlte] {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+      }
+      .newsletter[data-astro-cid-sz7xmlte] h3[data-astro-cid-sz7xmlte] {
+        font-size: 1rem;
+        margin: 0 0 0.75rem;
+        font-weight: 500;
+      }
+      .checkboxes[data-astro-cid-sz7xmlte] {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        margin-bottom: 0.75rem;
+      }
+      .checkboxes[data-astro-cid-sz7xmlte] label[data-astro-cid-sz7xmlte] {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        color: #666;
+        cursor: pointer;
+      }
+      .checkboxes[data-astro-cid-sz7xmlte]
+        input[data-astro-cid-sz7xmlte][type="checkbox"] {
+        cursor: pointer;
+        accent-color: #1a1a1a;
+      }
+      .email-row[data-astro-cid-sz7xmlte] {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .email-row[data-astro-cid-sz7xmlte]
+        input[data-astro-cid-sz7xmlte][type="email"] {
+        flex: 1;
+        max-width: 220px;
+        padding: 0.4rem 0.75rem;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        font-size: 0.875rem;
+      }
+      .email-row[data-astro-cid-sz7xmlte]
+        input[data-astro-cid-sz7xmlte][type="email"]:focus {
+        outline: none;
+        border-color: #888;
+      }
+      .btn[data-astro-cid-sz7xmlte].success {
+        background: #16a34a;
+        border-color: #16a34a;
+        box-shadow: 0 2px #15803d;
+        color: #fff;
+      }
+      .btn[data-astro-cid-sz7xmlte].error {
+        background: #dc2626;
+        border-color: #dc2626;
+        box-shadow: 0 2px #b91c1c;
+        color: #fff;
+      }
+      .email-row[data-astro-cid-sz7xmlte] .btn[data-astro-cid-sz7xmlte] {
+        min-width: 116px;
+      }
+      .btn[data-astro-cid-sz7xmlte]:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .btn[data-astro-cid-sz7xmlte].loading {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .spinner[data-astro-cid-sz7xmlte] {
+        width: 14px;
+        height: 14px;
+        animation: spin 1s steps(8) infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .copyright[data-astro-cid-sz7xmlte] {
+        margin-top: 2rem;
+        font-size: 0.75rem;
+        color: #999;
+      }
+      :root {
+        --max-width: 640px;
+        --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        overflow-y: scroll;
+      }
+      body {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        max-width: var(--max-width);
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      a {
+        color: inherit;
+      }
+      h1,
+      h2,
+      h3 {
+        line-height: 1.3;
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+      }
+      h1 {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 2.25rem;
+        font-weight: 400;
+      }
+      h2 {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+      }
+      h3 {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.25rem;
+        font-weight: 400;
+      }
+      p {
+        margin-bottom: 1em;
+      }
+      ul,
+      ol {
+        margin-bottom: 1em;
+        padding-left: 1.5em;
+      }
+      blockquote {
+        border-left: 2px solid #ccc;
+        padding-left: 1em;
+        margin: 1em 0;
+        color: #666;
+      }
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.9em;
+        background: #f4f4f4;
+        padding: 0.1em 0.3em;
+        border-radius: 3px;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 1em;
+        overflow-x: auto;
+        margin-bottom: 1em;
+        border-radius: 4px;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+      }
+      .prose img {
+        max-width: 100%;
+        height: auto;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.4rem 0.75rem;
+        background: #fff;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        box-shadow: 0 2px silver;
+        text-decoration: none;
+        color: #333;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px silver;
+      }
+      .btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 0 silver;
+      }
+      .scroll-blur-bottom {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3rem;
+        background: linear-gradient(to top, #fff 0%, transparent 100%);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 100;
+      }
+      .scroll-blur-bottom.visible {
+        opacity: 1;
+      }
+      .giscus-container[data-astro-cid-an2nl7ar] {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+      }
+      .content-date[data-astro-cid-icdhjzee] {
+        margin-top: 2rem;
+        color: #666;
+        font-size: 0.9rem;
+        text-align: left;
+        font-family: var(--font-mono);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>You have to be obsolete</h1>
+      <p
+        class="subtitle"
+        data-full-text="Embracing obsolescence as a path to continuous growth and reinvention."
+      >
+        <span class="subtitle-text"
+          >Embracing obsolescence as a path to continuous growth and
+          reinvention.</span
+        >
+        <button class="see-more" aria-label="Expand subtitle">see more</button>
+      </p>
+    </header>
+    <div class="nav-container">
+      <nav class="main-nav">
+        <div class="nav-item"><a href="/">About</a></div>
+        <div class="nav-item"><a href="/essays/en">Essays</a></div>
+        <div class="nav-item"><a href="/journals">Daily Logs</a></div>
+        <div class="nav-item">
+          <a href="/inspirations" class="active">Inspirations</a>
+          <span class="go-back">Go back?</span>
+        </div>
+        <div class="nav-item"><a href="/lessons">Lessons</a></div>
+      </nav>
+    </div>
+    <script type="module">
+      document.addEventListener("DOMContentLoaded", () => {
+        const e = document.querySelector(".subtitle"),
+          c = e?.querySelector(".subtitle-text"),
+          s = e?.querySelector(".see-more");
+        e &&
+          c &&
+          s &&
+          (c.scrollHeight > c.clientHeight &&
+            e.classList.add("needs-truncation"),
+          s.addEventListener("click", () => {
+            e.classList.contains("expanded")
+              ? (e.classList.remove("expanded"), (s.textContent = "see more"))
+              : (e.classList.add("expanded"), (s.textContent = "see less"));
+          }));
+        const o = document.querySelector(".nav-container"),
+          t = document.querySelector(".main-nav");
+        if (o && t) {
+          const n = () => {
+            const l = t.scrollLeft,
+              r = t.scrollWidth - t.clientWidth;
+            (o.classList.toggle("scroll-left", l > 2),
+              o.classList.toggle("scroll-right", l < r - 2));
+          };
+          (t.addEventListener("scroll", n),
+            window.addEventListener("resize", n),
+            n());
+        }
+      });
+    </script>
+    <article data-astro-cid-icdhjzee>
+      <div
+        style="margin-bottom: 2rem; aspect-ratio: 16/9"
+        data-astro-cid-icdhjzee
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src="https://www.youtube.com/embed/HV4yksv09aU"
+          frameborder="0"
+          allow="
+            accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture;
+          "
+          allowfullscreen
+          data-astro-cid-icdhjzee
+        ></iframe>
+      </div>
+      <div class="prose" data-astro-cid-icdhjzee></div>
+      <p class="content-date" data-astro-cid-icdhjzee>January 12, 2025</p>
+    </article>
+    <section class="giscus-container" data-astro-cid-an2nl7ar>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="ComputelessComputer/part-of-my-brain"
+        data-repo-id="R_kgDOQyThnQ"
+        data-category="inspirations"
+        data-category-id="DIC_kwDOQyThnc4C0ehC"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      ></script>
+    </section>
+    <footer data-astro-cid-sz7xmlte>
+      <div class="newsletter" data-astro-cid-sz7xmlte>
+        <h3 data-astro-cid-sz7xmlte>Subscribe to updates</h3>
+        <form id="newsletter-form" data-astro-cid-sz7xmlte>
+          <div class="checkboxes" data-astro-cid-sz7xmlte>
+            <label data-astro-cid-sz7xmlte
+              ><input
+                type="checkbox"
+                name="essays"
+                checked
+                data-astro-cid-sz7xmlte
+              />
+              Essays</label
+            >
+            <label data-astro-cid-sz7xmlte
+              ><input
+                type="checkbox"
+                name="journals"
+                checked
+                data-astro-cid-sz7xmlte
+              />
+              Journals</label
+            >
+            <label data-astro-cid-sz7xmlte
+              ><input
+                type="checkbox"
+                name="inspirations"
+                data-astro-cid-sz7xmlte
+              />
+              Inspirations</label
+            >
+            <label data-astro-cid-sz7xmlte
+              ><input type="checkbox" name="lessons" data-astro-cid-sz7xmlte />
+              Lessons</label
+            >
+          </div>
+          <div class="email-row" data-astro-cid-sz7xmlte>
+            <input
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              data-astro-cid-sz7xmlte
+            />
+            <button type="submit" class="btn" data-astro-cid-sz7xmlte>
+              Subscribe
+            </button>
+          </div>
+        </form>
+      </div>
+      <p class="copyright" data-astro-cid-sz7xmlte>© 2026 John Jeong</p>
+    </footer>
+    <script type="module">
+      const s = document.getElementById("newsletter-form"),
+        t = s?.querySelector("button");
+      s?.addEventListener("submit", async (a) => {
+        a.preventDefault();
+        const e = new FormData(s),
+          o = e.get("email"),
+          n = {
+            essays: e.get("essays") === "on",
+            journals: e.get("journals") === "on",
+            inspirations: e.get("inspirations") === "on",
+            lessons: e.get("lessons") === "on",
+          };
+        ((t.innerHTML =
+          '<svg class="spinner" viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="1" width="2" height="4" rx="1" opacity=".14"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".29" transform="rotate(45 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".43" transform="rotate(90 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".57" transform="rotate(135 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".71" transform="rotate(180 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".86" transform="rotate(225 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(270 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(315 8 8)"/></svg>Subscribing'),
+          (t.disabled = !0),
+          (t.className = "btn loading"));
+        try {
+          const r = await fetch("/api/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: o, preferences: n }),
+          });
+          if (r.ok)
+            ((t.textContent = "Subscribed!"),
+              (t.className = "btn success"),
+              s.reset(),
+              setTimeout(() => {
+                ((t.textContent = "Subscribe"),
+                  (t.className = "btn"),
+                  (t.disabled = !1));
+              }, 2e3));
+          else {
+            const i = await r.json();
+            ((t.textContent = i.error || "Failed"),
+              (t.className = "btn error"),
+              setTimeout(() => {
+                ((t.textContent = "Subscribe"),
+                  (t.className = "btn"),
+                  (t.disabled = !1));
+              }, 2e3));
+          }
+        } catch {
+          ((t.textContent = "Failed"),
+            (t.className = "btn error"),
+            setTimeout(() => {
+              ((t.textContent = "Subscribe"),
+                (t.className = "btn"),
+                (t.disabled = !1));
+            }, 2e3));
+        }
+      });
+    </script>
+    <div class="scroll-blur-bottom"></div>
+  </body>
+</html>

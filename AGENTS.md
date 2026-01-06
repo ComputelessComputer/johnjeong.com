@@ -1,0 +1,2 @@
+- use bun
+- use `bun fmt` for formatting

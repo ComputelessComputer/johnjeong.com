@@ -24,7 +24,7 @@ const sortedEssays = essays.sort((a, b) =>
     </Fragment>
   </Header>
 
-  <ul style="margin-top: 2rem;">
+  <ul>
     {sortedEssays.map((essay) => (
       <li style="margin-bottom: 1rem;">
         <a href={`/essays/${essay.id}`}>{essay.data.title}</a>

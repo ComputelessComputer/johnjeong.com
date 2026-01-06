@@ -11,9 +11,11 @@
     "fmt:check": "bunx prettier . --check --ignore-path .prettierignore"
   },
   "dependencies": {
+    "@astrojs/vercel": "^9.0.2",
     "astro": "^5.16.6",
     "exifreader": "^4.33.1",
     "remark-unwrap-images": "^5.0.0",
+    "resend": "^6.6.0",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
