@@ -29,18 +29,15 @@ function isInternalPath(path) {
   return INTERNAL_PREFIXES.has(path.slice(0, 2)) && !JUST_SLASHES.test(path);
 }
 function joinPaths(...paths) {
-  return paths
-    .filter(isString)
-    .map((path, i) => {
-      if (i === 0) {
-        return removeTrailingForwardSlash(path);
-      } else if (i === paths.length - 1) {
-        return removeLeadingForwardSlash(path);
-      } else {
-        return trimSlashes(path);
-      }
-    })
-    .join("/");
+  return paths.filter(isString).map((path, i) => {
+    if (i === 0) {
+      return removeTrailingForwardSlash(path);
+    } else if (i === paths.length - 1) {
+      return removeLeadingForwardSlash(path);
+    } else {
+      return trimSlashes(path);
+    }
+  }).join("/");
 }
 function isRemotePath(src) {
   if (!src) return false;
@@ -75,11 +72,7 @@ function isRemotePath(src) {
     if (url.username || url.password) {
       return true;
     }
-    if (
-      decoded.includes("@") &&
-      !url.pathname.includes("@") &&
-      !url.search.includes("@")
-    ) {
+    if (decoded.includes("@") && !url.pathname.includes("@") && !url.search.includes("@")) {
       return true;
     }
     if (url.origin !== "http://n") {
@@ -115,17 +108,4 @@ function hasFileExtension(path) {
   return WITH_FILE_EXT.test(path);
 }
 
-export {
-  appendForwardSlash as a,
-  removeTrailingForwardSlash as b,
-  isInternalPath as c,
-  collapseDuplicateTrailingSlashes as d,
-  fileExtension as f,
-  hasFileExtension as h,
-  isRemotePath as i,
-  joinPaths as j,
-  prependForwardSlash as p,
-  removeBase as r,
-  slash as s,
-  trimSlashes as t,
-};
+export { appendForwardSlash as a, removeTrailingForwardSlash as b, isInternalPath as c, collapseDuplicateTrailingSlashes as d, fileExtension as f, hasFileExtension as h, isRemotePath as i, joinPaths as j, prependForwardSlash as p, removeBase as r, slash as s, trimSlashes as t };

@@ -1,1289 +1,307 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content="Astro v5.16.6" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
-    <title>Extreme Ownership</title>
-    <script type="module">
-      document.addEventListener("DOMContentLoaded", () => {
-        const t = document.querySelector(".scroll-blur-bottom");
-        if (!t) return;
-        const e = () => {
-          const o = window.scrollY,
-            n = document.documentElement.scrollHeight,
-            l = window.innerHeight,
-            c = n - l;
-          t.classList.toggle("visible", o < c - 10);
-        };
-        (window.addEventListener("scroll", e),
-          window.addEventListener("resize", e),
-          e());
-      });
-    </script>
-    <style>
-      header {
-        margin-bottom: 1rem;
-      }
-      header h1 {
-        margin-top: 0;
-      }
-      header h1 a {
-        text-decoration: none;
-      }
-      .subtitle {
-        color: #666;
-        position: relative;
-        display: flex;
-        align-items: baseline;
-        gap: 0.5rem;
-      }
-      .subtitle .subtitle-text {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
-        flex: 1;
-        min-width: 0;
-      }
-      .subtitle.expanded .subtitle-text {
-        display: block;
-        -webkit-line-clamp: unset;
-      }
-      .subtitle .see-more {
-        display: none;
-        background: none;
-        border: none;
-        color: #999;
-        font-size: 0.85em;
-        cursor: pointer;
-        padding: 0;
-        text-decoration: underline;
-        font-family: inherit;
-        flex-shrink: 0;
-      }
-      .subtitle.needs-truncation .see-more {
-        display: inline;
-      }
-      .subtitle .see-more:hover {
-        color: #666;
-      }
-      .nav-container {
-        position: relative;
-        margin-bottom: 2rem;
-      }
-      .nav-container:before,
-      .nav-container:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 2rem;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 1;
-      }
-      .nav-container:before {
-        left: 0;
-        background: linear-gradient(to right, #fff 0%, transparent 100%);
-      }
-      .nav-container:after {
-        right: 0;
-        background: linear-gradient(to left, #fff 0%, transparent 100%);
-      }
-      .nav-container.scroll-left:before {
-        opacity: 1;
-      }
-      .nav-container.scroll-right:after {
-        opacity: 1;
-      }
-      .main-nav {
-        display: flex;
-        gap: 1rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-      .main-nav::-webkit-scrollbar {
-        display: none;
-      }
-      .nav-item a {
-        text-decoration: none;
-        color: #666;
-        padding-bottom: 0.25rem;
-        font-family: var(--font-mono);
-        font-size: 0.8rem;
-      }
-      .nav-item a:hover {
-        color: #1a1a1a;
-      }
-      .nav-item a.active {
-        color: #1a1a1a !important;
-        border-bottom: 2px solid #1a1a1a !important;
-      }
-      .nav-item {
-        position: relative;
-        flex-shrink: 0;
-      }
-      .go-back {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%);
-        font-family: var(--font-sans);
-        font-size: 0.65rem;
-        color: #666;
-        opacity: 0.5;
-        white-space: nowrap;
-        margin-top: 0.25rem;
-      }
-      footer[data-astro-cid-sz7xmlte] {
-        margin-top: 4rem;
-        padding-top: 2rem;
-        border-top: 1px solid #eee;
-      }
-      .newsletter[data-astro-cid-sz7xmlte] h3[data-astro-cid-sz7xmlte] {
-        font-size: 1rem;
-        margin: 0 0 0.75rem;
-        font-weight: 500;
-      }
-      .checkboxes[data-astro-cid-sz7xmlte] {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem 1rem;
-        margin-bottom: 0.75rem;
-      }
-      .checkboxes[data-astro-cid-sz7xmlte] label[data-astro-cid-sz7xmlte] {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        font-size: 0.875rem;
-        color: #666;
-        cursor: pointer;
-      }
-      .checkboxes[data-astro-cid-sz7xmlte]
-        input[data-astro-cid-sz7xmlte][type="checkbox"] {
-        cursor: pointer;
-        accent-color: #1a1a1a;
-      }
-      .email-row[data-astro-cid-sz7xmlte] {
-        display: flex;
-        gap: 0.5rem;
-      }
-      .email-row[data-astro-cid-sz7xmlte]
-        input[data-astro-cid-sz7xmlte][type="email"] {
-        flex: 1;
-        max-width: 220px;
-        padding: 0.4rem 0.75rem;
-        border: 1px solid #d0d0d0;
-        border-radius: 6px;
-        font-size: 0.875rem;
-      }
-      .email-row[data-astro-cid-sz7xmlte]
-        input[data-astro-cid-sz7xmlte][type="email"]:focus {
-        outline: none;
-        border-color: #888;
-      }
-      .btn[data-astro-cid-sz7xmlte].success {
-        background: #16a34a;
-        border-color: #16a34a;
-        box-shadow: 0 2px #15803d;
-        color: #fff;
-      }
-      .btn[data-astro-cid-sz7xmlte].error {
-        background: #dc2626;
-        border-color: #dc2626;
-        box-shadow: 0 2px #b91c1c;
-        color: #fff;
-      }
-      .email-row[data-astro-cid-sz7xmlte] .btn[data-astro-cid-sz7xmlte] {
-        min-width: 116px;
-      }
-      .btn[data-astro-cid-sz7xmlte]:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-      .btn[data-astro-cid-sz7xmlte].loading {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-      }
-      .spinner[data-astro-cid-sz7xmlte] {
-        width: 14px;
-        height: 14px;
-        animation: spin 1s steps(8) infinite;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .copyright[data-astro-cid-sz7xmlte] {
-        margin-top: 2rem;
-        font-size: 0.75rem;
-        color: #999;
-      }
-      :root {
-        --max-width: 640px;
-        --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-      }
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        overflow-y: scroll;
-      }
-      body {
-        font-family:
-          -apple-system,
-          BlinkMacSystemFont,
-          Segoe UI,
-          Roboto,
-          sans-serif;
-        line-height: 1.6;
-        color: #1a1a1a;
-        max-width: var(--max-width);
-        min-height: 100vh;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-      }
-      a {
-        color: inherit;
-      }
-      h1,
-      h2,
-      h3 {
-        line-height: 1.3;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-      }
-      h1 {
-        font-family: "Instrument Serif", serif;
-        font-style: italic;
-        font-size: 2.25rem;
-        font-weight: 400;
-      }
-      h2 {
-        font-family: "Instrument Serif", serif;
-        font-size: 1.5rem;
-        font-weight: 400;
-      }
-      h3 {
-        font-family: "Instrument Serif", serif;
-        font-size: 1.25rem;
-        font-weight: 400;
-      }
-      p {
-        margin-bottom: 1em;
-      }
-      ul,
-      ol {
-        margin-bottom: 1em;
-        padding-left: 1.5em;
-      }
-      blockquote {
-        border-left: 2px solid #ccc;
-        padding-left: 1em;
-        margin: 1em 0;
-        color: #666;
-      }
-      code {
-        font-family: var(--font-mono);
-        font-size: 0.9em;
-        background: #f4f4f4;
-        padding: 0.1em 0.3em;
-        border-radius: 3px;
-      }
-      pre {
-        background: #f4f4f4;
-        padding: 1em;
-        overflow-x: auto;
-        margin-bottom: 1em;
-        border-radius: 4px;
-      }
-      pre code {
-        background: none;
-        padding: 0;
-      }
-      .prose img {
-        max-width: 100%;
-        height: auto;
-      }
-      .btn {
-        display: inline-block;
-        padding: 0.4rem 0.75rem;
-        background: #fff;
-        border: 1px solid #d0d0d0;
-        border-radius: 6px;
-        box-shadow: 0 2px silver;
-        text-decoration: none;
-        color: #333;
-        font-size: 0.875rem;
-        cursor: pointer;
-        transition:
-          transform 0.1s,
-          box-shadow 0.1s;
-      }
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px silver;
-      }
-      .btn:active {
-        transform: translateY(2px);
-        box-shadow: 0 0 silver;
-      }
-      .scroll-blur-bottom {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3rem;
-        background: linear-gradient(to top, #fff 0%, transparent 100%);
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 100;
-      }
-      .scroll-blur-bottom.visible {
-        opacity: 1;
-      }
-      .giscus-container[data-astro-cid-an2nl7ar] {
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #eee;
-      }
-      .lesson-link[data-astro-cid-den4td54] {
-        font-size: 0.85rem;
-        color: #666;
-        margin-bottom: 1.5rem;
-        font-family: var(--font-mono);
-      }
-      .lesson-link[data-astro-cid-den4td54]
-        .link-label[data-astro-cid-den4td54] {
-        color: #999;
-      }
-      .lesson-link[data-astro-cid-den4td54] a[data-astro-cid-den4td54] {
-        color: #666;
-        text-decoration: underline;
-        word-break: break-all;
-      }
-      .content-date[data-astro-cid-den4td54] {
-        margin-top: 2rem;
-        color: #666;
-        font-size: 0.9rem;
-        text-align: left;
-        font-family: var(--font-mono);
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Extreme Ownership</h1>
-      <p
-        class="subtitle"
-        data-full-text="Learning notes on Jocko Willink's extreme ownership leadership. The key is to let go of ego and take responsibility."
-      >
-        <span class="subtitle-text"
-          >Learning notes on Jocko Willink&#39;s extreme ownership leadership.
-          The key is to let go of ego and take responsibility.</span
-        >
-        <button class="see-more" aria-label="Expand subtitle">see more</button>
-      </p>
-    </header>
-    <div class="nav-container">
-      <nav class="main-nav">
-        <div class="nav-item"><a href="/">About</a></div>
-        <div class="nav-item"><a href="/essays/en">Essays</a></div>
-        <div class="nav-item"><a href="/journals">Daily Logs</a></div>
-        <div class="nav-item"><a href="/inspirations">Inspirations</a></div>
-        <div class="nav-item">
-          <a href="/lessons" class="active">Lessons</a>
-          <span class="go-back">Go back?</span>
-        </div>
-      </nav>
-    </div>
-    <script type="module">
-      document.addEventListener("DOMContentLoaded", () => {
-        const e = document.querySelector(".subtitle"),
-          c = e?.querySelector(".subtitle-text"),
-          s = e?.querySelector(".see-more");
-        e &&
-          c &&
-          s &&
-          (c.scrollHeight > c.clientHeight &&
-            e.classList.add("needs-truncation"),
-          s.addEventListener("click", () => {
-            e.classList.contains("expanded")
-              ? (e.classList.remove("expanded"), (s.textContent = "see more"))
-              : (e.classList.add("expanded"), (s.textContent = "see less"));
-          }));
-        const o = document.querySelector(".nav-container"),
-          t = document.querySelector(".main-nav");
-        if (o && t) {
-          const n = () => {
-            const l = t.scrollLeft,
-              r = t.scrollWidth - t.clientWidth;
-            (o.classList.toggle("scroll-left", l > 2),
-              o.classList.toggle("scroll-right", l < r - 2));
-          };
-          (t.addEventListener("scroll", n),
-            window.addEventListener("resize", n),
-            n());
-        }
-      });
-    </script>
-    <article data-astro-cid-den4td54>
-      <p class="lesson-link" data-astro-cid-den4td54>
-        <span class="link-label" data-astro-cid-den4td54>link:</span>
-        <a
-          href="https://www.amazon.com/Extreme-Ownership-U-S-Navy-SEALs/dp/1250067057"
-          target="_blank"
-          data-astro-cid-den4td54
-          >https://www.amazon.com/Extreme-Ownership-U-S-Navy-SEALs/dp/1250067057</a
-        >
-      </p>
-      <div class="prose" data-astro-cid-den4td54>
-        <p>
-          This is a book I read with great impression after a long time, so I’m
-          organizing my notes.
-        </p>
-        <h2 id="preface">Preface</h2>
-        <blockquote>
-          <p>The whole is far greater than the sum of its parts.</p>
-        </blockquote>
-        <p>
-          Powerful from the first page. It reminded me of parallel computing.
-        </p>
-        <h2 id="prologue">Prologue</h2>
-        <blockquote>
-          <p>
-            The only measure of good leadership versus bad leadership is the
-            success of the team.
-          </p>
-        </blockquote>
-        <p>
-          A very clear standard. I think you need to constantly ask yourself
-          questions to develop good leadership.
-        </p>
-        <blockquote>
-          <p>
-            Acknowledging your mistakes and developing a plan to overcome them
-            is an essential virtue that leads a leader to success. The best
-            leaders don’t put their ego or personal interests first. They focus
-            only on the organization’s goals and the best path to achieve them.
-          </p>
-        </blockquote>
-        <p>
-          Radical candor. You must be honest with yourself. You have to keep
-          asking the same questions, and by answering them repeatedly, you can
-          discover parts where you’ve been deceiving yourself without knowing.
-          Always practice answering the most important questions repeatedly.
-        </p>
-        <h2 id="chapter-1-arm-yourself-with-extreme-ownership">
-          Chapter 1: Arm Yourself with Extreme Ownership
-        </h2>
-        <blockquote>
-          <p>
-            You must throw away your ego, accept responsibility for failure, cut
-            out the weak parts of the team, and continuously work to build a
-            better team.
-          </p>
-        </blockquote>
-        <p>
-          Keep your self-esteem high, but discard useless pride. You need
-          flexible thinking to acknowledge failure and a dedicated attitude to
-          continuously improve.
-        </p>
-        <h2 id="chapter-2-there-are-no-bad-teams-only-bad-leaders">
-          Chapter 2: There Are No Bad Teams, Only Bad Leaders
-        </h2>
-        <blockquote>
-          <p>‘There are no bad teams. Only bad leaders.’</p>
-        </blockquote>
-        <p>
-          I expected that the same team with only a different leader would
-          produce completely different results, but it’s still impressive.
-        </p>
-        <blockquote>
-          <p>This negative attitude infected the entire team.</p>
-        </blockquote>
-        <p>
-          Similarly, a good leader’s attitude boosts team morale and spreads it.
-          It reminds me of Newton’s second law of motion, the law of
-          acceleration. The famous formula F=ma, meaning force is the change in
-          momentum over time, comes from this. Coming back to the point, even
-          with the same team, depending on what F the leader provides, the team
-          can have different momentum. And that inertia is maintained. If you
-          start arming yourself with extreme ownership, you should be able to
-          maintain inertia and accomplish great things.
-        </p>
-        <blockquote>
-          <p>
-            He accepted reality as it was. While acknowledging that Team 6’s
-            performance had been terrible, he believed they needed to improve
-            and could improve.
-          </p>
-        </blockquote>
-        <p>
-          What matters is diagnosing reality and figuring out how to achieve
-          goals with current resources.
-        </p>
-        <h2
-          id="chapter-3-the-art-of-self-persuasion-you-must-master-to-persuade-others"
-        >
-          Chapter 3: The Art of Self-Persuasion You Must Master to Persuade
-          Others
-        </h2>
-        <blockquote>
-          <p>
-            I decided to step back from the field commander’s perspective and
-            think about this problem from a strategic viewpoint. Like a general
-            at Baghdad headquarters or the Pentagon.
-          </p>
-        </blockquote>
-        <p>
-          I think this is an attitude everyone should have. You should remind
-          yourself of the organization’s goals and continuously reconsider what
-          meaning your current work has as a member.
-        </p>
-        <blockquote>
-          <p>
-            “If they have something to say, they’ll definitely come to me.” This
-            is a common misconception among top executives in both the military
-            and business.
-          </p>
-        </blockquote>
-        <p>
-          This might be the mindset I should never forget for the rest of my
-          life.
-        </p>
-        <blockquote>
-          <p>
-            To middle managers, she is the company’s representative. … You can’t
-            help but be cautious with such a person.
-          </p>
-        </blockquote>
-        <p>Never, ever forget your humble beginnings.</p>
-        <blockquote>
-          <p>
-            When you don’t understand or don’t believe the instructions that
-            come from above, you have a duty to ask questions. … If you don’t
-            know ‘why,’ you can’t have faith in the mission.
-          </p>
-        </blockquote>
-        <p>
-          Self-evident but an attitude that’s easy to become complacent about.
-          Craig Federighi, one of Apple’s VPs, gives 7 pieces of advice in this
-          <a href="https://youtu.be/rop35qmX-Q0?t=1046">video</a>, one of which
-          is “Never stop acting like the new one on the team.” You must always
-          have the courage and passion to question everything.
-        </p>
-        <blockquote>
-          <p>
-            Leadership in a company isn’t about one person leading the team.
-            It’s about multiple leaders in the chain of command collaborating
-            and leading together. No matter how great a leader is, if they try
-            to do everything alone, they can never handle it.
-          </p>
-        </blockquote>
-        <p>Indeed, the whole is greater than the sum of its parts.</p>
-        <blockquote>
-          <p>They say leadership requires courage.</p>
-        </blockquote>
-        <p>
-          Don’t be afraid to be courageous. There’s a Jeju Island proverb:
-          “Insults pass through the flesh but don’t reach the bone.” It means
-          that if you fear being cursed at, you’ll hesitate and won’t be able to
-          push forward boldly with what you think, so there’s no need to care
-          about criticism. What if you get cursed at in life? You’ll live long
-          anyway.
-        </p>
-        <h2 id="chapter-4-to-win-the-war-kill-your-ego-before-the-enemy-does">
-          Chapter 4: To Win the War, Kill Your Ego Before the Enemy Does
-        </h2>
-        <blockquote>
-          <p>
-            I always instructed my men to press their uniforms sharply and cut
-            their hair short like other soldiers. It was a small thing, but it
-            was part of our effort to show our sincerity and coexist with other
-            units we worked with.
-          </p>
-        </blockquote>
-        <p>
-          This conveys the message that it’s important to build from small
-          things for big achievements. It reminds me of “cultivate yourself,
-          regulate your family, govern the state, bring peace to the world” and
-          “family harmony brings success in everything.”
-        </p>
-        <blockquote>
-          <p>Never put your ego before the mission.</p>
-        </blockquote>
-        <p>
-          Similar content appears in famous NFL coach Bill Walsh’s book “<a
-            href="https://www.amazon.com/Score-Takes-Care-Itself-Philosophy/dp/1591843472"
-            >The Score Takes Care of Itself</a
-          >.” Walsh tells a story about stubbornly sticking to a foolish method
-          to prove his team’s superiority over the opponent when there was a
-          better way, then coming to his senses and winning by a narrow margin.
-          When a leader can’t judge objectively and their judgment becomes
-          clouded, big problems start to happen.
-        </p>
-        <blockquote>
-          <p>
-            Ego is usually the driving force behind success. … But when ego
-            clouds judgment and prevents you from seeing the world as it is, the
-            probability of catastrophic failure increases.
-          </p>
-        </blockquote>
-        <p>
-          This is an extension of the above. I think it would be good to read
-          <a href="https://sportsforthesoul.com/bill-walsh-you-need-a-big-ego/"
-            >Bill Walsh: You Need Ego, Not Egotism</a
-          >. Ego is good. I think it’s a virtue that good leaders should have.
-          But don’t let it transform into egotism and become blind faith.
-        </p>
-        <blockquote>
-          <p>
-            Extreme ownership demands guarding against such ego and becoming
-            humble.
-          </p>
-        </blockquote>
-        <p>Word.</p>
-        <h2 id="chapter-5-cover-and-move">Chapter 5: Cover and Move</h2>
-        <blockquote>
-          <p>
-            To achieve goals, each group or department within an organization
-            must break down walls and help and rely on each other.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Leaders must always remind members that we are part of a larger
-            organization and that the strategic goals of the entire organization
-            come first.
-          </p>
-        </blockquote>
-        <h2 id="chapter-6-the-power-of-simplicity">
-          Chapter 6: The Power of Simplicity
-        </h2>
-        <blockquote>
-          <p>
-            If plans or orders are too complex, there’s a high chance
-            subordinates won’t understand them.
-          </p>
-        </blockquote>
-        <p>
-          I think one of my greatest strengths is simplicity. The more complex
-          you think, the more tangled things become. Isn’t a good model one that
-          explains phenomena as well as possible with minimum variables? (This
-          is why I don’t really like the Standard Model of modern physics or
-          complex business models.) Simplicity is elegance.
-        </p>
-        <blockquote>
-          <p>
-            The problem is that things always go differently than planned and
-            are bound to go wrong. Therefore, plans and orders must be
-            established and communicated in a simple, clear, and refined manner.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Leaders must encourage free communication and dedicate enough time
-            until all team members perfectly understand the goals.
-          </p>
-        </blockquote>
-        <p>Word.</p>
-        <blockquote>
-          <p>
-            Not understanding it vaguely theoretically, but intuitively
-            understanding it to the point where no extra thought is needed. It
-            must always be in the employees’ hearts.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            If there’s no clear causal relationship between an action and reward
-            or punishment, behavior will never be corrected.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            But all animals, including humans, only learn or respond
-            appropriately when they know the connection between action and
-            result.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Young Navy SEAL commanders try to create plans that cover every
-            conceivable possibility when they receive a mission in training.
-            This makes the plan extremely complex and very difficult to execute.
-          </p>
-        </blockquote>
-        <p>
-          Reading this, I thought that people from consulting backgrounds or
-          those who try to break things down in a MECE way tend to have this
-          tendency. (This is my bias.) When thinking becomes complex, the brain
-          gets heavy, and when the brain gets heavy, the butt gets heavy too.
-          When the butt is heavy, you don’t act. When you don’t act, the
-          business fails.
-        </p>
-        <blockquote>
-          <p>
-            No matter how much you think about how an operation will unfold and
-            plan in detail, you can’t control the variable called the enemy.
-          </p>
-        </blockquote>
-        <p>
-          Everyone has a plan until they get punched. Everyone has a strategy
-          until they put it in the market.
-        </p>
-        <blockquote>
-          <p>
-            If you clearly understand the core, you can respond quickly to
-            changing situations without getting tangled up and falling over.
-          </p>
-        </blockquote>
-        <h2 id="chapter-7-priorities">Chapter 7: Priorities</h2>
-        <blockquote>
-          <ul>
-            <li>Evaluate the urgency of each problem.</li>
-            <li>… organize in simple and clear terms.</li>
-            <li>Seek solutions.</li>
-            <li>…</li>
-            <li>
-              Focusing on priority tasks doesn’t mean you should be buried in
-              that target alone. Have the ability to look around at other
-              problems and quickly change priorities if necessary.
-            </li>
-          </ul>
-        </blockquote>
-        <blockquote>
-          <p>
-            Focus on the most important thing first, and after it’s completed or
-            at least somewhat settled, move on to the next task. Eventually,
-            you’ll be able to accomplish all your plans.
-          </p>
-        </blockquote>
-        <h2 id="chapter-8-decentralized-command">
-          Chapter 8: Decentralized Command
-        </h2>
-        <blockquote>
-          <p>
-            By decentralizing command, I was able to focus on the bigger
-            picture. … If I had been stuck on tactical details, there would have
-            been no one to manage strategic objectives in my place.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Some Navy SEALs complained that the training was unrealistically
-            hard and that the instructors were cheating. I couldn’t agree with
-            that. The enemy we would face in Iraq had no rules at all.
-          </p>
-        </blockquote>
-        <p>
-          The market is cold. The market is harsh. The market returns to
-          fundamentals. The market filters out wrong answers.
-        </p>
-        <blockquote>
-          <p>
-            Each commander had to exercise leadership and make decisions that
-            aligned with the organization’s overall goals. In our task unit,
-            asking ‘What should I do?’ was forbidden. Instead, you had to say
-            ‘What I’m going to do is this.’
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            The platoon commander didn’t contact me to ask what to do. Instead,
-            they reported what they were going to do.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Contrary to common sense, in actual combat, a commander should not
-            stick to one specific position. They must be free to run to wherever
-            they’re needed most as situations change moment by moment. Finding
-            the right position as a leader is a core element of decentralized
-            command.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Without a clear chain of command—meaning not knowing who is in
-            charge—leadership cannot emerge.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>I talk to the platoon commander.</p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Doesn’t that cause confusion? Like the old telephone game. When you
-            pass whispers to the next person, eventually a completely different
-            message comes back.
-          </p>
-        </blockquote>
-        <p>I think that’s a valid point.</p>
-        <blockquote>
-          <p>
-            That’s exactly why simplicity is important. To properly decentralize
-            command, you need simple, clear, and concise instructions.
-          </p>
-        </blockquote>
-        <p>
-          But if all members are synchronized toward the same goal, it won’t be
-          a problem!
-        </p>
-        <blockquote>
-          <p>
-            With clear guidelines, they will move independently toward the goals
-            you’ve set.
-          </p>
-        </blockquote>
-        <h2 id="chapter-9-think-about-the-worst-case-and-move-to-avoid-failure">
-          Chapter 9: Think About the Worst Case and Move to Avoid Failure
-        </h2>
-        <blockquote>
-          <p>
-            There’s new information. IEDs are buried in the yard, and machine
-            gunners are waiting inside the house.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>You guys are going to have some fun today.</p>
-        </blockquote>
-        <blockquote>
-          <p>Good time!</p>
-        </blockquote>
-        <blockquote>
-          <p>Got it. Let’s have some fun.</p>
-        </blockquote>
-        <blockquote>
-          <p>
-            The members knew how dangerous the operation ahead was. They were
-            prepared that they might come back in body bags. But they were
-            confident in the plan.
-          </p>
-        </blockquote>
-        <p>
-          “Those who seek death will live, those who seek life will die.” You
-          must be able to bet your life for our vision.
-        </p>
-        <blockquote>
-          <p>
-            Is there a capture/kill operation where you can be certain there are
-            no IEDs or machine guns?
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            If mission objectives are vague and ambiguous, you can’t focus and
-            inefficiency increases during execution.
-          </p>
-        </blockquote>
-        <p>
-          I think good goals in business should consist of (1) number + (2)
-          deadline. Of course, there are many situations where it’s difficult to
-          calculate numbers. For example, in the early stages like now. In such
-          cases, sharing confidence gauges among team members should make things
-          clearer.
-        </p>
-        <blockquote>
-          <p>
-            Senior leaders should distance themselves from trivial details and
-            judge alignment with strategic objectives. … This allows them to
-            find gaps or weaknesses in the plan that they might miss when buried
-            in details.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Leaders must convey the importance of information to team members
-            simply and clearly. That way, team members won’t drown in an
-            information flood.
-          </p>
-        </blockquote>
-        <p>
-          This reminded me of a Snowflake video I watched recently.
-          <a href="https://youtu.be/oiWwyt3HVT0?t=60"
-            >“You’ve got to bring great clarity to situations. How to think
-            about things? What is going on? Because everybody gets confused,
-            because conflicting information, what does it mean? How do I think
-            about it? Leaders explain things in terms that people can
-            understand.”</a
-          >
-        </p>
-        <blockquote>
-          <p>Those who don’t take risks cannot win.</p>
-        </blockquote>
-        <p>
-          God is fair. Risk arises when you do something contrary to
-          conventional wisdom, so the moat that can be created when it succeeds
-          is also enormous.
-        </p>
-        <blockquote>
-          <p>
-            Navy SEAL units have a ‘post-operation briefing’ after every
-            operation.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            ‘What went well?’ ‘What went wrong?’ ‘What tactics should be
-            modified to gain an advantage more efficiently?’
-          </p>
-        </blockquote>
-        <p>
-          Even soldiers do retrospectives. To be the best, let’s review well.
-        </p>
-        <blockquote>
-          <p>
-            The standard for a good briefing isn’t how superiors judge it. It’s
-            whether the members who will actually execute the operation can
-            understand it or not. Everything else is bullshit.
-          </p>
-        </blockquote>
-        <p>
-          Don’t do it to show others (e.g. VCs), only talk about things you can
-          actually do.
-        </p>
-        <blockquote>
-          <p>
-            Don’t worry about what the commander says. I’ll take responsibility.
-          </p>
-        </blockquote>
-        <h2 id="chapter-10-lead-up-and-down-the-chain">
-          Chapter 10: Lead Up and Down the Chain
-        </h2>
-        <blockquote>
-          <p>
-            Being so immersed in tactical details, I didn’t realize how much
-            many of the operations we conducted contributed to achieving
-            strategic objectives.
-          </p>
-        </blockquote>
-        <p>
-          Reading this, I suddenly wondered how soldiers make presentation
-          materials and whether there are pain points in them.
-        </p>
-        <h2 id="chapter-11-how-to-make-the-best-decisions-in-uncertainty">
-          Chapter 11: How to Make the Best Decisions in Uncertainty
-        </h2>
-        <blockquote>
-          <p>If he was hesitating, there must be a reason.</p>
-        </blockquote>
-        <blockquote>
-          <p>
-            The battlefield of life is always full of uncertainty and ambiguity.
-            To win, leaders must make calm decisions under pressure. You must
-            act based on logic, not emotion. This is the decisive factor for
-            victory.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Leaders must act decisively even in uncertainty. They must make the
-            best decisions with only the information available at the moment.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Information gathering and research are important. But you shouldn’t
-            place too much hope in them, nor use them as an excuse to delay
-            swift decision-making.
-          </p>
-        </blockquote>
-        <p>
-          Indecision is an excuse. You must decide. Again, I was reminded of the
-          Snowflake video.
-          <a href="https://youtu.be/oiWwyt3HVT0?t=582"
-            >“As a leader, you have to have courage because you’ll be doing
-            things that people may not like. And you’re not here to please or
-            appease. You’re here to lead. You’ve got to bring people along even
-            when you’re doing things that are not popular. This is not a
-            popularity contest.”</a
-          >
-        </p>
-        <blockquote>
-          <p>
-            The point is that you have to be aggressive by default. And I taught
-            my subordinates to act decisively even in chaos. … We should control
-            the situation, not let the situation control us.
-          </p>
-        </blockquote>
-        <h2 id="chapter-12-strict-discipline-equals-freedom">
-          Chapter 12: Strict Discipline Equals Freedom
-        </h2>
-        <blockquote>
-          <p>
-            Faced with fierce resistance from the platoon members, I began to
-            explain ‘why.’
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            If I needed time to maintain equipment and weapons or study new
-            strategies or techniques, I had to make that time. To do so, I had
-            no choice but to wake up early. Discipline had to be ingrained in
-            me.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            I learned from experienced veterans that discipline makes the
-            difference between ‘ordinary’ and ‘special.’
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            Of course, they also sometimes went out to town and drank until
-            dawn. But the next day, they woke up early in the morning and
-            maintained discipline.
-          </p>
-        </blockquote>
-        <p>
-          Insane mental strength. This is like the “real man” spirit I’ve been
-          pushing lately—a virtue of being a real man. Be disciplined.
-        </p>
-        <blockquote>
-          <p>
-            True leaders are not intimidated when others step up to take
-            responsibility. Leaders who lack confidence in themselves are afraid
-            others will outshine them.
-          </p>
-        </blockquote>
-        <p>
-          Honestly, this happened to me many times in life. But after reading
-          this sentence, I thought I could solve this problem if I started
-          acting with confidence in myself.
-        </p>
-        <blockquote>
-          <p>
-            A leader’s greatest strength often becomes their greatest weakness.
-            When they fail to find balance in the dichotomies of leadership.
-          </p>
-        </blockquote>
-        <p>
-          Right. All human attributes are double-edged swords. Strengths are
-          weaknesses, and weaknesses are strengths.
-        </p>
-        <h2 id="epilogue">Epilogue</h2>
-        <blockquote>
-          <p>
-            Every leader should aim for the organization to run without them.
-          </p>
-        </blockquote>
-        <p>
-          What I truly pursue. Leadership needs generational change. Water
-          stagnates when it stays still.
-        </p>
-        <blockquote>
-          <p>
-            ‘Leadership is simple. But it’s not easy.’ Leadership is both art
-            and science.
-          </p>
-        </blockquote>
-        <h2 id="jocko-podcast-highlights">Jocko Podcast Highlights</h2>
-        <p>
-          Q. What advice would you give to officers entering special forces or
-          those like me who aspire to be elite leaders?
-        </p>
-        <blockquote>
-          <p>Act with humility.</p>
-        </blockquote>
-        <p>HUMBLE.</p>
-        <blockquote>
-          <p>
-            You have to listen to others. When a junior comes to talk, sit down
-            together and say ‘Okay, let me write down what you’re saying.’
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            You must listen to others. … Building relationships, that’s
-            business.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            You have to speak the truth with sincerity. You shouldn’t lie to
-            others.
-          </p>
-        </blockquote>
-        <p>Radical candor.</p>
-        <blockquote>
-          <p>
-            Even when people don’t know what’s true, they definitely know what’s
-            not true.
-          </p>
-        </blockquote>
-        <blockquote>
-          <p>
-            ‘Okay, here’s the situation. This is the problem. We messed this up.
-            We need to step up on this. Right now, I’m stressed about these
-            issues from higher-ups.’
-          </p>
-        </blockquote>
-        <p>Radical candor.</p>
-        <blockquote>
-          <p>Work hard. … That’s the basics.</p>
-        </blockquote>
-        <p>GRIT.</p>
-        <blockquote>
-          <p>You have to find balance.</p>
-        </blockquote>
-        <blockquote>
-          <p>
-            When subordinates mess up, don’t say ‘You disappointed me.’ Take
-            ownership and say this: ‘I think I didn’t give you adequate
-            instructions.’
-          </p>
-        </blockquote>
-      </div>
-      <p class="content-date" data-astro-cid-den4td54>April 21, 2023</p>
-    </article>
-    <section class="giscus-container" data-astro-cid-an2nl7ar>
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="ComputelessComputer/part-of-my-brain"
-        data-repo-id="R_kgDOQyThnQ"
-        data-category="lessons"
-        data-category-id="DIC_kwDOQyThnc4C0ehD"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async
-      ></script>
-    </section>
-    <footer data-astro-cid-sz7xmlte>
-      <div class="newsletter" data-astro-cid-sz7xmlte>
-        <h3 data-astro-cid-sz7xmlte>Subscribe to updates</h3>
-        <form id="newsletter-form" data-astro-cid-sz7xmlte>
-          <div class="checkboxes" data-astro-cid-sz7xmlte>
-            <label data-astro-cid-sz7xmlte
-              ><input
-                type="checkbox"
-                name="essays"
-                checked
-                data-astro-cid-sz7xmlte
-              />
-              Essays</label
-            >
-            <label data-astro-cid-sz7xmlte
-              ><input
-                type="checkbox"
-                name="journals"
-                checked
-                data-astro-cid-sz7xmlte
-              />
-              Journals</label
-            >
-            <label data-astro-cid-sz7xmlte
-              ><input
-                type="checkbox"
-                name="inspirations"
-                data-astro-cid-sz7xmlte
-              />
-              Inspirations</label
-            >
-            <label data-astro-cid-sz7xmlte
-              ><input type="checkbox" name="lessons" data-astro-cid-sz7xmlte />
-              Lessons</label
-            >
-          </div>
-          <div class="email-row" data-astro-cid-sz7xmlte>
-            <input
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              required
-              data-astro-cid-sz7xmlte
-            />
-            <button type="submit" class="btn" data-astro-cid-sz7xmlte>
-              Subscribe
-            </button>
-          </div>
-        </form>
-      </div>
-      <p class="copyright" data-astro-cid-sz7xmlte>© 2026 John Jeong</p>
-    </footer>
-    <script type="module">
-      const s = document.getElementById("newsletter-form"),
-        t = s?.querySelector("button");
-      s?.addEventListener("submit", async (a) => {
-        a.preventDefault();
-        const e = new FormData(s),
-          o = e.get("email"),
-          n = {
-            essays: e.get("essays") === "on",
-            journals: e.get("journals") === "on",
-            inspirations: e.get("inspirations") === "on",
-            lessons: e.get("lessons") === "on",
-          };
-        ((t.innerHTML =
-          '<svg class="spinner" viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="1" width="2" height="4" rx="1" opacity=".14"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".29" transform="rotate(45 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".43" transform="rotate(90 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".57" transform="rotate(135 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".71" transform="rotate(180 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".86" transform="rotate(225 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(270 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(315 8 8)"/></svg>Subscribing'),
-          (t.disabled = !0),
-          (t.className = "btn loading"));
-        try {
-          const r = await fetch("/api/subscribe", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: o, preferences: n }),
-          });
-          if (r.ok)
-            ((t.textContent = "Subscribed!"),
-              (t.className = "btn success"),
-              s.reset(),
-              setTimeout(() => {
-                ((t.textContent = "Subscribe"),
-                  (t.className = "btn"),
-                  (t.disabled = !1));
-              }, 2e3));
-          else {
-            const i = await r.json();
-            ((t.textContent = i.error || "Failed"),
-              (t.className = "btn error"),
-              setTimeout(() => {
-                ((t.textContent = "Subscribe"),
-                  (t.className = "btn"),
-                  (t.disabled = !1));
-              }, 2e3));
-          }
-        } catch {
-          ((t.textContent = "Failed"),
-            (t.className = "btn error"),
-            setTimeout(() => {
-              ((t.textContent = "Subscribe"),
-                (t.className = "btn"),
-                (t.disabled = !1));
-            }, 2e3));
-        }
-      });
-    </script>
-    <div class="scroll-blur-bottom"></div>
-  </body>
-</html>
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.6"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"><title>Extreme Ownership</title><script type="module">document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector(".scroll-blur-bottom");if(!t)return;const e=()=>{const o=window.scrollY,n=document.documentElement.scrollHeight,l=window.innerHeight,c=n-l;t.classList.toggle("visible",o<c-10)};window.addEventListener("scroll",e),window.addEventListener("resize",e),e()});</script><style>header{margin-bottom:1rem}header h1{margin-top:0}header h1 a{text-decoration:none}.subtitle{color:#666;position:relative;display:flex;align-items:baseline;gap:.5rem}.subtitle .subtitle-text{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;white-space:normal;flex:1;min-width:0}.subtitle.expanded .subtitle-text{display:block;-webkit-line-clamp:unset}.subtitle .see-more{display:none;background:none;border:none;color:#999;font-size:.85em;cursor:pointer;padding:0;text-decoration:underline;font-family:inherit;flex-shrink:0}.subtitle.needs-truncation .see-more{display:inline}.subtitle .see-more:hover{color:#666}.nav-container{position:relative;margin-bottom:.5rem}.nav-container:before,.nav-container:after{content:"";position:absolute;top:0;height:1.5rem;width:2rem;pointer-events:none;opacity:0;transition:opacity .2s ease;z-index:1}.nav-container:before{left:0;background:linear-gradient(to right,#fff 0%,transparent 100%)}.nav-container:after{right:0;background:linear-gradient(to left,#fff 0%,transparent 100%)}.nav-container.scroll-left:before{opacity:1}.nav-container.scroll-right:after{opacity:1}.main-nav{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1.5rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}.main-nav::-webkit-scrollbar{display:none}.nav-item a{text-decoration:none;color:#666;padding-bottom:.25rem;font-family:var(--font-mono);font-size:.8rem}.nav-item a:hover{color:#1a1a1a}.nav-item a.active{color:#1a1a1a!important;border-bottom:2px solid #1a1a1a!important}.nav-item{position:relative;flex-shrink:0}.go-back{position:absolute;top:100%;left:50%;transform:translate(-50%);font-family:var(--font-sans);font-size:.65rem;color:#666;opacity:.5;white-space:nowrap;margin-top:.25rem}
+footer[data-astro-cid-sz7xmlte]{margin-top:4rem;padding-top:2rem;border-top:1px solid #eee}.newsletter[data-astro-cid-sz7xmlte] h3[data-astro-cid-sz7xmlte]{font-size:1rem;margin:0 0 .75rem;font-weight:500}.email-row[data-astro-cid-sz7xmlte]{display:flex;gap:.5rem}.email-row[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte][type=email]{flex:1;max-width:220px;padding:.4rem .75rem;border:1px solid #d0d0d0;border-radius:6px;font-size:.875rem}.email-row[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte][type=email]:focus{outline:none;border-color:#888}.btn[data-astro-cid-sz7xmlte].success{background:#16a34a;border-color:#16a34a;box-shadow:0 2px #15803d;color:#fff}.btn[data-astro-cid-sz7xmlte].error{background:#dc2626;border-color:#dc2626;box-shadow:0 2px #b91c1c;color:#fff}.email-row[data-astro-cid-sz7xmlte] .btn[data-astro-cid-sz7xmlte]{min-width:116px}.btn[data-astro-cid-sz7xmlte]:disabled{opacity:.6;cursor:not-allowed}.btn[data-astro-cid-sz7xmlte].loading{display:inline-flex;align-items:center;gap:.35rem}.spinner[data-astro-cid-sz7xmlte]{width:14px;height:14px;animation:spin 1s steps(8) infinite}@keyframes spin{to{transform:rotate(360deg)}}.copyright[data-astro-cid-sz7xmlte]{margin-top:2rem;font-size:.75rem;color:#999}:root{--max-width: 640px;--font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace}*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}html{overflow-y:scroll}body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;line-height:1.6;color:#1a1a1a;max-width:var(--max-width);min-height:100vh;margin:0 auto;padding:2rem 1rem}a{color:inherit}h1,h2,h3{line-height:1.3;margin-top:1.5em;margin-bottom:.5em}h1{font-family:"Instrument Serif",serif;font-style:italic;font-size:2.25rem;font-weight:400}h2{font-family:"Instrument Serif",serif;font-size:1.5rem;font-weight:400}h3{font-family:"Instrument Serif",serif;font-size:1.25rem;font-weight:400}p{margin-bottom:1em}ul,ol{margin-bottom:1em;padding-left:1.5em}blockquote{border-left:2px solid #ccc;padding-left:1em;margin:1em 0;color:#666}code{font-family:var(--font-mono);font-size:.9em;background:#f4f4f4;padding:.1em .3em;border-radius:3px}pre{background:#f4f4f4;padding:1em;overflow-x:auto;margin-bottom:1em;border-radius:4px}pre code{background:none;padding:0}.prose img{max-width:100%;height:auto}.btn{display:inline-block;padding:.4rem .75rem;background:#fff;border:1px solid #d0d0d0;border-radius:6px;box-shadow:0 2px silver;text-decoration:none;color:#333;font-size:.875rem;cursor:pointer;transition:transform .1s,box-shadow .1s}.btn:hover{transform:translateY(-2px);box-shadow:0 4px silver}.btn:active{transform:translateY(2px);box-shadow:0 0 silver}.scroll-blur-bottom{position:fixed;bottom:0;left:0;right:0;height:3rem;background:linear-gradient(to top,#fff 0%,transparent 100%);pointer-events:none;opacity:0;transition:opacity .2s ease;z-index:100}.scroll-blur-bottom.visible{opacity:1}
+.giscus-container[data-astro-cid-an2nl7ar]{margin-top:3rem;padding-top:2rem;border-top:1px solid #eee}
+.lesson-link[data-astro-cid-den4td54]{font-size:.85rem;color:#666;margin-bottom:1.5rem;font-family:var(--font-mono)}.lesson-link[data-astro-cid-den4td54] .link-label[data-astro-cid-den4td54]{color:#999}.lesson-link[data-astro-cid-den4td54] a[data-astro-cid-den4td54]{color:#666;text-decoration:underline;word-break:break-all}.content-date[data-astro-cid-den4td54]{margin-top:2rem;color:#666;font-size:.9rem;text-align:left;font-family:var(--font-mono)}
+</style></head> <body>  <header> <h1> Extreme Ownership </h1> <p class="subtitle" data-full-text="Learning notes on Jocko Willink's extreme ownership leadership. The key is to let go of ego and take responsibility."> <span class="subtitle-text">Co-founder & Co-CEO at <a href="https://hyprnote.com" target="_blank" rel="noopener">Hyprnote</a></span> <button class="see-more" aria-label="Expand subtitle">see more</button> </p> </header> <div class="nav-container"> <nav class="main-nav has-go-back"> <div class="nav-item"> <a href="/">About</a>  </div><div class="nav-item"> <a href="/essays/en">Essays</a>  </div><div class="nav-item"> <a href="/journals">Daily Logs</a>  </div><div class="nav-item"> <a href="/inspirations">Inspirations</a>  </div><div class="nav-item"> <a href="/lessons" class="active">Lessons</a> <span class="go-back">Go back?</span> </div> </nav> </div>  <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".subtitle"),c=e?.querySelector(".subtitle-text"),s=e?.querySelector(".see-more");e&&c&&s&&(c.scrollHeight>c.clientHeight&&e.classList.add("needs-truncation"),s.addEventListener("click",()=>{e.classList.contains("expanded")?(e.classList.remove("expanded"),s.textContent="see more"):(e.classList.add("expanded"),s.textContent="see less")}));const o=document.querySelector(".nav-container"),t=document.querySelector(".main-nav");if(o&&t){const n=()=>{const l=t.scrollLeft,r=t.scrollWidth-t.clientWidth;o.classList.toggle("scroll-left",l>2),o.classList.toggle("scroll-right",l<r-2)};t.addEventListener("scroll",n),window.addEventListener("resize",n),n()}});</script> <article data-astro-cid-den4td54> <p class="lesson-link" data-astro-cid-den4td54><span class="link-label" data-astro-cid-den4td54>link:</span> <a href="https://www.amazon.com/Extreme-Ownership-U-S-Navy-SEALs/dp/1250067057" target="_blank" data-astro-cid-den4td54>https://www.amazon.com/Extreme-Ownership-U-S-Navy-SEALs/dp/1250067057</a></p> <div class="prose" data-astro-cid-den4td54> <p>This is a book I read with great impression after a long time, so I’m organizing my notes.</p>
+<h2 id="preface">Preface</h2>
+<blockquote>
+<p>The whole is far greater than the sum of its parts.</p>
+</blockquote>
+<p>Powerful from the first page. It reminded me of parallel computing.</p>
+<h2 id="prologue">Prologue</h2>
+<blockquote>
+<p>The only measure of good leadership versus bad leadership is the success of the team.</p>
+</blockquote>
+<p>A very clear standard. I think you need to constantly ask yourself questions to develop good leadership.</p>
+<blockquote>
+<p>Acknowledging your mistakes and developing a plan to overcome them is an essential virtue that leads a leader to success. The best leaders don’t put their ego or personal interests first. They focus only on the organization’s goals and the best path to achieve them.</p>
+</blockquote>
+<p>Radical candor. You must be honest with yourself. You have to keep asking the same questions, and by answering them repeatedly, you can discover parts where you’ve been deceiving yourself without knowing. Always practice answering the most important questions repeatedly.</p>
+<h2 id="chapter-1-arm-yourself-with-extreme-ownership">Chapter 1: Arm Yourself with Extreme Ownership</h2>
+<blockquote>
+<p>You must throw away your ego, accept responsibility for failure, cut out the weak parts of the team, and continuously work to build a better team.</p>
+</blockquote>
+<p>Keep your self-esteem high, but discard useless pride. You need flexible thinking to acknowledge failure and a dedicated attitude to continuously improve.</p>
+<h2 id="chapter-2-there-are-no-bad-teams-only-bad-leaders">Chapter 2: There Are No Bad Teams, Only Bad Leaders</h2>
+<blockquote>
+<p>‘There are no bad teams. Only bad leaders.’</p>
+</blockquote>
+<p>I expected that the same team with only a different leader would produce completely different results, but it’s still impressive.</p>
+<blockquote>
+<p>This negative attitude infected the entire team.</p>
+</blockquote>
+<p>Similarly, a good leader’s attitude boosts team morale and spreads it. It reminds me of Newton’s second law of motion, the law of acceleration. The famous formula F=ma, meaning force is the change in momentum over time, comes from this. Coming back to the point, even with the same team, depending on what F the leader provides, the team can have different momentum. And that inertia is maintained. If you start arming yourself with extreme ownership, you should be able to maintain inertia and accomplish great things.</p>
+<blockquote>
+<p>He accepted reality as it was. While acknowledging that Team 6’s performance had been terrible, he believed they needed to improve and could improve.</p>
+</blockquote>
+<p>What matters is diagnosing reality and figuring out how to achieve goals with current resources.</p>
+<h2 id="chapter-3-the-art-of-self-persuasion-you-must-master-to-persuade-others">Chapter 3: The Art of Self-Persuasion You Must Master to Persuade Others</h2>
+<blockquote>
+<p>I decided to step back from the field commander’s perspective and think about this problem from a strategic viewpoint. Like a general at Baghdad headquarters or the Pentagon.</p>
+</blockquote>
+<p>I think this is an attitude everyone should have. You should remind yourself of the organization’s goals and continuously reconsider what meaning your current work has as a member.</p>
+<blockquote>
+<p>“If they have something to say, they’ll definitely come to me.”
+This is a common misconception among top executives in both the military and business.</p>
+</blockquote>
+<p>This might be the mindset I should never forget for the rest of my life.</p>
+<blockquote>
+<p>To middle managers, she is the company’s representative. … You can’t help but be cautious with such a person.</p>
+</blockquote>
+<p>Never, ever forget your humble beginnings.</p>
+<blockquote>
+<p>When you don’t understand or don’t believe the instructions that come from above, you have a duty to ask questions. … If you don’t know ‘why,’ you can’t have faith in the mission.</p>
+</blockquote>
+<p>Self-evident but an attitude that’s easy to become complacent about. Craig Federighi, one of Apple’s VPs, gives 7 pieces of advice in this <a href="https://youtu.be/rop35qmX-Q0?t=1046">video</a>, one of which is “Never stop acting like the new one on the team.” You must always have the courage and passion to question everything.</p>
+<blockquote>
+<p>Leadership in a company isn’t about one person leading the team. It’s about multiple leaders in the chain of command collaborating and leading together. No matter how great a leader is, if they try to do everything alone, they can never handle it.</p>
+</blockquote>
+<p>Indeed, the whole is greater than the sum of its parts.</p>
+<blockquote>
+<p>They say leadership requires courage.</p>
+</blockquote>
+<p>Don’t be afraid to be courageous. There’s a Jeju Island proverb: “Insults pass through the flesh but don’t reach the bone.” It means that if you fear being cursed at, you’ll hesitate and won’t be able to push forward boldly with what you think, so there’s no need to care about criticism. What if you get cursed at in life? You’ll live long anyway.</p>
+<h2 id="chapter-4-to-win-the-war-kill-your-ego-before-the-enemy-does">Chapter 4: To Win the War, Kill Your Ego Before the Enemy Does</h2>
+<blockquote>
+<p>I always instructed my men to press their uniforms sharply and cut their hair short like other soldiers. It was a small thing, but it was part of our effort to show our sincerity and coexist with other units we worked with.</p>
+</blockquote>
+<p>This conveys the message that it’s important to build from small things for big achievements. It reminds me of “cultivate yourself, regulate your family, govern the state, bring peace to the world” and “family harmony brings success in everything.”</p>
+<blockquote>
+<p>Never put your ego before the mission.</p>
+</blockquote>
+<p>Similar content appears in famous NFL coach Bill Walsh’s book “<a href="https://www.amazon.com/Score-Takes-Care-Itself-Philosophy/dp/1591843472">The Score Takes Care of Itself</a>.” Walsh tells a story about stubbornly sticking to a foolish method to prove his team’s superiority over the opponent when there was a better way, then coming to his senses and winning by a narrow margin. When a leader can’t judge objectively and their judgment becomes clouded, big problems start to happen.</p>
+<blockquote>
+<p>Ego is usually the driving force behind success. … But when ego clouds judgment and prevents you from seeing the world as it is, the probability of catastrophic failure increases.</p>
+</blockquote>
+<p>This is an extension of the above. I think it would be good to read <a href="https://sportsforthesoul.com/bill-walsh-you-need-a-big-ego/">Bill Walsh: You Need Ego, Not Egotism</a>. Ego is good. I think it’s a virtue that good leaders should have. But don’t let it transform into egotism and become blind faith.</p>
+<blockquote>
+<p>Extreme ownership demands guarding against such ego and becoming humble.</p>
+</blockquote>
+<p>Word.</p>
+<h2 id="chapter-5-cover-and-move">Chapter 5: Cover and Move</h2>
+<blockquote>
+<p>To achieve goals, each group or department within an organization must break down walls and help and rely on each other.</p>
+</blockquote>
+<blockquote>
+<p>Leaders must always remind members that we are part of a larger organization and that the strategic goals of the entire organization come first.</p>
+</blockquote>
+<h2 id="chapter-6-the-power-of-simplicity">Chapter 6: The Power of Simplicity</h2>
+<blockquote>
+<p>If plans or orders are too complex, there’s a high chance subordinates won’t understand them.</p>
+</blockquote>
+<p>I think one of my greatest strengths is simplicity. The more complex you think, the more tangled things become. Isn’t a good model one that explains phenomena as well as possible with minimum variables? (This is why I don’t really like the Standard Model of modern physics or complex business models.) Simplicity is elegance.</p>
+<blockquote>
+<p>The problem is that things always go differently than planned and are bound to go wrong. Therefore, plans and orders must be established and communicated in a simple, clear, and refined manner.</p>
+</blockquote>
+<blockquote>
+<p>Leaders must encourage free communication and dedicate enough time until all team members perfectly understand the goals.</p>
+</blockquote>
+<p>Word.</p>
+<blockquote>
+<p>Not understanding it vaguely theoretically, but intuitively understanding it to the point where no extra thought is needed. It must always be in the employees’ hearts.</p>
+</blockquote>
+<blockquote>
+<p>If there’s no clear causal relationship between an action and reward or punishment, behavior will never be corrected.</p>
+</blockquote>
+<blockquote>
+<p>But all animals, including humans, only learn or respond appropriately when they know the connection between action and result.</p>
+</blockquote>
+<blockquote>
+<p>Young Navy SEAL commanders try to create plans that cover every conceivable possibility when they receive a mission in training. This makes the plan extremely complex and very difficult to execute.</p>
+</blockquote>
+<p>Reading this, I thought that people from consulting backgrounds or those who try to break things down in a MECE way tend to have this tendency. (This is my bias.) When thinking becomes complex, the brain gets heavy, and when the brain gets heavy, the butt gets heavy too. When the butt is heavy, you don’t act. When you don’t act, the business fails.</p>
+<blockquote>
+<p>No matter how much you think about how an operation will unfold and plan in detail, you can’t control the variable called the enemy.</p>
+</blockquote>
+<p>Everyone has a plan until they get punched. Everyone has a strategy until they put it in the market.</p>
+<blockquote>
+<p>If you clearly understand the core, you can respond quickly to changing situations without getting tangled up and falling over.</p>
+</blockquote>
+<h2 id="chapter-7-priorities">Chapter 7: Priorities</h2>
+<blockquote>
+<ul>
+<li>Evaluate the urgency of each problem.</li>
+<li>… organize in simple and clear terms.</li>
+<li>Seek solutions.</li>
+<li>…</li>
+<li>Focusing on priority tasks doesn’t mean you should be buried in that target alone. Have the ability to look around at other problems and quickly change priorities if necessary.</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Focus on the most important thing first, and after it’s completed or at least somewhat settled, move on to the next task. Eventually, you’ll be able to accomplish all your plans.</p>
+</blockquote>
+<h2 id="chapter-8-decentralized-command">Chapter 8: Decentralized Command</h2>
+<blockquote>
+<p>By decentralizing command, I was able to focus on the bigger picture. … If I had been stuck on tactical details, there would have been no one to manage strategic objectives in my place.</p>
+</blockquote>
+<blockquote>
+<p>Some Navy SEALs complained that the training was unrealistically hard and that the instructors were cheating.
+I couldn’t agree with that. The enemy we would face in Iraq had no rules at all.</p>
+</blockquote>
+<p>The market is cold. The market is harsh. The market returns to fundamentals. The market filters out wrong answers.</p>
+<blockquote>
+<p>Each commander had to exercise leadership and make decisions that aligned with the organization’s overall goals. In our task unit, asking ‘What should I do?’ was forbidden. Instead, you had to say ‘What I’m going to do is this.’</p>
+</blockquote>
+<blockquote>
+<p>The platoon commander didn’t contact me to ask what to do. Instead, they reported what they were going to do.</p>
+</blockquote>
+<blockquote>
+<p>Contrary to common sense, in actual combat, a commander should not stick to one specific position. They must be free to run to wherever they’re needed most as situations change moment by moment. Finding the right position as a leader is a core element of decentralized command.</p>
+</blockquote>
+<blockquote>
+<p>Without a clear chain of command—meaning not knowing who is in charge—leadership cannot emerge.</p>
+</blockquote>
+<blockquote>
+<p>I talk to the platoon commander.</p>
+</blockquote>
+<blockquote>
+<p>Doesn’t that cause confusion? Like the old telephone game. When you pass whispers to the next person, eventually a completely different message comes back.</p>
+</blockquote>
+<p>I think that’s a valid point.</p>
+<blockquote>
+<p>That’s exactly why simplicity is important. To properly decentralize command, you need simple, clear, and concise instructions.</p>
+</blockquote>
+<p>But if all members are synchronized toward the same goal, it won’t be a problem!</p>
+<blockquote>
+<p>With clear guidelines, they will move independently toward the goals you’ve set.</p>
+</blockquote>
+<h2 id="chapter-9-think-about-the-worst-case-and-move-to-avoid-failure">Chapter 9: Think About the Worst Case and Move to Avoid Failure</h2>
+<blockquote>
+<p>There’s new information. IEDs are buried in the yard, and machine gunners are waiting inside the house.</p>
+</blockquote>
+<blockquote>
+<p>You guys are going to have some fun today.</p>
+</blockquote>
+<blockquote>
+<p>Good time!</p>
+</blockquote>
+<blockquote>
+<p>Got it. Let’s have some fun.</p>
+</blockquote>
+<blockquote>
+<p>The members knew how dangerous the operation ahead was. They were prepared that they might come back in body bags. But they were confident in the plan.</p>
+</blockquote>
+<p>“Those who seek death will live, those who seek life will die.” You must be able to bet your life for our vision.</p>
+<blockquote>
+<p>Is there a capture/kill operation where you can be certain there are no IEDs or machine guns?</p>
+</blockquote>
+<blockquote>
+<p>If mission objectives are vague and ambiguous, you can’t focus and inefficiency increases during execution.</p>
+</blockquote>
+<p>I think good goals in business should consist of (1) number + (2) deadline. Of course, there are many situations where it’s difficult to calculate numbers. For example, in the early stages like now. In such cases, sharing confidence gauges among team members should make things clearer.</p>
+<blockquote>
+<p>Senior leaders should distance themselves from trivial details and judge alignment with strategic objectives. … This allows them to find gaps or weaknesses in the plan that they might miss when buried in details.</p>
+</blockquote>
+<blockquote>
+<p>Leaders must convey the importance of information to team members simply and clearly. That way, team members won’t drown in an information flood.</p>
+</blockquote>
+<p>This reminded me of a Snowflake video I watched recently.
+<a href="https://youtu.be/oiWwyt3HVT0?t=60">“You’ve got to bring great clarity to situations. How to think about things? What is going on? Because everybody gets confused, because conflicting information, what does it mean? How do I think about it? Leaders explain things in terms that people can understand.”</a></p>
+<blockquote>
+<p>Those who don’t take risks cannot win.</p>
+</blockquote>
+<p>God is fair. Risk arises when you do something contrary to conventional wisdom, so the moat that can be created when it succeeds is also enormous.</p>
+<blockquote>
+<p>Navy SEAL units have a ‘post-operation briefing’ after every operation.</p>
+</blockquote>
+<blockquote>
+<p>‘What went well?’
+‘What went wrong?’
+‘What tactics should be modified to gain an advantage more efficiently?’</p>
+</blockquote>
+<p>Even soldiers do retrospectives. To be the best, let’s review well.</p>
+<blockquote>
+<p>The standard for a good briefing isn’t how superiors judge it. It’s whether the members who will actually execute the operation can understand it or not. Everything else is bullshit.</p>
+</blockquote>
+<p>Don’t do it to show others (e.g. VCs), only talk about things you can actually do.</p>
+<blockquote>
+<p>Don’t worry about what the commander says. I’ll take responsibility.</p>
+</blockquote>
+<h2 id="chapter-10-lead-up-and-down-the-chain">Chapter 10: Lead Up and Down the Chain</h2>
+<blockquote>
+<p>Being so immersed in tactical details, I didn’t realize how much many of the operations we conducted contributed to achieving strategic objectives.</p>
+</blockquote>
+<p>Reading this, I suddenly wondered how soldiers make presentation materials and whether there are pain points in them.</p>
+<h2 id="chapter-11-how-to-make-the-best-decisions-in-uncertainty">Chapter 11: How to Make the Best Decisions in Uncertainty</h2>
+<blockquote>
+<p>If he was hesitating, there must be a reason.</p>
+</blockquote>
+<blockquote>
+<p>The battlefield of life is always full of uncertainty and ambiguity. To win, leaders must make calm decisions under pressure. You must act based on logic, not emotion. This is the decisive factor for victory.</p>
+</blockquote>
+<blockquote>
+<p>Leaders must act decisively even in uncertainty. They must make the best decisions with only the information available at the moment.</p>
+</blockquote>
+<blockquote>
+<p>Information gathering and research are important. But you shouldn’t place too much hope in them, nor use them as an excuse to delay swift decision-making.</p>
+</blockquote>
+<p>Indecision is an excuse. You must decide. Again, I was reminded of the Snowflake video.
+<a href="https://youtu.be/oiWwyt3HVT0?t=582">“As a leader, you have to have courage because you’ll be doing things that people may not like. And you’re not here to please or appease. You’re here to lead. You’ve got to bring people along even when you’re doing things that are not popular. This is not a popularity contest.”</a></p>
+<blockquote>
+<p>The point is that you have to be aggressive by default. And I taught my subordinates to act decisively even in chaos. … We should control the situation, not let the situation control us.</p>
+</blockquote>
+<h2 id="chapter-12-strict-discipline-equals-freedom">Chapter 12: Strict Discipline Equals Freedom</h2>
+<blockquote>
+<p>Faced with fierce resistance from the platoon members, I began to explain ‘why.’</p>
+</blockquote>
+<blockquote>
+<p>If I needed time to maintain equipment and weapons or study new strategies or techniques, I had to make that time. To do so, I had no choice but to wake up early. Discipline had to be ingrained in me.</p>
+</blockquote>
+<blockquote>
+<p>I learned from experienced veterans that discipline makes the difference between ‘ordinary’ and ‘special.’</p>
+</blockquote>
+<blockquote>
+<p>Of course, they also sometimes went out to town and drank until dawn. But the next day, they woke up early in the morning and maintained discipline.</p>
+</blockquote>
+<p>Insane mental strength. This is like the “real man” spirit I’ve been pushing lately—a virtue of being a real man. Be disciplined.</p>
+<blockquote>
+<p>True leaders are not intimidated when others step up to take responsibility. Leaders who lack confidence in themselves are afraid others will outshine them.</p>
+</blockquote>
+<p>Honestly, this happened to me many times in life. But after reading this sentence, I thought I could solve this problem if I started acting with confidence in myself.</p>
+<blockquote>
+<p>A leader’s greatest strength often becomes their greatest weakness. When they fail to find balance in the dichotomies of leadership.</p>
+</blockquote>
+<p>Right. All human attributes are double-edged swords. Strengths are weaknesses, and weaknesses are strengths.</p>
+<h2 id="epilogue">Epilogue</h2>
+<blockquote>
+<p>Every leader should aim for the organization to run without them.</p>
+</blockquote>
+<p>What I truly pursue. Leadership needs generational change. Water stagnates when it stays still.</p>
+<blockquote>
+<p>‘Leadership is simple. But it’s not easy.’
+Leadership is both art and science.</p>
+</blockquote>
+<h2 id="jocko-podcast-highlights">Jocko Podcast Highlights</h2>
+<p>Q. What advice would you give to officers entering special forces or those like me who aspire to be elite leaders?</p>
+<blockquote>
+<p>Act with humility.</p>
+</blockquote>
+<p>HUMBLE.</p>
+<blockquote>
+<p>You have to listen to others. When a junior comes to talk, sit down together and say ‘Okay, let me write down what you’re saying.’</p>
+</blockquote>
+<blockquote>
+<p>You must listen to others. … Building relationships, that’s business.</p>
+</blockquote>
+<blockquote>
+<p>You have to speak the truth with sincerity. You shouldn’t lie to others.</p>
+</blockquote>
+<p>Radical candor.</p>
+<blockquote>
+<p>Even when people don’t know what’s true, they definitely know what’s not true.</p>
+</blockquote>
+<blockquote>
+<p>‘Okay, here’s the situation. This is the problem. We messed this up. We need to step up on this. Right now, I’m stressed about these issues from higher-ups.’</p>
+</blockquote>
+<p>Radical candor.</p>
+<blockquote>
+<p>Work hard. … That’s the basics.</p>
+</blockquote>
+<p>GRIT.</p>
+<blockquote>
+<p>You have to find balance.</p>
+</blockquote>
+<blockquote>
+<p>When subordinates mess up, don’t say ‘You disappointed me.’ Take ownership and say this:
+‘I think I didn’t give you adequate instructions.’</p>
+</blockquote> </div> <p class="content-date" data-astro-cid-den4td54>April 21, 2023</p> </article> <section class="giscus-container" data-astro-cid-an2nl7ar> <script src="https://giscus.app/client.js" data-repo="ComputelessComputer/part-of-my-brain" data-repo-id="R_kgDOQyThnQ" data-category="lessons" data-category-id="DIC_kwDOQyThnc4C0ehD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script> </section>   <footer data-astro-cid-sz7xmlte> <div class="newsletter" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>Subscribe to updates</h3> <form id="newsletter-form" data-astro-cid-sz7xmlte> <div class="email-row" data-astro-cid-sz7xmlte> <input type="email" name="email" placeholder="your@email.com" required data-astro-cid-sz7xmlte> <button type="submit" class="btn" data-astro-cid-sz7xmlte>Subscribe</button> </div> </form> </div> <p class="copyright" data-astro-cid-sz7xmlte>© 2026 John Jeong</p> </footer>  <script type="module">const e=document.getElementById("newsletter-form"),t=e?.querySelector("button");e?.addEventListener("submit",async a=>{a.preventDefault();const s=new FormData(e).get("email");t.innerHTML='<svg class="spinner" viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="1" width="2" height="4" rx="1" opacity=".14"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".29" transform="rotate(45 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".43" transform="rotate(90 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".57" transform="rotate(135 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".71" transform="rotate(180 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".86" transform="rotate(225 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(270 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(315 8 8)"/></svg>Subscribing',t.disabled=!0,t.className="btn loading";try{const r=await fetch("/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:s})});if(r.ok)t.textContent="Subscribed!",t.className="btn success",e.reset(),setTimeout(()=>{t.textContent="Subscribe",t.className="btn",t.disabled=!1},2e3);else{const o=await r.json();t.textContent=o.error||"Failed",t.className="btn error",setTimeout(()=>{t.textContent="Subscribe",t.className="btn",t.disabled=!1},2e3)}}catch{t.textContent="Failed",t.className="btn error",setTimeout(()=>{t.textContent="Subscribe",t.className="btn",t.disabled=!1},2e3)}});</script> <div class="scroll-blur-bottom"></div> </body></html> 

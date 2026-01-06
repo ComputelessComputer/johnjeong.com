@@ -1,10 +1,5 @@
 function matchPattern(url, remotePattern) {
-  return (
-    matchProtocol(url, remotePattern.protocol) &&
-    matchHostname(url, remotePattern.hostname, true) &&
-    matchPort(url, remotePattern.port) &&
-    matchPathname(url, remotePattern.pathname, true)
-  );
+  return matchProtocol(url, remotePattern.protocol) && matchHostname(url, remotePattern.hostname, true) && matchPort(url, remotePattern.port) && matchPathname(url, remotePattern.pathname, true);
 }
 function matchPort(url, port) {
   return !port || port === url.port;
@@ -19,22 +14,14 @@ function matchHostname(url, hostname, allowWildcard = false) {
     return hostname === url.hostname;
   } else if (hostname.startsWith("**.")) {
     const slicedHostname = hostname.slice(2);
-    return (
-      slicedHostname !== url.hostname && url.hostname.endsWith(slicedHostname)
-    );
+    return slicedHostname !== url.hostname && url.hostname.endsWith(slicedHostname);
   } else if (hostname.startsWith("*.")) {
     const slicedHostname = hostname.slice(1);
     if (!url.hostname.endsWith(slicedHostname)) {
       return false;
     }
-    const subdomainWithDot = url.hostname.slice(
-      0,
-      -(slicedHostname.length - 1),
-    );
-    return (
-      subdomainWithDot.endsWith(".") &&
-      !subdomainWithDot.slice(0, -1).includes(".")
-    );
+    const subdomainWithDot = url.hostname.slice(0, -(slicedHostname.length - 1));
+    return subdomainWithDot.endsWith(".") && !subdomainWithDot.slice(0, -1).includes(".");
   }
   return false;
 }
@@ -45,20 +32,18 @@ function matchPathname(url, pathname, allowWildcard = false) {
     return pathname === url.pathname;
   } else if (pathname.endsWith("/**")) {
     const slicedPathname = pathname.slice(0, -2);
-    return (
-      slicedPathname !== url.pathname && url.pathname.startsWith(slicedPathname)
-    );
+    return slicedPathname !== url.pathname && url.pathname.startsWith(slicedPathname);
   } else if (pathname.endsWith("/*")) {
     const slicedPathname = pathname.slice(0, -1);
-    const additionalPathChunks = url.pathname
-      .replace(slicedPathname, "")
-      .split("/")
-      .filter(Boolean);
+    const additionalPathChunks = url.pathname.replace(slicedPathname, "").split("/").filter(Boolean);
     return additionalPathChunks.length === 1;
   }
   return false;
 }
-function isRemoteAllowed(src, { domains, remotePatterns }) {
+function isRemoteAllowed(src, {
+  domains,
+  remotePatterns
+}) {
   if (!URL.canParse(src)) {
     return false;
   }
@@ -66,49 +51,27 @@ function isRemoteAllowed(src, { domains, remotePatterns }) {
   if (!["http:", "https:", "data:"].includes(url.protocol)) {
     return false;
   }
-  return (
-    domains.some((domain) => matchHostname(url, domain)) ||
-    remotePatterns.some((remotePattern) => matchPattern(url, remotePattern))
-  );
+  return domains.some((domain) => matchHostname(url, domain)) || remotePatterns.some((remotePattern) => matchPattern(url, remotePattern));
 }
 
 const decoder = new TextDecoder();
-const toUTF8String = (input, start = 0, end = input.length) =>
-  decoder.decode(input.slice(start, end));
-const toHexString = (input, start = 0, end = input.length) =>
-  input
-    .slice(start, end)
-    .reduce((memo, i) => memo + ("0" + i.toString(16)).slice(-2), "");
+const toUTF8String = (input, start = 0, end = input.length) => decoder.decode(input.slice(start, end));
+const toHexString = (input, start = 0, end = input.length) => input.slice(start, end).reduce((memo, i) => memo + ("0" + i.toString(16)).slice(-2), "");
 const readInt16LE = (input, offset = 0) => {
   const val = input[offset] + input[offset + 1] * 2 ** 8;
-  return val | ((val & (2 ** 15)) * 131070);
+  return val | (val & 2 ** 15) * 131070;
 };
-const readUInt16BE = (input, offset = 0) =>
-  input[offset] * 2 ** 8 + input[offset + 1];
-const readUInt16LE = (input, offset = 0) =>
-  input[offset] + input[offset + 1] * 2 ** 8;
-const readUInt24LE = (input, offset = 0) =>
-  input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16;
-const readInt32LE = (input, offset = 0) =>
-  input[offset] +
-  input[offset + 1] * 2 ** 8 +
-  input[offset + 2] * 2 ** 16 +
-  (input[offset + 3] << 24);
-const readUInt32BE = (input, offset = 0) =>
-  input[offset] * 2 ** 24 +
-  input[offset + 1] * 2 ** 16 +
-  input[offset + 2] * 2 ** 8 +
-  input[offset + 3];
-const readUInt32LE = (input, offset = 0) =>
-  input[offset] +
-  input[offset + 1] * 2 ** 8 +
-  input[offset + 2] * 2 ** 16 +
-  input[offset + 3] * 2 ** 24;
+const readUInt16BE = (input, offset = 0) => input[offset] * 2 ** 8 + input[offset + 1];
+const readUInt16LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8;
+const readUInt24LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16;
+const readInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + (input[offset + 3] << 24);
+const readUInt32BE = (input, offset = 0) => input[offset] * 2 ** 24 + input[offset + 1] * 2 ** 16 + input[offset + 2] * 2 ** 8 + input[offset + 3];
+const readUInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + input[offset + 3] * 2 ** 24;
 const methods = {
   readUInt16BE,
   readUInt16LE,
   readUInt32BE,
-  readUInt32LE,
+  readUInt32LE
 };
 function readUInt(input, bits, offset, isBigEndian) {
   offset = offset || 0;
@@ -123,7 +86,7 @@ function readBox(buffer, offset) {
   return {
     name: toUTF8String(buffer, 4 + offset, 8 + offset),
     offset,
-    size: boxSize,
+    size: boxSize
   };
 }
 function findBox(buffer, boxName, offset) {
@@ -139,8 +102,8 @@ const BMP = {
   validate: (input) => toUTF8String(input, 0, 2) === "BM",
   calculate: (input) => ({
     height: Math.abs(readInt32LE(input, 22)),
-    width: readUInt32LE(input, 18),
-  }),
+    width: readUInt32LE(input, 18)
+  })
 };
 
 const TYPE_ICON = 1;
@@ -154,7 +117,7 @@ function getImageSize$1(input, imageIndex) {
   const offset = SIZE_HEADER$1 + imageIndex * SIZE_IMAGE_ENTRY;
   return {
     height: getSizeFromOffset(input, offset + 1),
-    width: getSizeFromOffset(input, offset),
+    width: getSizeFromOffset(input, offset)
   };
 }
 const ICO = {
@@ -176,9 +139,9 @@ const ICO = {
     return {
       height: imageSize.height,
       images: imgs,
-      width: imageSize.width,
+      width: imageSize.width
     };
-  },
+  }
 };
 
 const TYPE_CURSOR = 2;
@@ -190,15 +153,15 @@ const CUR = {
     const imageType = readUInt16LE(input, 2);
     return imageType === TYPE_CURSOR;
   },
-  calculate: (input) => ICO.calculate(input),
+  calculate: (input) => ICO.calculate(input)
 };
 
 const DDS = {
   validate: (input) => readUInt32LE(input, 0) === 542327876,
   calculate: (input) => ({
     height: readUInt32LE(input, 12),
-    width: readUInt32LE(input, 16),
-  }),
+    width: readUInt32LE(input, 16)
+  })
 };
 
 const gifRegexp = /^GIF8[79]a/;
@@ -206,8 +169,8 @@ const GIF = {
   validate: (input) => gifRegexp.test(toUTF8String(input, 0, 6)),
   calculate: (input) => ({
     height: readUInt16LE(input, 8),
-    width: readUInt16LE(input, 6),
-  }),
+    width: readUInt16LE(input, 6)
+  })
 };
 
 const brandMap = {
@@ -221,7 +184,7 @@ const brandMap = {
   heix: "heic",
   hevc: "heic",
   // heic-sequence
-  hevx: "heic",
+  hevx: "heic"
   // heic-sequence
 };
 function detectBrands(buffer, start, end) {
@@ -234,12 +197,7 @@ function detectBrands(buffer, start, end) {
   }
   if ("avif" in brandsDetected || "avis" in brandsDetected) {
     return "avif";
-  } else if (
-    "heic" in brandsDetected ||
-    "heix" in brandsDetected ||
-    "hevc" in brandsDetected ||
-    "hevx" in brandsDetected
-  ) {
+  } else if ("heic" in brandsDetected || "heix" in brandsDetected || "hevc" in brandsDetected || "hevx" in brandsDetected) {
     return "heic";
   } else if ("mif1" in brandsDetected || "msf1" in brandsDetected) {
     return "heif";
@@ -260,11 +218,11 @@ const HEIF = {
       return {
         height: readUInt32BE(buffer, ispeBox.offset + 16),
         width: readUInt32BE(buffer, ispeBox.offset + 12),
-        type: detectBrands(buffer, 8, metaBox.offset),
+        type: detectBrands(buffer, 8, metaBox.offset)
       };
     }
     throw new TypeError("Invalid HEIF, no size found");
-  },
+  }
 };
 
 const SIZE_HEADER = 4 + 4;
@@ -310,13 +268,13 @@ const ICON_TYPE_SIZE = {
   ic09: 512,
   ic14: 512,
   // . => 1024 x 1024
-  ic10: 1024,
+  ic10: 1024
 };
 function readImageHeader(input, imageOffset) {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
   return [
     toUTF8String(input, imageOffset, imageLengthOffset),
-    readUInt32BE(input, imageLengthOffset),
+    readUInt32BE(input, imageLengthOffset)
   ];
 }
 function getImageSize(type) {
@@ -336,7 +294,7 @@ const ICNS = {
     const result = {
       height: imageSize.height,
       images: [imageSize],
-      width: imageSize.width,
+      width: imageSize.width
     };
     while (imageOffset < fileLength && imageOffset < inputLength) {
       imageHeader = readImageHeader(input, imageOffset);
@@ -345,7 +303,7 @@ const ICNS = {
       result.images.push(imageSize);
     }
     return result;
-  },
+  }
 };
 
 const J2C = {
@@ -353,14 +311,13 @@ const J2C = {
   validate: (input) => toHexString(input, 0, 4) === "ff4fff51",
   calculate: (input) => ({
     height: readUInt32BE(input, 12),
-    width: readUInt32BE(input, 8),
-  }),
+    width: readUInt32BE(input, 8)
+  })
 };
 
 const JP2 = {
   validate(input) {
-    if (readUInt32BE(input, 4) !== 1783636e3 || readUInt32BE(input, 0) < 1)
-      return false;
+    if (readUInt32BE(input, 4) !== 1783636e3 || readUInt32BE(input, 0) < 1) return false;
     const ftypBox = findBox(input, "ftyp", 0);
     if (!ftypBox) return false;
     return readUInt32BE(input, ftypBox.offset + 4) === 1718909296;
@@ -371,11 +328,11 @@ const JP2 = {
     if (ihdrBox) {
       return {
         height: readUInt32BE(input, ihdrBox.offset + 8),
-        width: readUInt32BE(input, ihdrBox.offset + 12),
+        width: readUInt32BE(input, ihdrBox.offset + 12)
       };
     }
     throw new TypeError("Unsupported JPEG 2000 format");
-  },
+  }
 };
 
 const EXIF_MARKER = "45786966";
@@ -392,22 +349,15 @@ function isEXIF(input) {
 function extractSize(input, index) {
   return {
     height: readUInt16BE(input, index),
-    width: readUInt16BE(input, index + 2),
+    width: readUInt16BE(input, index + 2)
   };
 }
 function extractOrientation(exifBlock, isBigEndian) {
   const idfOffset = 8;
   const offset = EXIF_HEADER_BYTES + idfOffset;
   const idfDirectoryEntries = readUInt(exifBlock, 16, offset, isBigEndian);
-  for (
-    let directoryEntryNumber = 0;
-    directoryEntryNumber < idfDirectoryEntries;
-    directoryEntryNumber++
-  ) {
-    const start =
-      offset +
-      NUM_DIRECTORY_ENTRIES_BYTES +
-      directoryEntryNumber * IDF_ENTRY_BYTES;
+  for (let directoryEntryNumber = 0; directoryEntryNumber < idfDirectoryEntries; directoryEntryNumber++) {
+    const start = offset + NUM_DIRECTORY_ENTRIES_BYTES + directoryEntryNumber * IDF_ENTRY_BYTES;
     const end = start + IDF_ENTRY_BYTES;
     if (start > exifBlock.length) {
       return;
@@ -432,7 +382,7 @@ function validateExifBlock(input, index) {
   const byteAlign = toHexString(
     exifBlock,
     EXIF_HEADER_BYTES,
-    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES,
+    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES
   );
   const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN;
   const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN;
@@ -470,13 +420,13 @@ const JPG = {
         return {
           height: size.height,
           orientation,
-          width: size.width,
+          width: size.width
         };
       }
       input = input.slice(i + 2);
     }
     throw new TypeError("Invalid JPG, no size found");
-  },
+  }
 };
 
 const KTX = {
@@ -490,9 +440,9 @@ const KTX = {
     return {
       height: readUInt32LE(input, offset + 4),
       width: readUInt32LE(input, offset),
-      type,
+      type
     };
-  },
+  }
 };
 
 const pngSignature = "PNG\r\n\n";
@@ -516,14 +466,14 @@ const PNG = {
     if (toUTF8String(input, 12, 16) === pngFriedChunkName) {
       return {
         height: readUInt32BE(input, 36),
-        width: readUInt32BE(input, 32),
+        width: readUInt32BE(input, 32)
       };
     }
     return {
       height: readUInt32BE(input, 20),
-      width: readUInt32BE(input, 16),
+      width: readUInt32BE(input, 16)
     };
-  },
+  }
 };
 
 const PNMTypes = {
@@ -534,7 +484,7 @@ const PNMTypes = {
   P5: "pgm",
   P6: "ppm",
   P7: "pam",
-  PF: "pfm",
+  PF: "pfm"
 };
 const handlers = {
   default: (lines) => {
@@ -550,7 +500,7 @@ const handlers = {
     if (dimensions.length === 2) {
       return {
         height: parseInt(dimensions[1], 10),
-        width: parseInt(dimensions[0], 10),
+        width: parseInt(dimensions[0], 10)
       };
     } else {
       throw new TypeError("Invalid PNM");
@@ -574,12 +524,12 @@ const handlers = {
     if (size.height && size.width) {
       return {
         height: size.height,
-        width: size.width,
+        width: size.width
       };
     } else {
       throw new TypeError("Invalid PAM");
     }
-  },
+  }
 };
 const PNM = {
   validate: (input) => toUTF8String(input, 0, 2) in PNMTypes,
@@ -589,15 +539,15 @@ const PNM = {
     const lines = toUTF8String(input, 3).split(/[\r\n]+/);
     const handler = handlers[type] || handlers.default;
     return handler(lines);
-  },
+  }
 };
 
 const PSD = {
   validate: (input) => toUTF8String(input, 0, 4) === "8BPS",
   calculate: (input) => ({
     height: readUInt32BE(input, 14),
-    width: readUInt32BE(input, 18),
-  }),
+    width: readUInt32BE(input, 18)
+  })
 };
 
 const svgReg = /<svg\s([^>"']|"[^"]*"|'[^']*')*>/;
@@ -605,7 +555,7 @@ const extractorRegExps = {
   height: /\sheight=(['"])([^%]+?)\1/,
   root: svgReg,
   viewbox: /\sviewBox=(['"])(.+?)\1/i,
-  width: /\swidth=(['"])([^%]+?)\1/,
+  width: /\swidth=(['"])([^%]+?)\1/
 };
 const INCH_CM = 2.54;
 const units = {
@@ -613,14 +563,14 @@ const units = {
   cm: 96 / INCH_CM,
   em: 16,
   ex: 8,
-  m: (96 / INCH_CM) * 100,
+  m: 96 / INCH_CM * 100,
   mm: 96 / INCH_CM / 10,
   pc: 96 / 72 / 12,
   pt: 96 / 72,
-  px: 1,
+  px: 1
 };
 const unitsReg = new RegExp(
-  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join("|")})?$`,
+  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join("|")})?$`
 );
 function parseLength(len) {
   const m = unitsReg.exec(len);
@@ -633,7 +583,7 @@ function parseViewbox(viewbox) {
   const bounds = viewbox.split(" ");
   return {
     height: parseLength(bounds[3]),
-    width: parseLength(bounds[2]),
+    width: parseLength(bounds[2])
   };
 }
 function parseAttributes(root) {
@@ -643,13 +593,13 @@ function parseAttributes(root) {
   return {
     height: height && parseLength(height[2]),
     viewbox: viewbox && parseViewbox(viewbox[2]),
-    width: width && parseLength(width[2]),
+    width: width && parseLength(width[2])
   };
 }
 function calculateByDimensions(attrs) {
   return {
     height: attrs.height,
-    width: attrs.width,
+    width: attrs.width
   };
 }
 function calculateByViewbox(attrs, viewbox) {
@@ -657,18 +607,18 @@ function calculateByViewbox(attrs, viewbox) {
   if (attrs.width) {
     return {
       height: Math.floor(attrs.width / ratio),
-      width: attrs.width,
+      width: attrs.width
     };
   }
   if (attrs.height) {
     return {
       height: attrs.height,
-      width: Math.floor(attrs.height * ratio),
+      width: Math.floor(attrs.height * ratio)
     };
   }
   return {
     height: viewbox.height,
-    width: viewbox.width,
+    width: viewbox.width
   };
 }
 const SVG = {
@@ -686,7 +636,7 @@ const SVG = {
       }
     }
     throw new TypeError("Invalid SVG");
-  },
+  }
 };
 
 const TGA = {
@@ -696,9 +646,9 @@ const TGA = {
   calculate(input) {
     return {
       height: readUInt16LE(input, 14),
-      width: readUInt16LE(input, 12),
+      width: readUInt16LE(input, 12)
     };
-  },
+  }
 };
 
 function readIFD(input, isBigEndian) {
@@ -745,7 +695,7 @@ const signatures = [
   // '492049', // currently not supported
   "49492a00",
   // Little endian
-  "4d4d002a",
+  "4d4d002a"
   // Big Endian
   // '4d4d002a', // BigTIFF > 4GB. currently not supported
 ];
@@ -761,26 +711,25 @@ const TIFF = {
       throw new TypeError("Invalid Tiff. Missing tags");
     }
     return { height, width };
-  },
+  }
 };
 
 function calculateExtended(input) {
   return {
     height: 1 + readUInt24LE(input, 7),
-    width: 1 + readUInt24LE(input, 4),
+    width: 1 + readUInt24LE(input, 4)
   };
 }
 function calculateLossless(input) {
   return {
-    height:
-      1 + (((input[4] & 15) << 10) | (input[3] << 2) | ((input[2] & 192) >> 6)),
-    width: 1 + (((input[2] & 63) << 8) | input[1]),
+    height: 1 + ((input[4] & 15) << 10 | input[3] << 2 | (input[2] & 192) >> 6),
+    width: 1 + ((input[2] & 63) << 8 | input[1])
   };
 }
 function calculateLossy(input) {
   return {
     height: readInt16LE(input, 8) & 16383,
-    width: readInt16LE(input, 6) & 16383,
+    width: readInt16LE(input, 6) & 16383
   };
 }
 const WEBP = {
@@ -811,7 +760,7 @@ const WEBP = {
       return calculateLossless(input);
     }
     throw new TypeError("Invalid WebP");
-  },
+  }
 };
 
 const typeHandlers = /* @__PURE__ */ new Map([
@@ -832,13 +781,8 @@ const typeHandlers = /* @__PURE__ */ new Map([
   ["svg", SVG],
   ["tga", TGA],
   ["tiff", TIFF],
-  ["webp", WEBP],
+  ["webp", WEBP]
 ]);
 const types = Array.from(typeHandlers.keys());
 
-export {
-  types as a,
-  isRemoteAllowed as i,
-  matchPattern as m,
-  typeHandlers as t,
-};
+export { types as a, isRemoteAllowed as i, matchPattern as m, typeHandlers as t };

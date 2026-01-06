@@ -1,788 +1,93 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content="Astro v5.16.6" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
-    <title>I Built My Life on Files</title>
-    <script type="module">
-      document.addEventListener("DOMContentLoaded", () => {
-        const t = document.querySelector(".scroll-blur-bottom");
-        if (!t) return;
-        const e = () => {
-          const o = window.scrollY,
-            n = document.documentElement.scrollHeight,
-            l = window.innerHeight,
-            c = n - l;
-          t.classList.toggle("visible", o < c - 10);
-        };
-        (window.addEventListener("scroll", e),
-          window.addEventListener("resize", e),
-          e());
-      });
-    </script>
-    <style>
-      header {
-        margin-bottom: 1rem;
-      }
-      header h1 {
-        margin-top: 0;
-      }
-      header h1 a {
-        text-decoration: none;
-      }
-      .subtitle {
-        color: #666;
-        position: relative;
-        display: flex;
-        align-items: baseline;
-        gap: 0.5rem;
-      }
-      .subtitle .subtitle-text {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
-        flex: 1;
-        min-width: 0;
-      }
-      .subtitle.expanded .subtitle-text {
-        display: block;
-        -webkit-line-clamp: unset;
-      }
-      .subtitle .see-more {
-        display: none;
-        background: none;
-        border: none;
-        color: #999;
-        font-size: 0.85em;
-        cursor: pointer;
-        padding: 0;
-        text-decoration: underline;
-        font-family: inherit;
-        flex-shrink: 0;
-      }
-      .subtitle.needs-truncation .see-more {
-        display: inline;
-      }
-      .subtitle .see-more:hover {
-        color: #666;
-      }
-      .nav-container {
-        position: relative;
-        margin-bottom: 2rem;
-      }
-      .nav-container:before,
-      .nav-container:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 2rem;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 1;
-      }
-      .nav-container:before {
-        left: 0;
-        background: linear-gradient(to right, #fff 0%, transparent 100%);
-      }
-      .nav-container:after {
-        right: 0;
-        background: linear-gradient(to left, #fff 0%, transparent 100%);
-      }
-      .nav-container.scroll-left:before {
-        opacity: 1;
-      }
-      .nav-container.scroll-right:after {
-        opacity: 1;
-      }
-      .main-nav {
-        display: flex;
-        gap: 1rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-      .main-nav::-webkit-scrollbar {
-        display: none;
-      }
-      .nav-item a {
-        text-decoration: none;
-        color: #666;
-        padding-bottom: 0.25rem;
-        font-family: var(--font-mono);
-        font-size: 0.8rem;
-      }
-      .nav-item a:hover {
-        color: #1a1a1a;
-      }
-      .nav-item a.active {
-        color: #1a1a1a !important;
-        border-bottom: 2px solid #1a1a1a !important;
-      }
-      .nav-item {
-        position: relative;
-        flex-shrink: 0;
-      }
-      .go-back {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%);
-        font-family: var(--font-sans);
-        font-size: 0.65rem;
-        color: #666;
-        opacity: 0.5;
-        white-space: nowrap;
-        margin-top: 0.25rem;
-      }
-      footer[data-astro-cid-sz7xmlte] {
-        margin-top: 4rem;
-        padding-top: 2rem;
-        border-top: 1px solid #eee;
-      }
-      .newsletter[data-astro-cid-sz7xmlte] h3[data-astro-cid-sz7xmlte] {
-        font-size: 1rem;
-        margin: 0 0 0.75rem;
-        font-weight: 500;
-      }
-      .checkboxes[data-astro-cid-sz7xmlte] {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem 1rem;
-        margin-bottom: 0.75rem;
-      }
-      .checkboxes[data-astro-cid-sz7xmlte] label[data-astro-cid-sz7xmlte] {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        font-size: 0.875rem;
-        color: #666;
-        cursor: pointer;
-      }
-      .checkboxes[data-astro-cid-sz7xmlte]
-        input[data-astro-cid-sz7xmlte][type="checkbox"] {
-        cursor: pointer;
-        accent-color: #1a1a1a;
-      }
-      .email-row[data-astro-cid-sz7xmlte] {
-        display: flex;
-        gap: 0.5rem;
-      }
-      .email-row[data-astro-cid-sz7xmlte]
-        input[data-astro-cid-sz7xmlte][type="email"] {
-        flex: 1;
-        max-width: 220px;
-        padding: 0.4rem 0.75rem;
-        border: 1px solid #d0d0d0;
-        border-radius: 6px;
-        font-size: 0.875rem;
-      }
-      .email-row[data-astro-cid-sz7xmlte]
-        input[data-astro-cid-sz7xmlte][type="email"]:focus {
-        outline: none;
-        border-color: #888;
-      }
-      .btn[data-astro-cid-sz7xmlte].success {
-        background: #16a34a;
-        border-color: #16a34a;
-        box-shadow: 0 2px #15803d;
-        color: #fff;
-      }
-      .btn[data-astro-cid-sz7xmlte].error {
-        background: #dc2626;
-        border-color: #dc2626;
-        box-shadow: 0 2px #b91c1c;
-        color: #fff;
-      }
-      .email-row[data-astro-cid-sz7xmlte] .btn[data-astro-cid-sz7xmlte] {
-        min-width: 116px;
-      }
-      .btn[data-astro-cid-sz7xmlte]:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-      .btn[data-astro-cid-sz7xmlte].loading {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-      }
-      .spinner[data-astro-cid-sz7xmlte] {
-        width: 14px;
-        height: 14px;
-        animation: spin 1s steps(8) infinite;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .copyright[data-astro-cid-sz7xmlte] {
-        margin-top: 2rem;
-        font-size: 0.75rem;
-        color: #999;
-      }
-      :root {
-        --max-width: 640px;
-        --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-      }
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        overflow-y: scroll;
-      }
-      body {
-        font-family:
-          -apple-system,
-          BlinkMacSystemFont,
-          Segoe UI,
-          Roboto,
-          sans-serif;
-        line-height: 1.6;
-        color: #1a1a1a;
-        max-width: var(--max-width);
-        min-height: 100vh;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-      }
-      a {
-        color: inherit;
-      }
-      h1,
-      h2,
-      h3 {
-        line-height: 1.3;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-      }
-      h1 {
-        font-family: "Instrument Serif", serif;
-        font-style: italic;
-        font-size: 2.25rem;
-        font-weight: 400;
-      }
-      h2 {
-        font-family: "Instrument Serif", serif;
-        font-size: 1.5rem;
-        font-weight: 400;
-      }
-      h3 {
-        font-family: "Instrument Serif", serif;
-        font-size: 1.25rem;
-        font-weight: 400;
-      }
-      p {
-        margin-bottom: 1em;
-      }
-      ul,
-      ol {
-        margin-bottom: 1em;
-        padding-left: 1.5em;
-      }
-      blockquote {
-        border-left: 2px solid #ccc;
-        padding-left: 1em;
-        margin: 1em 0;
-        color: #666;
-      }
-      code {
-        font-family: var(--font-mono);
-        font-size: 0.9em;
-        background: #f4f4f4;
-        padding: 0.1em 0.3em;
-        border-radius: 3px;
-      }
-      pre {
-        background: #f4f4f4;
-        padding: 1em;
-        overflow-x: auto;
-        margin-bottom: 1em;
-        border-radius: 4px;
-      }
-      pre code {
-        background: none;
-        padding: 0;
-      }
-      .prose img {
-        max-width: 100%;
-        height: auto;
-      }
-      .btn {
-        display: inline-block;
-        padding: 0.4rem 0.75rem;
-        background: #fff;
-        border: 1px solid #d0d0d0;
-        border-radius: 6px;
-        box-shadow: 0 2px silver;
-        text-decoration: none;
-        color: #333;
-        font-size: 0.875rem;
-        cursor: pointer;
-        transition:
-          transform 0.1s,
-          box-shadow 0.1s;
-      }
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px silver;
-      }
-      .btn:active {
-        transform: translateY(2px);
-        box-shadow: 0 0 silver;
-      }
-      .scroll-blur-bottom {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3rem;
-        background: linear-gradient(to top, #fff 0%, transparent 100%);
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 100;
-      }
-      .scroll-blur-bottom.visible {
-        opacity: 1;
-      }
-      .giscus-container[data-astro-cid-an2nl7ar] {
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #eee;
-      }
-      .content-date[data-astro-cid-2kzoey4d] {
-        margin-top: 2rem;
-        color: #666;
-        font-size: 0.9rem;
-        text-align: left;
-        font-family: var(--font-mono);
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>I Built My Life on Files</h1>
-      <p
-        class="subtitle"
-        data-full-text="Building a file-based personal website using Obsidian as a CMS, Git for versioning, and a philosophy that files endure while interfaces change."
-      >
-        <span class="subtitle-text"
-          >Building a file-based personal website using Obsidian as a CMS, Git
-          for versioning, and a philosophy that files endure while interfaces
-          change.</span
-        >
-        <button class="see-more" aria-label="Expand subtitle">see more</button>
-      </p>
-    </header>
-    <div class="nav-container">
-      <nav class="main-nav">
-        <div class="nav-item"><a href="/">About</a></div>
-        <div class="nav-item">
-          <a href="/essays/en" class="active">Essays</a>
-          <span class="go-back">Go back?</span>
-        </div>
-        <div class="nav-item"><a href="/journals">Daily Logs</a></div>
-        <div class="nav-item"><a href="/inspirations">Inspirations</a></div>
-        <div class="nav-item"><a href="/lessons">Lessons</a></div>
-      </nav>
-    </div>
-    <script type="module">
-      document.addEventListener("DOMContentLoaded", () => {
-        const e = document.querySelector(".subtitle"),
-          c = e?.querySelector(".subtitle-text"),
-          s = e?.querySelector(".see-more");
-        e &&
-          c &&
-          s &&
-          (c.scrollHeight > c.clientHeight &&
-            e.classList.add("needs-truncation"),
-          s.addEventListener("click", () => {
-            e.classList.contains("expanded")
-              ? (e.classList.remove("expanded"), (s.textContent = "see more"))
-              : (e.classList.add("expanded"), (s.textContent = "see less"));
-          }));
-        const o = document.querySelector(".nav-container"),
-          t = document.querySelector(".main-nav");
-        if (o && t) {
-          const n = () => {
-            const l = t.scrollLeft,
-              r = t.scrollWidth - t.clientWidth;
-            (o.classList.toggle("scroll-left", l > 2),
-              o.classList.toggle("scroll-right", l < r - 2));
-          };
-          (t.addEventListener("scroll", n),
-            window.addEventListener("resize", n),
-            n());
-        }
-      });
-    </script>
-    <article data-astro-cid-2kzoey4d>
-      <div class="prose" data-astro-cid-2kzoey4d>
-        <p>
-          I rebuilt my website, but what I really rebuilt was the system behind
-          how I think, write, and leave traces of my life on the web.
-        </p>
-        <p>
-          This is not a post about frameworks or tech stacks. It is about
-          choosing a foundation that ages well. One that works for humans today
-          and machines tomorrow.
-        </p>
-        <h2 id="the-problem">The Problem</h2>
-        <ul>
-          <li>I wanted a simple setup.</li>
-          <li>I wanted to write in tools I already use every day.</li>
-          <li>I wanted to publish selectively without friction.</li>
-          <li>I wanted people to respond without me running a database.</li>
-          <li>
-            And I wanted everything to be durable, inspectable, and owned.
-          </li>
-        </ul>
-        <p>
-          Most personal websites solve publishing. Very few solve living with
-          your thoughts.
-        </p>
-        <h2 id="interfaces-are-temporary-files-are-durable">
-          Interfaces Are Temporary. Files Are Durable.
-        </h2>
-        <p>
-          Over the years, I tried many note taking apps. Obsidian, Reflect,
-          Roam, Logseq, Apple Notes, and others. They are all good in different
-          ways. But over time, one thing became obvious.
-        </p>
-        <p><strong>Interfaces change. Files endure.</strong></p>
-        <p>
-          Markdown based, file based systems work because they separate data
-          from views. When an interface starts to feel limiting, you do not have
-          to migrate your brain. You just change how you look at the same files.
-        </p>
-        <p>
-          Obsidian is a great product. But when I want to view daily notes in a
-          strict timeline, it is not the best tool. There are probably plugins
-          that solve this, but at some point it is easier to use software that
-          was designed for that mode of thinking from the beginning.
-        </p>
-        <p>That is when I stopped looking for a single perfect workspace.</p>
-        <p>
-          Instead, I optimized for a <strong>stable data layer</strong> and
-          <strong>multiple specialized interfaces</strong>.
-        </p>
-        <h2 id="file-system-is-the-cortex">File System Is the Cortex</h2>
-        <p>I truly believe file based systems are fundamental in the AI era.</p>
-        <p>
-          Most modern coding agents work well not because they are magical, but
-          because the environments they operate in are simple. Code lives in
-          files. Agents navigate those files using basic tools like ls, find,
-          grep, and cat. They scan directories, extract context, and reason step
-          by step.
-        </p>
-        <p>The intelligence emerges because the substrate is legible.</p>
-        <p>
-          When your thoughts live in files, plain text, predictable folders, you
-          create an environment that both humans and machines can understand.
-          The file system becomes the cortex. Interfaces are just different ways
-          of viewing it.
-        </p>
-        <p>
-          This is why file based systems are not nostalgia. They are future
-          proofing.
-        </p>
-        <h2 id="separation-is-clarity-not-fragmentation">
-          Separation Is Clarity, Not Fragmentation
-        </h2>
-        <p>
-          In theory, one unified app for everything sounds elegant. In practice,
-          different kinds of thinking benefit from different environments.
-        </p>
-        <p>You do not do everything on one desk.</p>
-        <p>
-          You might write at a clean desk with just a laptop and a notebook. But
-          if you are building something physical, you move to a workbench in the
-          garage. You do not want hammers mixed with paintbrushes.
-        </p>
-        <p>That is how I treat my tools.</p>
-        <ul>
-          <li>
-            I use <a href="https://logseq.com/">Logseq</a> for daily logs and
-            timeline style journaling.
-          </li>
-          <li>
-            I use <a href="https://obsidian.md/">Obsidian</a> for long form
-            thinking like essays, inspirations, and lessons.
-          </li>
-          <li>
-            I use <a href="https://hyprnote.com/">Hyprnote</a> for meeting
-            notes.
-          </li>
-        </ul>
-        <p>All of them operate on files. That is the invariant.</p>
-        <p>
-          By separating interfaces while keeping the data unified, I get clarity
-          without lock in.
-        </p>
-        <h2 id="some-underrated-benefits-of-files">
-          Some Underrated Benefits of Files
-        </h2>
-        <p>There are also very practical reasons this setup works well.</p>
-        <p>First, it is <strong>local first</strong>.</p>
-        <p>
-          File based systems run locally by default, which makes them fast.
-          Notes open instantly. There is no network round trip just to read your
-          own thoughts. No waiting for sync to finish before you can think. For
-          note taking, this matters more than people admit.
-        </p>
-        <p>Second, local first does <strong>not</strong> mean fragile.</p>
-        <p>
-          You cannot always trust yourself to back things up perfectly. That is
-          the advantage of being digital. Copies are cheap.
-        </p>
-        <p>When your life lives as files, backup becomes trivial.</p>
-        <p>
-          I use Git for this. Every meaningful change is versioned. Every
-          mistake is recoverable. Every file exists in more than one place.
-        </p>
-        <p>
-          Using GitHub is a bet on durability. I am betting that Microsoft will
-          not disappear in the next hundred years. That feels like a safe bet.
-        </p>
-        <p>
-          Do I love all of their products. Not really. But the company is not
-          going to vanish quietly, and that matters more than aesthetics when
-          you think in decades.
-        </p>
-        <p>
-          The point is not GitHub specifically. The point is that file based
-          systems let you choose your redundancy strategy. You can mirror, fork,
-          archive, or move everything somewhere else at any time.
-        </p>
-        <p>
-          <strong>Local first for speed. Distributed copies for safety.</strong>
-        </p>
-        <p>That combination is hard to beat.</p>
-        <h2 id="obsidian-as-a-cms">Obsidian as a CMS</h2>
-        <p>Obsidian has effectively become my CMS.</p>
-        <p>
-          I use it to write essays, document what inspired me, and keep track of
-          books and ideas I have learned from. Everything lives in a public
-          vault with a simple folder structure.
-        </p>
-        <p>Essays are ideas I am confident enough to stand behind.</p>
-        <p>Journals are daily logs and thinking in motion.</p>
-        <p>Inspirations are talks, podcasts, and videos that shaped me.</p>
-        <p>Lessons are distilled knowledge from books and courses.</p>
-        <p>Publishing is controlled entirely through frontmatter.</p>
-        <p>
-          If something is not ready, it is marked as published false. When it is
-          ready, it becomes part of the site automatically. Journals are always
-          public by default.
-        </p>
-        <p>
-          Writing and publishing are no longer separate actions. Publishing is
-          just a side effect of writing.
-        </p>
-        <h2 id="the-architecture">The Architecture</h2>
-        <p>The site itself is intentionally boring.</p>
-        <p>There are two repositories.</p>
-        <ol>
-          <li>
-            <a href="https://github.com/ComputelessComputer/part-of-my-brain"
-              >A public part of my Obsidian vault</a
-            >
-          </li>
-          <li>
-            <a href="https://github.com/ComputelessComputer/johnjeong.com"
-              >Astro-based website</a
-            >
-          </li>
-        </ol>
-        <p>
-          The vault is pulled into the site using a git submodule. When I push
-          changes to either repository, the site rebuilds.
-        </p>
-        <p>Publishing is git push.</p>
-        <p>There is no database. No admin panel. No CMS UI to maintain.</p>
-        <h2 id="comments-without-a-database">Comments Without a Database</h2>
-        <p>
-          For comments, I use GitHub Discussions through
-          <a href="https://giscus.app/">Giscus</a>.
-        </p>
-        <p>
-          When someone comments on an essay, it creates a discussion in the
-          vault repository. Each content type maps to its own category.
-          Authentication, moderation, and spam resistance are handled by GitHub.
-        </p>
-        <p>
-          The tradeoff is simple. Commenters need a GitHub account. I am fine
-          with that.
-        </p>
-        <p>
-          I also added a Questions category. The site has a form that submits
-          directly to Discussions. It is effectively a self hosted AMA without
-          infrastructure.
-        </p>
-        <h2 id="why-this-works">Why This Works</h2>
-        <p>This setup works because every layer does one job well.</p>
-        <ul>
-          <li>Obsidian is my CMS. I write where I already think.</li>
-          <li>Git is my memory. Version history, backup, and truth.</li>
-          <li>Astro is my renderer. Fast, static, markdown native.</li>
-          <li>GitHub is my community layer. Comments and questions.</li>
-        </ul>
-        <p>Everything is just files and a static site generator.</p>
-        <p>But more importantly, this setup reflects who I am.</p>
-        <p>
-          I wanted my website to be a transparent archive of my life. Not
-          optimized for growth. Not trapped inside a platform. Not dependent on
-          a company staying alive.
-        </p>
-        <p>If I die, this is the place where my thoughts remain.</p>
-        <p>Not on Twitter.</p>
-        <p>Not inside a closed database.</p>
-        <p>On the web. As files I actually own.</p>
-      </div>
-      <p class="content-date" data-astro-cid-2kzoey4d>January 2, 2026</p>
-    </article>
-    <section class="giscus-container" data-astro-cid-an2nl7ar>
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="ComputelessComputer/part-of-my-brain"
-        data-repo-id="R_kgDOQyThnQ"
-        data-category="essays"
-        data-category-id="DIC_kwDOQyThnc4C0ehA"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async
-      ></script>
-    </section>
-    <footer data-astro-cid-sz7xmlte>
-      <div class="newsletter" data-astro-cid-sz7xmlte>
-        <h3 data-astro-cid-sz7xmlte>Subscribe to updates</h3>
-        <form id="newsletter-form" data-astro-cid-sz7xmlte>
-          <div class="checkboxes" data-astro-cid-sz7xmlte>
-            <label data-astro-cid-sz7xmlte
-              ><input
-                type="checkbox"
-                name="essays"
-                checked
-                data-astro-cid-sz7xmlte
-              />
-              Essays</label
-            >
-            <label data-astro-cid-sz7xmlte
-              ><input
-                type="checkbox"
-                name="journals"
-                checked
-                data-astro-cid-sz7xmlte
-              />
-              Journals</label
-            >
-            <label data-astro-cid-sz7xmlte
-              ><input
-                type="checkbox"
-                name="inspirations"
-                data-astro-cid-sz7xmlte
-              />
-              Inspirations</label
-            >
-            <label data-astro-cid-sz7xmlte
-              ><input type="checkbox" name="lessons" data-astro-cid-sz7xmlte />
-              Lessons</label
-            >
-          </div>
-          <div class="email-row" data-astro-cid-sz7xmlte>
-            <input
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              required
-              data-astro-cid-sz7xmlte
-            />
-            <button type="submit" class="btn" data-astro-cid-sz7xmlte>
-              Subscribe
-            </button>
-          </div>
-        </form>
-      </div>
-      <p class="copyright" data-astro-cid-sz7xmlte>© 2026 John Jeong</p>
-    </footer>
-    <script type="module">
-      const s = document.getElementById("newsletter-form"),
-        t = s?.querySelector("button");
-      s?.addEventListener("submit", async (a) => {
-        a.preventDefault();
-        const e = new FormData(s),
-          o = e.get("email"),
-          n = {
-            essays: e.get("essays") === "on",
-            journals: e.get("journals") === "on",
-            inspirations: e.get("inspirations") === "on",
-            lessons: e.get("lessons") === "on",
-          };
-        ((t.innerHTML =
-          '<svg class="spinner" viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="1" width="2" height="4" rx="1" opacity=".14"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".29" transform="rotate(45 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".43" transform="rotate(90 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".57" transform="rotate(135 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".71" transform="rotate(180 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".86" transform="rotate(225 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(270 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(315 8 8)"/></svg>Subscribing'),
-          (t.disabled = !0),
-          (t.className = "btn loading"));
-        try {
-          const r = await fetch("/api/subscribe", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: o, preferences: n }),
-          });
-          if (r.ok)
-            ((t.textContent = "Subscribed!"),
-              (t.className = "btn success"),
-              s.reset(),
-              setTimeout(() => {
-                ((t.textContent = "Subscribe"),
-                  (t.className = "btn"),
-                  (t.disabled = !1));
-              }, 2e3));
-          else {
-            const i = await r.json();
-            ((t.textContent = i.error || "Failed"),
-              (t.className = "btn error"),
-              setTimeout(() => {
-                ((t.textContent = "Subscribe"),
-                  (t.className = "btn"),
-                  (t.disabled = !1));
-              }, 2e3));
-          }
-        } catch {
-          ((t.textContent = "Failed"),
-            (t.className = "btn error"),
-            setTimeout(() => {
-              ((t.textContent = "Subscribe"),
-                (t.className = "btn"),
-                (t.disabled = !1));
-            }, 2e3));
-        }
-      });
-    </script>
-    <div class="scroll-blur-bottom"></div>
-  </body>
-</html>
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.6"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"><title>I Built My Life on Files</title><script type="module">document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector(".scroll-blur-bottom");if(!t)return;const e=()=>{const o=window.scrollY,n=document.documentElement.scrollHeight,l=window.innerHeight,c=n-l;t.classList.toggle("visible",o<c-10)};window.addEventListener("scroll",e),window.addEventListener("resize",e),e()});</script><style>header{margin-bottom:1rem}header h1{margin-top:0}header h1 a{text-decoration:none}.subtitle{color:#666;position:relative;display:flex;align-items:baseline;gap:.5rem}.subtitle .subtitle-text{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;white-space:normal;flex:1;min-width:0}.subtitle.expanded .subtitle-text{display:block;-webkit-line-clamp:unset}.subtitle .see-more{display:none;background:none;border:none;color:#999;font-size:.85em;cursor:pointer;padding:0;text-decoration:underline;font-family:inherit;flex-shrink:0}.subtitle.needs-truncation .see-more{display:inline}.subtitle .see-more:hover{color:#666}.nav-container{position:relative;margin-bottom:.5rem}.nav-container:before,.nav-container:after{content:"";position:absolute;top:0;height:1.5rem;width:2rem;pointer-events:none;opacity:0;transition:opacity .2s ease;z-index:1}.nav-container:before{left:0;background:linear-gradient(to right,#fff 0%,transparent 100%)}.nav-container:after{right:0;background:linear-gradient(to left,#fff 0%,transparent 100%)}.nav-container.scroll-left:before{opacity:1}.nav-container.scroll-right:after{opacity:1}.main-nav{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1.5rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}.main-nav::-webkit-scrollbar{display:none}.nav-item a{text-decoration:none;color:#666;padding-bottom:.25rem;font-family:var(--font-mono);font-size:.8rem}.nav-item a:hover{color:#1a1a1a}.nav-item a.active{color:#1a1a1a!important;border-bottom:2px solid #1a1a1a!important}.nav-item{position:relative;flex-shrink:0}.go-back{position:absolute;top:100%;left:50%;transform:translate(-50%);font-family:var(--font-sans);font-size:.65rem;color:#666;opacity:.5;white-space:nowrap;margin-top:.25rem}
+footer[data-astro-cid-sz7xmlte]{margin-top:4rem;padding-top:2rem;border-top:1px solid #eee}.newsletter[data-astro-cid-sz7xmlte] h3[data-astro-cid-sz7xmlte]{font-size:1rem;margin:0 0 .75rem;font-weight:500}.email-row[data-astro-cid-sz7xmlte]{display:flex;gap:.5rem}.email-row[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte][type=email]{flex:1;max-width:220px;padding:.4rem .75rem;border:1px solid #d0d0d0;border-radius:6px;font-size:.875rem}.email-row[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte][type=email]:focus{outline:none;border-color:#888}.btn[data-astro-cid-sz7xmlte].success{background:#16a34a;border-color:#16a34a;box-shadow:0 2px #15803d;color:#fff}.btn[data-astro-cid-sz7xmlte].error{background:#dc2626;border-color:#dc2626;box-shadow:0 2px #b91c1c;color:#fff}.email-row[data-astro-cid-sz7xmlte] .btn[data-astro-cid-sz7xmlte]{min-width:116px}.btn[data-astro-cid-sz7xmlte]:disabled{opacity:.6;cursor:not-allowed}.btn[data-astro-cid-sz7xmlte].loading{display:inline-flex;align-items:center;gap:.35rem}.spinner[data-astro-cid-sz7xmlte]{width:14px;height:14px;animation:spin 1s steps(8) infinite}@keyframes spin{to{transform:rotate(360deg)}}.copyright[data-astro-cid-sz7xmlte]{margin-top:2rem;font-size:.75rem;color:#999}:root{--max-width: 640px;--font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace}*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}html{overflow-y:scroll}body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;line-height:1.6;color:#1a1a1a;max-width:var(--max-width);min-height:100vh;margin:0 auto;padding:2rem 1rem}a{color:inherit}h1,h2,h3{line-height:1.3;margin-top:1.5em;margin-bottom:.5em}h1{font-family:"Instrument Serif",serif;font-style:italic;font-size:2.25rem;font-weight:400}h2{font-family:"Instrument Serif",serif;font-size:1.5rem;font-weight:400}h3{font-family:"Instrument Serif",serif;font-size:1.25rem;font-weight:400}p{margin-bottom:1em}ul,ol{margin-bottom:1em;padding-left:1.5em}blockquote{border-left:2px solid #ccc;padding-left:1em;margin:1em 0;color:#666}code{font-family:var(--font-mono);font-size:.9em;background:#f4f4f4;padding:.1em .3em;border-radius:3px}pre{background:#f4f4f4;padding:1em;overflow-x:auto;margin-bottom:1em;border-radius:4px}pre code{background:none;padding:0}.prose img{max-width:100%;height:auto}.btn{display:inline-block;padding:.4rem .75rem;background:#fff;border:1px solid #d0d0d0;border-radius:6px;box-shadow:0 2px silver;text-decoration:none;color:#333;font-size:.875rem;cursor:pointer;transition:transform .1s,box-shadow .1s}.btn:hover{transform:translateY(-2px);box-shadow:0 4px silver}.btn:active{transform:translateY(2px);box-shadow:0 0 silver}.scroll-blur-bottom{position:fixed;bottom:0;left:0;right:0;height:3rem;background:linear-gradient(to top,#fff 0%,transparent 100%);pointer-events:none;opacity:0;transition:opacity .2s ease;z-index:100}.scroll-blur-bottom.visible{opacity:1}
+.giscus-container[data-astro-cid-an2nl7ar]{margin-top:3rem;padding-top:2rem;border-top:1px solid #eee}
+.content-date[data-astro-cid-2kzoey4d]{margin-top:2rem;color:#666;font-size:.9rem;text-align:left;font-family:var(--font-mono)}
+</style></head> <body>  <header> <h1> I Built My Life on Files </h1> <p class="subtitle" data-full-text="Building a file-based personal website using Obsidian as a CMS, Git for versioning, and a philosophy that files endure while interfaces change."> <span class="subtitle-text">Co-founder & Co-CEO at <a href="https://hyprnote.com" target="_blank" rel="noopener">Hyprnote</a></span> <button class="see-more" aria-label="Expand subtitle">see more</button> </p> </header> <div class="nav-container"> <nav class="main-nav has-go-back"> <div class="nav-item"> <a href="/">About</a>  </div><div class="nav-item"> <a href="/essays/en" class="active">Essays</a> <span class="go-back">Go back?</span> </div><div class="nav-item"> <a href="/journals">Daily Logs</a>  </div><div class="nav-item"> <a href="/inspirations">Inspirations</a>  </div><div class="nav-item"> <a href="/lessons">Lessons</a>  </div> </nav> </div>  <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".subtitle"),c=e?.querySelector(".subtitle-text"),s=e?.querySelector(".see-more");e&&c&&s&&(c.scrollHeight>c.clientHeight&&e.classList.add("needs-truncation"),s.addEventListener("click",()=>{e.classList.contains("expanded")?(e.classList.remove("expanded"),s.textContent="see more"):(e.classList.add("expanded"),s.textContent="see less")}));const o=document.querySelector(".nav-container"),t=document.querySelector(".main-nav");if(o&&t){const n=()=>{const l=t.scrollLeft,r=t.scrollWidth-t.clientWidth;o.classList.toggle("scroll-left",l>2),o.classList.toggle("scroll-right",l<r-2)};t.addEventListener("scroll",n),window.addEventListener("resize",n),n()}});</script> <article data-astro-cid-2kzoey4d> <div class="prose" data-astro-cid-2kzoey4d> <p>I rebuilt my website, but what I really rebuilt was the system behind how I think, write, and leave traces of my life on the web.</p>
+<p>This is not a post about frameworks or tech stacks. It is about choosing a foundation that ages well. One that works for humans today and machines tomorrow.</p>
+<h2 id="the-problem">The Problem</h2>
+<ul>
+<li>I wanted a simple setup.</li>
+<li>I wanted to write in tools I already use every day.</li>
+<li>I wanted to publish selectively without friction.</li>
+<li>I wanted people to respond without me running a database.</li>
+<li>And I wanted everything to be durable, inspectable, and owned.</li>
+</ul>
+<p>Most personal websites solve publishing. Very few solve living with your thoughts.</p>
+<h2 id="interfaces-are-temporary-files-are-durable">Interfaces Are Temporary. Files Are Durable.</h2>
+<p>Over the years, I tried many note taking apps. Obsidian, Reflect, Roam, Logseq, Apple Notes, and others. They are all good in different ways. But over time, one thing became obvious.</p>
+<p><strong>Interfaces change. Files endure.</strong></p>
+<p>Markdown based, file based systems work because they separate data from views. When an interface starts to feel limiting, you do not have to migrate your brain. You just change how you look at the same files.</p>
+<p>Obsidian is a great product. But when I want to view daily notes in a strict timeline, it is not the best tool. There are probably plugins that solve this, but at some point it is easier to use software that was designed for that mode of thinking from the beginning.</p>
+<p>That is when I stopped looking for a single perfect workspace.</p>
+<p>Instead, I optimized for a <strong>stable data layer</strong> and <strong>multiple specialized interfaces</strong>.</p>
+<h2 id="file-system-is-the-cortex">File System Is the Cortex</h2>
+<p>I truly believe file based systems are fundamental in the AI era.</p>
+<p>Most modern coding agents work well not because they are magical, but because the environments they operate in are simple. Code lives in files. Agents navigate those files using basic tools like ls, find, grep, and cat. They scan directories, extract context, and reason step by step.</p>
+<p>The intelligence emerges because the substrate is legible.</p>
+<p>When your thoughts live in files, plain text, predictable folders, you create an environment that both humans and machines can understand. The file system becomes the cortex. Interfaces are just different ways of viewing it.</p>
+<p>This is why file based systems are not nostalgia. They are future proofing.</p>
+<h2 id="separation-is-clarity-not-fragmentation">Separation Is Clarity, Not Fragmentation</h2>
+<p>In theory, one unified app for everything sounds elegant. In practice, different kinds of thinking benefit from different environments.</p>
+<p>You do not do everything on one desk.</p>
+<p>You might write at a clean desk with just a laptop and a notebook. But if you are building something physical, you move to a workbench in the garage. You do not want hammers mixed with paintbrushes.</p>
+<p>That is how I treat my tools.</p>
+<ul>
+<li>I use <a href="https://logseq.com/">Logseq</a> for daily logs and timeline style journaling.</li>
+<li>I use <a href="https://obsidian.md/">Obsidian</a> for long form thinking like essays, inspirations, and lessons.</li>
+<li>I use <a href="https://hyprnote.com/">Hyprnote</a> for meeting notes.</li>
+</ul>
+<p>All of them operate on files. That is the invariant.</p>
+<p>By separating interfaces while keeping the data unified, I get clarity without lock in.</p>
+<h2 id="some-underrated-benefits-of-files">Some Underrated Benefits of Files</h2>
+<p>There are also very practical reasons this setup works well.</p>
+<p>First, it is <strong>local first</strong>.</p>
+<p>File based systems run locally by default, which makes them fast. Notes open instantly. There is no network round trip just to read your own thoughts. No waiting for sync to finish before you can think. For note taking, this matters more than people admit.</p>
+<p>Second, local first does <strong>not</strong> mean fragile.</p>
+<p>You cannot always trust yourself to back things up perfectly. That is the advantage of being digital. Copies are cheap.</p>
+<p>When your life lives as files, backup becomes trivial.</p>
+<p>I use Git for this. Every meaningful change is versioned. Every mistake is recoverable. Every file exists in more than one place.</p>
+<p>Using GitHub is a bet on durability. I am betting that Microsoft will not disappear in the next hundred years. That feels like a safe bet.</p>
+<p>Do I love all of their products. Not really. But the company is not going to vanish quietly, and that matters more than aesthetics when you think in decades.</p>
+<p>The point is not GitHub specifically. The point is that file based systems let you choose your redundancy strategy. You can mirror, fork, archive, or move everything somewhere else at any time.</p>
+<p><strong>Local first for speed. Distributed copies for safety.</strong></p>
+<p>That combination is hard to beat.</p>
+<h2 id="obsidian-as-a-cms">Obsidian as a CMS</h2>
+<p>Obsidian has effectively become my CMS.</p>
+<p>I use it to write essays, document what inspired me, and keep track of books and ideas I have learned from. Everything lives in a public vault with a simple folder structure.</p>
+<p>Essays are ideas I am confident enough to stand behind.</p>
+<p>Journals are daily logs and thinking in motion.</p>
+<p>Inspirations are talks, podcasts, and videos that shaped me.</p>
+<p>Lessons are distilled knowledge from books and courses.</p>
+<p>Publishing is controlled entirely through frontmatter.</p>
+<p>If something is not ready, it is marked as published false. When it is ready, it becomes part of the site automatically. Journals are always public by default.</p>
+<p>Writing and publishing are no longer separate actions. Publishing is just a side effect of writing.</p>
+<h2 id="the-architecture">The Architecture</h2>
+<p>The site itself is intentionally boring.</p>
+<p>There are two repositories.</p>
+<ol>
+<li><a href="https://github.com/ComputelessComputer/part-of-my-brain">A public part of my Obsidian vault</a></li>
+<li><a href="https://github.com/ComputelessComputer/johnjeong.com">Astro-based website</a></li>
+</ol>
+<p>The vault is pulled into the site using a git submodule. When I push changes to either repository, the site rebuilds.</p>
+<p>Publishing is git push.</p>
+<p>There is no database. No admin panel. No CMS UI to maintain.</p>
+<h2 id="comments-without-a-database">Comments Without a Database</h2>
+<p>For comments, I use GitHub Discussions through <a href="https://giscus.app/">Giscus</a>.</p>
+<p>When someone comments on an essay, it creates a discussion in the vault repository. Each content type maps to its own category. Authentication, moderation, and spam resistance are handled by GitHub.</p>
+<p>The tradeoff is simple. Commenters need a GitHub account. I am fine with that.</p>
+<p>I also added a Questions category. The site has a form that submits directly to Discussions. It is effectively a self hosted AMA without infrastructure.</p>
+<h2 id="why-this-works">Why This Works</h2>
+<p>This setup works because every layer does one job well.</p>
+<ul>
+<li>Obsidian is my CMS. I write where I already think.</li>
+<li>Git is my memory. Version history, backup, and truth.</li>
+<li>Astro is my renderer. Fast, static, markdown native.</li>
+<li>GitHub is my community layer. Comments and questions.</li>
+</ul>
+<p>Everything is just files and a static site generator.</p>
+<p>But more importantly, this setup reflects who I am.</p>
+<p>I wanted my website to be a transparent archive of my life. Not optimized for growth. Not trapped inside a platform. Not dependent on a company staying alive.</p>
+<p>If I die, this is the place where my thoughts remain.</p>
+<p>Not on Twitter.</p>
+<p>Not inside a closed database.</p>
+<p>On the web. As files I actually own.</p> </div> <p class="content-date" data-astro-cid-2kzoey4d>January 2, 2026</p> </article> <section class="giscus-container" data-astro-cid-an2nl7ar> <script src="https://giscus.app/client.js" data-repo="ComputelessComputer/part-of-my-brain" data-repo-id="R_kgDOQyThnQ" data-category="essays" data-category-id="DIC_kwDOQyThnc4C0ehA" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script> </section>   <footer data-astro-cid-sz7xmlte> <div class="newsletter" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>Subscribe to updates</h3> <form id="newsletter-form" data-astro-cid-sz7xmlte> <div class="email-row" data-astro-cid-sz7xmlte> <input type="email" name="email" placeholder="your@email.com" required data-astro-cid-sz7xmlte> <button type="submit" class="btn" data-astro-cid-sz7xmlte>Subscribe</button> </div> </form> </div> <p class="copyright" data-astro-cid-sz7xmlte>© 2026 John Jeong</p> </footer>  <script type="module">const e=document.getElementById("newsletter-form"),t=e?.querySelector("button");e?.addEventListener("submit",async a=>{a.preventDefault();const s=new FormData(e).get("email");t.innerHTML='<svg class="spinner" viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="1" width="2" height="4" rx="1" opacity=".14"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".29" transform="rotate(45 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".43" transform="rotate(90 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".57" transform="rotate(135 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".71" transform="rotate(180 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity=".86" transform="rotate(225 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(270 8 8)"/><rect x="7" y="1" width="2" height="4" rx="1" opacity="1" transform="rotate(315 8 8)"/></svg>Subscribing',t.disabled=!0,t.className="btn loading";try{const r=await fetch("/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:s})});if(r.ok)t.textContent="Subscribed!",t.className="btn success",e.reset(),setTimeout(()=>{t.textContent="Subscribe",t.className="btn",t.disabled=!1},2e3);else{const o=await r.json();t.textContent=o.error||"Failed",t.className="btn error",setTimeout(()=>{t.textContent="Subscribe",t.className="btn",t.disabled=!1},2e3)}}catch{t.textContent="Failed",t.className="btn error",setTimeout(()=>{t.textContent="Subscribe",t.className="btn",t.disabled=!1},2e3)}});</script> <div class="scroll-blur-bottom"></div> </body></html> 

@@ -1,14 +1,20 @@
 ---
+import { Image } from 'astro:assets';
 import ExifReader from 'exifreader';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const REMOTE_BASE = 'https://raw.githubusercontent.com/ComputelessComputer/part-of-my-brain/main/gallery';
 const galleryDir = path.join(process.cwd(), 'part-of-my-brain/gallery');
 const files = fs.readdirSync(galleryDir).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
 
+// Dynamically import all gallery images
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/part-of-my-brain/gallery/*.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+
 interface ImageData {
-  src: string;
+  src: ImageMetadata;
   filename: string;
   date: string | null;
   location: string | null;
@@ -49,8 +55,12 @@ const images: ImageData[] = await Promise.all(
       // EXIF parsing failed, continue without metadata
     }
 
+    // Get the imported image module
+    const modulePath = `/part-of-my-brain/gallery/${filename}`;
+    const imageModule = imageModules[modulePath];
+
     return {
-      src: `${REMOTE_BASE}/${filename}`,
+      src: imageModule?.default,
       filename,
       date,
       location,
@@ -68,9 +78,9 @@ images.sort((a, b) => {
 ---
 
 <div class="gallery">
-  {images.map((image) => (
+  {images.filter(img => img.src).map((image, index) => (
     <figure class="gallery-item">
-      <img src={image.src} alt={image.filename} loading="lazy" />
+      <Image src={image.src} alt={image.filename} loading={index < 2 ? "eager" : "lazy"} />
       {(image.date || image.location) && (
         <figcaption>
           {image.date}{image.date && image.location && ' · '}{image.location}
