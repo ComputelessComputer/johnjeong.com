@@ -27,6 +27,8 @@ import Gallery from "../components/Gallery.astro";
     </a>
   </div>
 
+  <a href="/cal" class="contact-btn">Contact</a>
+
   <Gallery />
 </Base>
 
@@ -42,5 +44,18 @@ import Gallery from "../components/Gallery.astro";
   }
   .social a:hover {
     color: #1a1a1a;
+  }
+  .contact-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .contact-btn:hover {
+    background: #333;
   }
 </style>

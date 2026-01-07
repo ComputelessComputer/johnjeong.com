@@ -1,3 +1,10 @@
 {
-  "buildCommand": "git submodule update --init --recursive && bun run build"
+  "buildCommand": "git submodule update --init --recursive && bun run build",
+  "redirects": [
+    {
+      "source": "/cal",
+      "destination": "https://cal.com/john.jeong/yo",
+      "permanent": false
+    }
+  ]
 }
