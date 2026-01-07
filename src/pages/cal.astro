@@ -1,0 +1,10 @@
+---
+const url = new URL("https://cal.com/john.jeong/yo");
+const name = Astro.url.searchParams.get("name");
+const email = Astro.url.searchParams.get("email");
+
+if (name) url.searchParams.set("name", name);
+if (email) url.searchParams.set("email", email);
+
+return Astro.redirect(url.toString());
+---

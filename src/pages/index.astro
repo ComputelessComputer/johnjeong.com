@@ -27,7 +27,11 @@ import Gallery from "../components/Gallery.astro";
     </a>
   </div>
 
-  <a href="/cal" class="contact-btn">Contact</a>
+  <div class="contact-section">
+    <p>
+hey i'm <input type="text" id="contact-name" placeholder="steve jobs" size="1" /> and my email is <input type="email" id="contact-email" placeholder="sjobs@apple.com" size="1" />. i'd love to <a href="/cal" id="chat-btn" class="btn">chat</a> !
+    </p>
+  </div>
 
   <Gallery />
 </Base>
@@ -45,17 +49,82 @@ import Gallery from "../components/Gallery.astro";
   .social a:hover {
     color: #1a1a1a;
   }
-  .contact-btn {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background: #1a1a1a;
-    color: #fff;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.2s;
+  .contact-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
   }
-  .contact-btn:hover {
-    background: #333;
+  .contact-section p {
+    margin: 0;
+    line-height: 2;
+  }
+  .contact-section input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+font-weight: 500;
+    background: transparent;
+  }
+  .contact-section .btn {
+    padding: 0.1rem 0.35rem;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    line-height: 1.2;
+    position: relative;
+    top: -2px;
+  }
+  .contact-section input:focus {
+    outline: none;
+  }
+  .contact-section input::placeholder {
+    color: #999;
   }
 </style>
+
+<script>
+  const nameInput = document.getElementById('contact-name') as HTMLInputElement;
+  const emailInput = document.getElementById('contact-email') as HTMLInputElement;
+  const chatBtn = document.getElementById('chat-btn') as HTMLAnchorElement;
+
+  function updateChatLink() {
+    const params = new URLSearchParams();
+    if (nameInput.value) params.set('name', nameInput.value);
+    if (emailInput.value) params.set('email', emailInput.value);
+    const query = params.toString();
+    chatBtn.href = '/cal' + (query ? '?' + query : '');
+  }
+
+  function measureText(text: string, font: string) {
+    const span = document.createElement('span');
+    span.style.visibility = 'hidden';
+    span.style.position = 'absolute';
+    span.style.whiteSpace = 'pre';
+    span.style.font = font;
+    span.textContent = text;
+    document.body.appendChild(span);
+    const width = span.offsetWidth;
+    document.body.removeChild(span);
+    return width;
+  }
+
+  function resizeInput(input: HTMLInputElement) {
+    const font = getComputedStyle(input).font;
+    const placeholderWidth = measureText(input.placeholder, font);
+    const valueWidth = input.value ? measureText(input.value, font) : 0;
+    input.style.width = Math.max(placeholderWidth, valueWidth) + 2 + 'px';
+  }
+
+  function handleInput(input: HTMLInputElement) {
+    resizeInput(input);
+    updateChatLink();
+  }
+
+  nameInput?.addEventListener('input', () => handleInput(nameInput));
+  emailInput?.addEventListener('input', () => handleInput(emailInput));
+
+  // Initial resize
+  resizeInput(nameInput);
+  resizeInput(emailInput);
+</script>
