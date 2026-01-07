@@ -75,6 +75,10 @@ font-weight: 500;
     position: relative;
     top: -2px;
   }
+  .contact-section .btn.pressed {
+    transform: translateY(2px);
+    box-shadow: 0 0 0 #c0c0c0;
+  }
   .contact-section input:focus {
     outline: none;
   }
@@ -123,6 +127,21 @@ font-weight: 500;
 
   nameInput?.addEventListener('input', () => handleInput(nameInput));
   emailInput?.addEventListener('input', () => handleInput(emailInput));
+
+  function submitChat() {
+    updateChatLink();
+    chatBtn.classList.add('pressed');
+    setTimeout(() => {
+      window.location.href = chatBtn.href;
+    }, 100);
+  }
+
+  emailInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitChat();
+    }
+  });
 
   // Initial resize
   resizeInput(nameInput);
