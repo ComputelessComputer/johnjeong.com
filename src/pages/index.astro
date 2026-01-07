@@ -132,6 +132,7 @@ font-weight: 500;
     updateChatLink();
     chatBtn.classList.add('pressed');
     setTimeout(() => {
+      chatBtn.classList.remove('pressed');
       window.location.href = chatBtn.href;
     }, 100);
   }
