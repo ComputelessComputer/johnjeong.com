@@ -17,10 +17,11 @@ const { Content } = await render(journal);
 
 // Parse date from filename (2026_01_02 -> 2026-01-02)
 const dateStr = journal.id.replace(/_/g, "-");
-const journalDate = new Date(dateStr);
+// Parse as local date, not UTC (ISO strings are parsed as UTC by default)
+const [year, month, day] = dateStr.split("-").map(Number);
+const journalDate = new Date(year, month - 1, day, 0, 0, 0, 0);
 const today = new Date();
 today.setHours(0, 0, 0, 0);
-journalDate.setHours(0, 0, 0, 0);
 
 const diffTime = today.getTime() - journalDate.getTime();
 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));

@@ -10,8 +10,9 @@ const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 function getRelativeDate(dateStr: string): string {
-  const journalDate = new Date(dateStr);
-  journalDate.setHours(0, 0, 0, 0);
+  // Parse as local date, not UTC (ISO strings are parsed as UTC by default)
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const journalDate = new Date(year, month - 1, day, 0, 0, 0, 0);
 
   const diffTime = today.getTime() - journalDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
