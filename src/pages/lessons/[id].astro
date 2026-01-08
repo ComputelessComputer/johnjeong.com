@@ -21,17 +21,22 @@ const date = lesson.data.created_at.toLocaleDateString("en-US", {
   day: "numeric",
 });
 
-const subtitle = lesson.data.description || "";
+const subtitle = lesson.data.author;
 ---
 
 <Base title={lesson.data.title}>
-  <Header currentPage="lessons" showGoBack={true} title={lesson.data.title} subtitle={subtitle} />
+  <Header currentPage="lessons" showGoBack={true} title={lesson.data.title} subtitle={subtitle}>
+    {lesson.data.link ? (
+      <a slot="title-extra" href={lesson.data.link} target="_blank" rel="noopener" class="title-link">
+        {lesson.data.title}
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon"><path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/><path d="m21 3-9 9"/><path d="M15 3h6v6"/></svg>
+      </a>
+    ) : (
+      <span slot="title-extra">{lesson.data.title}</span>
+    )}
+  </Header>
 
   <article>
-    {lesson.data.link && (
-      <p class="lesson-link"><span class="link-label">link:</span> <a href={lesson.data.link} target="_blank">{lesson.data.link}</a></p>
-    )}
-
     <div class="prose">
       <Content />
     </div>
@@ -42,19 +47,18 @@ const subtitle = lesson.data.description || "";
 </Base>
 
 <style>
-  .lesson-link {
-    font-size: 0.85rem;
-    color: #666;
-    margin-bottom: 1.5rem;
-    font-family: var(--font-mono);
+  .title-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.2em;
   }
-  .lesson-link .link-label {
-    color: #999;
-  }
-  .lesson-link a {
-    color: #666;
-    text-decoration: underline;
-    word-break: break-all;
+  .title-link .external-icon {
+    width: 0.45em;
+    height: 0.45em;
+    flex-shrink: 0;
+    margin-top: 0.35em;
+    opacity: 0.5;
   }
   .content-date {
     margin-top: 2rem;
