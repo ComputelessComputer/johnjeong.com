@@ -6,7 +6,7 @@ interface Props {
   showGoBack?: boolean;
 }
 
-const { currentPage, title = "John Jeong", subtitle = "Co-founder & Co-CEO at Hyprnote", showGoBack = false } = Astro.props;
+const { currentPage, title = "John Jeong", subtitle = 'Co-founder & Co-CEO at <a href="https://hyprnote.com" target="_blank" rel="noopener" class="hyprnote-link">Hyprnote</a>', showGoBack = false } = Astro.props;
 
 const navItems = [
   { href: "/", label: "About", key: "home" },
@@ -27,7 +27,7 @@ const navItems = [
     )}
   </h1>
   <p class="subtitle" data-full-text={subtitle}>
-<span class="subtitle-text">Co-founder & Co-CEO at <a href="https://hyprnote.com" target="_blank" rel="noopener" class="hyprnote-link">Hyprnote</a></span>
+    <span class="subtitle-text" set:html={subtitle} />
     <button class="see-more" aria-label="Expand subtitle">see more</button>
   </p>
 </header>
