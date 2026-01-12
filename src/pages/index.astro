@@ -24,12 +24,48 @@ import Header from "../components/Header.astro";
         <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
       </svg>
     </a>
+    <button id="video-chat-toggle" aria-label="Video Chat" class="video-chat-btn">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="currentColor">
+        <rect x="8" y="12" width="9" height="2"/>
+        <rect x="8" y="17" width="5" height="2"/>
+        <path d="M21,26H4a2.0023,2.0023,0,0,1-2-2V8A2.0023,2.0023,0,0,1,4,6H21a2.0023,2.0023,0,0,1,2,2v4.0566l5.4189-3.87A.9995.9995,0,0,1,30,9V23a.9995.9995,0,0,1-1.5811.8135L23,19.9434V24A2.0023,2.0023,0,0,1,21,26ZM4,8V24.001L21,24V18a.9995.9995,0,0,1,1.5811-.8135L28,21.0566V10.9434l-5.4189,3.87A.9995.9995,0,0,1,21,14V8Z"/>
+      </svg>
+    </button>
   </div>
 
-  <div class="contact-section">
-    <p>
-hey i'm <input type="text" id="contact-name" placeholder="steve jobs" size="1" /> and my email is <input type="email" id="contact-email" placeholder="sjobs@apple.com" size="1" />. i'd love to <a href="/cal" id="chat-btn" class="btn">chat</a> !
-    </p>
+  <div class="contact-section collapsed" id="contact-section">
+    <div class="macos-window">
+      <div class="macos-titlebar">
+        <div class="macos-buttons">
+          <button class="macos-btn close" id="close-contact" aria-label="Close"></button>
+          <span class="macos-btn minimize"></span>
+          <span class="macos-btn maximize"></span>
+        </div>
+        <a href="/cal" id="chat-btn" class="send-btn" aria-label="Send">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+          </svg>
+        </a>
+      </div>
+      <div class="macos-content">
+        <div class="mail-field">
+          <span class="mail-label">to:</span>
+          <span class="mail-value">john@hyprnote.com</span>
+        </div>
+        <div class="mail-field">
+          <span class="mail-label">subject:</span>
+          <span class="mail-value">wanna chat?</span>
+        </div>
+        <div class="mail-field">
+          <span class="mail-label">from:</span>
+          <input type="email" id="contact-email" placeholder="sjobs@apple.com" />
+        </div>
+        <div class="mail-body">
+          <p>hey i'm <span class="name-wrapper"><input type="text" id="contact-name" placeholder="steve jobs" />.</span></p>
+          <p>let's chat!</p>
+        </div>
+      </div>
+    </div>
   </div>
 </Base>
 
@@ -38,49 +74,160 @@ hey i'm <input type="text" id="contact-name" placeholder="steve jobs" size="1" /
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
+    align-items: center;
   }
-  .social a {
+  .social a, .social button {
     color: #666;
     transition: color 0.2s;
+    display: flex;
+    align-items: center;
   }
-  .social a:hover {
+  .social a:hover, .social button:hover {
+    color: #1a1a1a;
+  }
+  .video-chat-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  .video-chat-btn.active {
     color: #1a1a1a;
   }
   .contact-section {
     margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #eee;
+    max-height: 400px;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
   }
-  .contact-section p {
-    margin: 0;
-    line-height: 2;
+  .contact-section.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
   }
-  .contact-section input {
+  .macos-window {
+    border: 1px solid #c0c0c0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+  .macos-titlebar {
+    background: linear-gradient(to bottom, #e8e8e8, #d0d0d0);
+    padding: 4px 6px 4px 10px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #b0b0b0;
+  }
+  .macos-buttons {
+    display: flex;
+    gap: 8px;
+  }
+  .macos-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: default;
+  }
+  .macos-btn.close {
+    background: #ff5f57;
+    border: 1px solid #e14640;
+    cursor: pointer;
+  }
+  .macos-btn.close:hover {
+    background: #ff3b30;
+  }
+  .macos-btn.minimize {
+    background: #ffbd2e;
+    border: 1px solid #dfa123;
+  }
+  .macos-btn.maximize {
+    background: #28c840;
+    border: 1px solid #1aab29;
+  }
+  .send-btn {
+    margin-left: auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #007aff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .send-btn:hover {
+    background: #0056b3;
+  }
+  .macos-content {
+    padding: 0;
+    font-size: 14px;
+  }
+  .mail-field {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e5e5e5;
+    gap: 8px;
+  }
+  .mail-label {
+    color: #888;
+    font-weight: 500;
+  }
+  .mail-value {
+    color: #1a1a1a;
+  }
+  .mail-field input,
+  .mail-body input {
     border: none;
     border-bottom: 1px solid #ccc;
     padding: 0;
     font-size: inherit;
     font-family: inherit;
-font-weight: 500;
     background: transparent;
+    outline: none;
   }
-  .contact-section .btn {
+  .mail-field input::placeholder,
+  .mail-body input::placeholder {
+    color: #aaa;
+  }
+  #contact-email {
+    flex: 1;
+    border-bottom: none;
+  }
+  #contact-name {
+    border-bottom: none;
+  }
+  .name-wrapper {
+    display: inline;
+    white-space: nowrap;
+  }
+  .mail-body {
+    padding: 12px;
+    background: #fff;
+  }
+  .mail-body p {
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    line-height: 1.8;
+  }
+  .mail-body .btn {
     padding: 0.1rem 0.35rem;
     font-size: 0.85rem;
     vertical-align: middle;
     line-height: 1.2;
-    position: relative;
-    top: -2px;
+  }
+  .mail-body .chat-line {
+    text-align: center;
   }
   .contact-section .btn.pressed {
     transform: translateY(2px);
     box-shadow: 0 0 0 #c0c0c0;
-  }
-  .contact-section input:focus {
-    outline: none;
-  }
-  .contact-section input::placeholder {
-    color: #999;
   }
 </style>
 
@@ -88,6 +235,9 @@ font-weight: 500;
   const nameInput = document.getElementById('contact-name') as HTMLInputElement;
   const emailInput = document.getElementById('contact-email') as HTMLInputElement;
   const chatBtn = document.getElementById('chat-btn') as HTMLAnchorElement;
+  const contactSection = document.getElementById('contact-section');
+  const videoChatToggle = document.getElementById('video-chat-toggle');
+  const closeContact = document.getElementById('close-contact');
 
   function updateChatLink() {
     const params = new URLSearchParams();
@@ -96,6 +246,19 @@ font-weight: 500;
     const query = params.toString();
     chatBtn.href = '/cal' + (query ? '?' + query : '');
   }
+
+  function toggleContact() {
+    contactSection?.classList.toggle('collapsed');
+    videoChatToggle?.classList.toggle('active');
+  }
+
+  function closeContactSection() {
+    contactSection?.classList.add('collapsed');
+    videoChatToggle?.classList.remove('active');
+  }
+
+  videoChatToggle?.addEventListener('click', toggleContact);
+  closeContact?.addEventListener('click', closeContactSection);
 
   function measureText(text: string, font: string) {
     const span = document.createElement('span');
@@ -110,20 +273,21 @@ font-weight: 500;
     return width;
   }
 
-  function resizeInput(input: HTMLInputElement) {
-    const font = getComputedStyle(input).font;
-    const placeholderWidth = measureText(input.placeholder, font);
-    const valueWidth = input.value ? measureText(input.value, font) : 0;
-    input.style.width = Math.max(placeholderWidth, valueWidth) + 2 + 'px';
+  function resizeNameInput() {
+    const font = getComputedStyle(nameInput).font;
+    const placeholderWidth = measureText(nameInput.placeholder, font);
+    const valueWidth = nameInput.value ? measureText(nameInput.value, font) : 0;
+    nameInput.style.width = (nameInput.value ? valueWidth : placeholderWidth) + 2 + 'px';
   }
 
-  function handleInput(input: HTMLInputElement) {
-    resizeInput(input);
+  nameInput?.addEventListener('input', () => {
+    resizeNameInput();
     updateChatLink();
-  }
+  });
+  emailInput?.addEventListener('input', updateChatLink);
 
-  nameInput?.addEventListener('input', () => handleInput(nameInput));
-  emailInput?.addEventListener('input', () => handleInput(emailInput));
+  // Initial resize
+  resizeNameInput();
 
   function submitChat() {
     updateChatLink();
@@ -140,8 +304,4 @@ font-weight: 500;
       submitChat();
     }
   });
-
-  // Initial resize
-  resizeInput(nameInput);
-  resizeInput(emailInput);
 </script>
