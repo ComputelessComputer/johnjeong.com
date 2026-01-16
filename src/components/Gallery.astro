@@ -4,6 +4,8 @@ import ExifReader from 'exifreader';
 import fs from 'node:fs';
 import path from 'node:path';
 
+const GOOGLE_MAPS_API_KEY = import.meta.env.GOOGLE_MAPS_API_KEY;
+
 const galleryDir = path.join(process.cwd(), 'part-of-my-brain/gallery');
 const files = fs.readdirSync(galleryDir).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
 
@@ -83,7 +85,23 @@ images.sort((a, b) => {
       <Image src={image.src} alt={image.filename} loading={index < 2 ? "eager" : "lazy"} />
       {(image.date || image.location) && (
         <figcaption>
-          {image.date}{image.date && image.location && ' · '}{image.location}
+          {image.date}{image.date && image.location && ' · '}
+          {image.location && (
+            <span class="geo-coords" data-location={image.location}>
+              {image.location}
+              <div class="map-tooltip">
+                <iframe
+src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${image.location.replace(' ', '')}&zoom=15`}
+                  width="280"
+                  height="200"
+                  style="border:0;"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </span>
+          )}
         </figcaption>
       )}
     </figure>
@@ -111,5 +129,41 @@ images.sort((a, b) => {
     font-size: 0.75rem;
     font-family: monospace;
     color: #666;
+  }
+
+  .geo-coords {
+    position: relative;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+  }
+
+  .map-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    padding: 4px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .geo-coords:hover .map-tooltip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .map-tooltip iframe {
+    display: block;
+    border-radius: 4px;
   }
 </style>
