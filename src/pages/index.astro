@@ -8,6 +8,10 @@ import Header from "../components/Header.astro";
 
   <p>I like simple & intuitive stuff.</p>
 
+  <div class="info-section">
+    <p><strong>Did you know?</strong> This website and everything on it is all open sourced. Read more in <a href="/essays/building-my-new-website">/essays/building-my-new-website</a></p>
+  </div>
+
   <div class="social">
     <a href="https://www.linkedin.com/in/johntopia/" target="_blank" rel="noopener" aria-label="LinkedIn">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -70,6 +74,28 @@ import Header from "../components/Header.astro";
 </Base>
 
 <style>
+  .info-section {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f8f8;
+    border-left: 3px solid #007aff;
+    border-radius: 4px;
+  }
+  .info-section p {
+    margin: 0;
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .info-section a {
+    color: #007aff;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom-color 0.2s;
+  }
+  .info-section a:hover {
+    border-bottom-color: #007aff;
+  }
   .social {
     display: flex;
     gap: 1rem;
