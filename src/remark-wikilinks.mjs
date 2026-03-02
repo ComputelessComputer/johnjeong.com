@@ -3,7 +3,7 @@ import { visit } from "unist-util-visit";
 const ASSETS_DIR_PREFIX = "../assets/";
 const IMAGE_EXTENSIONS_REGEX =
   /\.(avif|bmp|gif|ico|jpe?g|png|svg|tiff?|webp)(?:[?#].*)?$/i;
-const EXCALIDRAW_FILE_REGEX = /\.excalidraw(?:[?#].*)?$/i;
+const EXCALIDRAW_FILE_REGEX = /\.excalidraw(?:\.md)?(?:[?#].*)?$/i;
 const WIKILINK_OR_EMBED_REGEX = /(!)?\[\[([^[\]]+)\]\]/g;
 
 function isExternalOrAbsoluteUrl(url) {

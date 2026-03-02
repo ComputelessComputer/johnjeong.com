@@ -253,6 +253,10 @@ const { title } = Astro.props;
     </script>
     <script is:inline>
       document.addEventListener("DOMContentLoaded", async () => {
+        const isExcalidrawPath = (value) =>
+          typeof value === "string" &&
+          /\.excalidraw(?:\.md)?(?:[?#].*)?$/i.test(value.trim());
+
         const createExcalidrawEmbed = (path) => {
           const figure = document.createElement("figure");
           figure.className = "excalidraw-figure";
@@ -275,7 +279,9 @@ const { title } = Astro.props;
         if (prose) {
           for (const paragraph of prose.querySelectorAll("p")) {
             const paragraphText = paragraph.textContent?.trim() ?? "";
-            const inlineEmbedMatch = paragraphText.match(/^!\[\[([^[\]]+\.excalidraw)\]\]$/i);
+            const inlineEmbedMatch = paragraphText.match(
+              /^!\[\[([^[\]]+\.excalidraw(?:\.md)?)\]\]$/i,
+            );
             if (inlineEmbedMatch?.[1]) {
               paragraph.replaceWith(createExcalidrawEmbed(inlineEmbedMatch[1].trim()));
               continue;
@@ -287,7 +293,7 @@ const { title } = Astro.props;
             }
 
             const path = directLink.textContent?.trim() ?? "";
-            if (!path.toLowerCase().endsWith(".excalidraw")) {
+            if (!isExcalidrawPath(path)) {
               continue;
             }
 
