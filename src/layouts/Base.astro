@@ -166,6 +166,34 @@ const { title } = Astro.props;
         margin: 1.5rem 0 2rem;
       }
 
+      .prose .excalidraw-figure {
+        margin: 1.2rem 0;
+      }
+
+      .prose .excalidraw-embed {
+        min-height: 8rem;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        padding: 0.75rem;
+        background: #fafafa;
+      }
+
+      .prose .excalidraw-embed svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .prose .excalidraw-embed.is-error {
+        background: #fff7f7;
+        border-color: #f0c2c2;
+      }
+
+      .prose .excalidraw-embed-status {
+        font-size: 0.9rem;
+        color: #555;
+      }
+
       .btn {
         display: inline-block;
         padding: 0.4rem 0.75rem;
@@ -221,6 +249,124 @@ const { title } = Astro.props;
         window.addEventListener('scroll', updateBlur);
         window.addEventListener('resize', updateBlur);
         updateBlur();
+      });
+    </script>
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const createExcalidrawEmbed = (path) => {
+          const figure = document.createElement("figure");
+          figure.className = "excalidraw-figure";
+
+          const embed = document.createElement("div");
+          embed.className = "excalidraw-embed";
+          embed.dataset.excalidrawPath = encodeURIComponent(path);
+
+          const fallbackLink = document.createElement("a");
+          fallbackLink.href = `/api/excalidraw?path=${encodeURIComponent(path)}`;
+          fallbackLink.textContent = path;
+
+          embed.append(fallbackLink);
+          figure.append(embed);
+          return figure;
+        };
+
+        // Backfill legacy output where ![[...excalidraw]] was transformed into ! + wikilink.
+        const prose = document.querySelector(".prose");
+        if (prose) {
+          for (const paragraph of prose.querySelectorAll("p")) {
+            const paragraphText = paragraph.textContent?.trim() ?? "";
+            const inlineEmbedMatch = paragraphText.match(/^!\[\[([^[\]]+\.excalidraw)\]\]$/i);
+            if (inlineEmbedMatch?.[1]) {
+              paragraph.replaceWith(createExcalidrawEmbed(inlineEmbedMatch[1].trim()));
+              continue;
+            }
+
+            const directLink = paragraph.querySelector(":scope > a");
+            if (!directLink) {
+              continue;
+            }
+
+            const path = directLink.textContent?.trim() ?? "";
+            if (!path.toLowerCase().endsWith(".excalidraw")) {
+              continue;
+            }
+
+            if (paragraphText === path || paragraphText === `!${path}`) {
+              paragraph.replaceWith(createExcalidrawEmbed(path));
+            }
+          }
+        }
+
+        const embeds = Array.from(
+          document.querySelectorAll(".excalidraw-embed[data-excalidraw-path]"),
+        );
+        if (!embeds.length) {
+          return;
+        }
+
+        let exportToSvg;
+        try {
+          const excalidraw = await import(
+            "https://esm.sh/@excalidraw/excalidraw@0.18.0?bundle&exports=exportToSvg",
+          );
+          exportToSvg = excalidraw.exportToSvg;
+        } catch (error) {
+          console.error("Failed to load Excalidraw renderer", error);
+          for (const embed of embeds) {
+            embed.classList.add("is-error");
+            embed.textContent = "Unable to load Excalidraw renderer.";
+          }
+          return;
+        }
+
+        for (const embed of embeds) {
+          const encodedPath = embed.dataset.excalidrawPath;
+          if (!encodedPath) {
+            continue;
+          }
+
+          const path = decodeURIComponent(encodedPath);
+          const endpoint = `/api/excalidraw?path=${encodeURIComponent(path)}`;
+          const status = document.createElement("div");
+          status.className = "excalidraw-embed-status";
+          status.textContent = "Loading Excalidraw...";
+          embed.replaceChildren(status);
+
+          try {
+            const response = await fetch(endpoint);
+            if (!response.ok) {
+              throw new Error(`Unable to load ${path} (${response.status})`);
+            }
+
+            const scene = await response.json();
+            const svg = await exportToSvg({
+              elements: Array.isArray(scene.elements) ? scene.elements : [],
+              appState: {
+                exportWithDarkMode: false,
+                viewBackgroundColor: "#ffffff",
+                ...scene.appState,
+              },
+              files: scene.files && typeof scene.files === "object" ? scene.files : {},
+            });
+
+            svg.setAttribute("loading", "lazy");
+            embed.replaceChildren(svg);
+          } catch (error) {
+            console.error("Failed to render Excalidraw scene", error);
+            embed.classList.add("is-error");
+
+            const message = document.createElement("div");
+            message.className = "excalidraw-embed-status";
+            message.textContent = `Unable to render ${path}.`;
+
+            const openLink = document.createElement("a");
+            openLink.href = endpoint;
+            openLink.textContent = " Open source JSON";
+
+            message.append(openLink);
+            embed.replaceChildren(message);
+          }
+        }
       });
     </script>
   </head>

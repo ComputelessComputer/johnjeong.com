@@ -2,34 +2,10 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
+import { getJournalRelativeDate, getJournalTimeZone } from "../../utils/journal-date";
 
 const journals = await getCollection("journals");
 const sortedJournals = journals.sort((a, b) => b.id.localeCompare(a.id));
-
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-
-function getRelativeDate(dateStr: string): string {
-  // Parse as local date, not UTC (ISO strings are parsed as UTC by default)
-  const [year, month, day] = dateStr.split("-").map(Number);
-  const journalDate = new Date(year, month - 1, day, 0, 0, 0, 0);
-
-  const diffTime = today.getTime() - journalDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffDays < 14) {
-    const dayName = journalDate.toLocaleDateString("en-US", { weekday: "long" });
-    return `Last ${dayName}`;
-  }
-  return journalDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
 ---
 
 <Base title="Daily Logs - John Jeong">
@@ -38,7 +14,8 @@ function getRelativeDate(dateStr: string): string {
   <ul>
     {sortedJournals.map((journal) => {
       const dateStr = journal.id.replace(/_/g, "-");
-      const relativeDate = getRelativeDate(dateStr);
+      const timeZone = getJournalTimeZone(journal.data.city);
+      const relativeDate = getJournalRelativeDate(dateStr, timeZone);
       return (
         <li style="margin-bottom: 0.5rem;">
           <a href={`/journals/${journal.id}`}>{relativeDate}</a>

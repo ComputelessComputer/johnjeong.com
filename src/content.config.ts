@@ -14,9 +14,12 @@ const essays = defineCollection({
   }),
 });
 
-// Journals: no frontmatter, date derived from filename (e.g., 2026_01_02.md)
+// Journals: date derived from filename (e.g., 2026_01_02.md)
 const journals = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/journals" }),
+  schema: z.object({
+    city: z.string().optional(),
+  }),
 });
 
 const inspirations = defineCollection({
