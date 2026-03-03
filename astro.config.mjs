@@ -1,3 +1,6 @@
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 import { defineConfig } from "astro/config";
 import vercel from "@astrojs/vercel";
 import { remarkWikilinks, rehypeWikilinks } from "./src/remark-wikilinks.mjs";
@@ -57,6 +60,52 @@ function rewriteMarkdownImageUrls(source) {
   });
 }
 
+function resolvePartOfMyBrainAssetUrl(source, importer) {
+  if (typeof source !== "string" || typeof importer !== "string") {
+    return null;
+  }
+
+  const sourcePath = source.split("?")[0]?.trim();
+  if (
+    !sourcePath ||
+    sourcePath.includes("/") ||
+    sourcePath.includes("\\") ||
+    !IMAGE_EXTENSIONS_REGEX.test(sourcePath)
+  ) {
+    return null;
+  }
+
+  const importerPath = importer.startsWith("file://")
+    ? fileURLToPath(importer)
+    : importer;
+  const normalizedImporterPath = importerPath.replaceAll("\\", "/");
+  const vaultMarker = "/part-of-my-brain/";
+  const markerIndex = normalizedImporterPath.lastIndexOf(vaultMarker);
+
+  if (markerIndex === -1) {
+    return null;
+  }
+
+  const vaultRoot = normalizedImporterPath.slice(
+    0,
+    markerIndex + vaultMarker.length,
+  );
+  const candidatePath = path.posix.join(vaultRoot, "assets", sourcePath);
+
+  return existsSync(candidatePath) ? candidatePath : null;
+}
+
+function contentImageFallbackPlugin() {
+  return {
+    name: "content-image-fallback-plugin",
+    enforce: "pre",
+    resolveId(source, importer) {
+      const resolvedAsset = resolvePartOfMyBrainAssetUrl(source, importer);
+      return resolvedAsset ?? null;
+    },
+  };
+}
+
 function markdownAssetsPathPlugin() {
   return {
     name: "markdown-assets-path-plugin",
@@ -82,7 +131,7 @@ function markdownAssetsPathPlugin() {
 export default defineConfig({
   adapter: vercel(),
   vite: {
-    plugins: [markdownAssetsPathPlugin()],
+    plugins: [contentImageFallbackPlugin(), markdownAssetsPathPlugin()],
   },
   markdown: {
     remarkPlugins: [remarkWikilinks],
