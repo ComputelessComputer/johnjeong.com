@@ -3,12 +3,12 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "git submodule update --init --recursive --remote && astro dev",
+    "dev": "rm -rf .vercel/output && git submodule update --init --recursive --remote && astro dev",
     "normalize:content-images": "bun run scripts/normalize-content-image-paths.ts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "astro check",
+    "lint": "rm -rf .vercel/output && astro check",
     "fmt": "bunx prettier . --write --ignore-path .prettierignore",
     "fmt:check": "bunx prettier . --check --ignore-path .prettierignore",
     "check": "bun run lint && bun run fmt:check"
