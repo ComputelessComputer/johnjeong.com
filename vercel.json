@@ -1,5 +1,5 @@
 {
-  "buildCommand": "git submodule update --init --recursive && bun run build",
+  "buildCommand": "rm -rf .vercel/output && git submodule update --init --recursive && bun run normalize:content-images && bun run build",
   "redirects": [
     {
       "source": "/cal",

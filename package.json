@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "git submodule update --init --recursive --remote && astro dev",
+    "normalize:content-images": "bun run scripts/normalize-content-image-paths.ts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
