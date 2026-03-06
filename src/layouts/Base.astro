@@ -86,44 +86,49 @@ const { title } = Astro.props;
         padding-left: 1.5em;
       }
 
-      .prose ul.contains-task-list {
-        padding-left: 0;
-      }
-
+      .prose ul.contains-task-list,
       .prose li.task-list-item > ul.contains-task-list {
-        padding-left: 1.25em;
+        padding-left: 1.5em;
       }
 
       .prose li.task-list-item {
         list-style: none;
+        margin-left: -4px;
+      }
+
+      .prose li.task-list-item > p {
+        margin: 0;
       }
 
       .prose li.task-list-item::marker {
         content: "";
       }
 
-      .prose li.task-list-item > input[type="checkbox"] {
+      .prose li.task-list-item > input[type="checkbox"],
+      .prose li.task-list-item > p > input[type="checkbox"] {
         appearance: none;
         -webkit-appearance: none;
-        width: 1.3em;
-        height: 1.3em;
-        margin: 0 0.45em 0 0;
-        vertical-align: -0.16em;
+        width: 1.05em;
+        height: 1.05em;
+        margin: 0 0.45em 0 -1.5em;
+        vertical-align: -0.08em;
         border: 1px solid #a3a3a3;
-        border-radius: 0.2em;
+        border-radius: 0.22em;
         background-color: #fff;
         background-position: center;
         background-repeat: no-repeat;
-        background-size: 70% 70%;
+        background-size: 72% 72%;
       }
 
-      .prose li.task-list-item > input[type="checkbox"]:checked {
-        border-color: #3b82f6;
-        background-color: #3b82f6;
+      .prose li.task-list-item > input[type="checkbox"]:checked,
+      .prose li.task-list-item > p > input[type="checkbox"]:checked {
+        border-color: #1a1a1a;
+        background-color: #1a1a1a;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.5L6.5 11.5L12.5 4.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       }
 
-      .prose li.task-list-item > input[type="checkbox"]:disabled {
+      .prose li.task-list-item > input[type="checkbox"]:disabled,
+      .prose li.task-list-item > p > input[type="checkbox"]:disabled {
         opacity: 1;
       }
 
