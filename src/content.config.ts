@@ -14,14 +14,6 @@ const essays = defineCollection({
   }),
 });
 
-// Journals: date derived from filename (e.g., 2026_01_02.md)
-const journals = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/journals" }),
-  schema: z.object({
-    city: z.string().optional(),
-  }),
-});
-
 const inspirations = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/inspirations" }),
   schema: z.object({
@@ -54,4 +46,4 @@ const pages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/pages" }),
 });
 
-export const collections = { essays, journals, inspirations, lessons, pages };
+export const collections = { essays, inspirations, lessons, pages };
