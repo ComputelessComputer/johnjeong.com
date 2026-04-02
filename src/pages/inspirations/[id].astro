@@ -24,7 +24,11 @@ const date = inspiration.data.created_at.toLocaleDateString("en-US", {
 const subtitle = inspiration.data.description || "";
 ---
 
-<Base title={inspiration.data.title}>
+<Base
+  title={inspiration.data.title}
+  description={subtitle || "A note from John Jeong's inspiration archive."}
+  ogEyebrow="Inspiration"
+>
   <Header currentPage="inspirations" showGoBack={true} title={inspiration.data.title} subtitle={subtitle} />
 
   <article>

@@ -24,7 +24,11 @@ const date = essay.data.created_at.toLocaleDateString("en-US", {
 const subtitle = essay.data.description || "";
 ---
 
-<Base title={essay.data.title}>
+<Base
+  title={essay.data.title}
+  description={subtitle || "An essay by John Jeong."}
+  ogEyebrow="Essay"
+>
   <Header currentPage="essays" showGoBack={true} title={essay.data.title} subtitle={subtitle} />
 
   <article>

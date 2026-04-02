@@ -130,6 +130,7 @@ function markdownAssetsPathPlugin() {
 
 export default defineConfig({
   adapter: vercel(),
+  site: "https://johnjeong.com",
   vite: {
     plugins: [contentImageFallbackPlugin(), markdownAssetsPathPlugin()],
   },

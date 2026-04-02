@@ -1,11 +1,40 @@
 ---
 import Footer from "../components/Footer.astro";
+import {
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  TWITTER_HANDLE,
+  buildOgImagePath,
+  toAbsoluteUrl,
+} from "../lib/site";
 
 interface Props {
   title: string;
+  description?: string;
+  canonicalPath?: string;
+  ogEyebrow?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  canonicalPath = Astro.url.pathname,
+  ogEyebrow,
+  ogTitle = title,
+  ogDescription = description,
+} = Astro.props;
+
+const documentTitle = title === SITE_NAME ? SITE_NAME : `${title} - ${SITE_NAME}`;
+const canonicalUrl = toAbsoluteUrl(canonicalPath);
+const ogImageUrl = toAbsoluteUrl(
+  buildOgImagePath({
+    title: ogTitle,
+    description: ogDescription,
+    eyebrow: ogEyebrow ?? SITE_NAME,
+  }),
+);
 ---
 
 <!doctype html>
@@ -19,7 +48,25 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <title>{title}</title>
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${ogTitle} - ${SITE_NAME}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
+    <meta name="twitter:creator" content={TWITTER_HANDLE} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <style is:global>
       :root {
         --max-width: 640px;

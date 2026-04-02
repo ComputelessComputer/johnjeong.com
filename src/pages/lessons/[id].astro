@@ -22,9 +22,11 @@ const date = lesson.data.created_at.toLocaleDateString("en-US", {
 });
 
 const subtitle = lesson.data.author;
+const description =
+  lesson.data.description || `What John Jeong learned from ${lesson.data.author}.`;
 ---
 
-<Base title={lesson.data.title}>
+<Base title={lesson.data.title} description={description} ogEyebrow="Lesson">
   <Header currentPage="lessons" showGoBack={true} title={lesson.data.title} subtitle={subtitle}>
     {lesson.data.link ? (
       <a slot="title-extra" href={lesson.data.link} target="_blank" rel="noopener" class="title-link">

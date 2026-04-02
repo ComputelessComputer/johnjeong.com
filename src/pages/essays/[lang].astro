@@ -17,7 +17,11 @@ const sortedEssays = essays.sort((a, b) =>
 );
 ---
 
-<Base title="Essays - John Jeong">
+<Base
+  title="Essays"
+  description="My thoughts about the world."
+  ogEyebrow="Essays"
+>
   <Header currentPage="essays" subtitle="My thoughts about the world">
     <Fragment slot="title-extra">
       Essays <span class="lang-part">in <a class="lang-toggle" href={lang === "en" ? "/essays/ko" : "/essays/en"}>{lang === "en" ? "English" : "Korean"}</a></span>
