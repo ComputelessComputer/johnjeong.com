@@ -25,10 +25,11 @@ const navItems = [
       <a href="/">{title}</a>
     )}
   </h1>
-  <p class="subtitle" data-full-text={subtitle}>
-    <span class="subtitle-text" set:html={subtitle} />
-    <button class="see-more" aria-label="Expand subtitle">see more</button>
-  </p>
+  {subtitle && (
+    <p class="subtitle">
+      <span class="subtitle-text" set:html={subtitle} />
+    </p>
+  )}
 </header>
 
 <div class="nav-container">
@@ -57,42 +58,11 @@ const navItems = [
   }
   .subtitle {
     color: #666;
-    position: relative;
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
   }
   .subtitle .subtitle-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    flex: 1;
-    min-width: 0;
-  }
-  .subtitle.expanded .subtitle-text {
     display: block;
-    -webkit-line-clamp: unset;
-  }
-  .subtitle .see-more {
-    display: none;
-    background: none;
-    border: none;
-    color: #999;
-    font-size: 0.85em;
-    cursor: pointer;
-    padding: 0;
-    text-decoration: underline;
-    font-family: inherit;
-    flex-shrink: 0;
-  }
-  .subtitle.needs-truncation .see-more {
-    display: inline;
-  }
-  .subtitle .see-more:hover {
-    color: #666;
   }
   .hyprnote-link {
     font-family: var(--font-serif);
@@ -178,31 +148,6 @@ const navItems = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Subtitle expand/collapse
-    const subtitle = document.querySelector('.subtitle');
-    const subtitleText = subtitle?.querySelector('.subtitle-text') as HTMLElement | null;
-    const seeMoreBtn = subtitle?.querySelector('.see-more');
-
-    if (subtitle && subtitleText && seeMoreBtn) {
-      const checkOverflow = () => {
-        return subtitleText.scrollHeight > subtitleText.clientHeight;
-      };
-
-      if (checkOverflow()) {
-        subtitle.classList.add('needs-truncation');
-      }
-
-      seeMoreBtn.addEventListener('click', () => {
-        if (!subtitle.classList.contains('expanded')) {
-          subtitle.classList.add('expanded');
-          seeMoreBtn.textContent = 'see less';
-        } else {
-          subtitle.classList.remove('expanded');
-          seeMoreBtn.textContent = 'see more';
-        }
-      });
-    }
-
     // Nav scroll fade indicators
     const navContainer = document.querySelector('.nav-container');
     const nav = document.querySelector('.main-nav');
