@@ -3,8 +3,6 @@ import { ImageResponse } from "@vercel/og";
 import { createElement } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
-  DEFAULT_DESCRIPTION,
-  OG_DESCRIPTION_MAX_LENGTH,
   OG_EYEBROW_MAX_LENGTH,
   OG_TITLE_MAX_LENGTH,
   SITE_NAME,
@@ -44,12 +42,6 @@ function getTitleSize(title: string) {
 
 export const GET: APIRoute = ({ url }) => {
   const title = getTextParam(url, "title", SITE_NAME, OG_TITLE_MAX_LENGTH);
-  const description = getTextParam(
-    url,
-    "description",
-    DEFAULT_DESCRIPTION,
-    OG_DESCRIPTION_MAX_LENGTH,
-  );
   const eyebrow = getTextParam(
     url,
     "eyebrow",
@@ -63,8 +55,8 @@ export const GET: APIRoute = ({ url }) => {
         width: "100%",
         height: "100%",
         display: "flex",
-        padding: "28px",
-        backgroundColor: "#ede7de",
+        padding: "48px",
+        backgroundColor: "#ffffff",
         color: "#1a1a1a",
       },
       div(
@@ -74,84 +66,42 @@ export const GET: APIRoute = ({ url }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "44px 48px",
-          border: "1px solid #d5cec3",
-          backgroundColor: "#fffdf8",
+          border: "1px solid #e6e6e6",
+          padding: "46px 52px",
         },
         div(
           {
-            width: "100%",
+            display: "flex",
+            fontSize: 18,
+            textTransform: "uppercase",
+            letterSpacing: "0.16em",
+            color: "#666666",
+          },
+          eyebrow,
+        ),
+        div(
+          {
+            display: "flex",
+            fontSize: getTitleSize(title),
+            lineHeight: 1.02,
+            letterSpacing: "-0.06em",
+            fontWeight: 400,
+            fontStyle: "italic",
+            fontFamily: "Georgia, serif",
+            maxWidth: "900px",
+          },
+          title,
+        ),
+        div(
+          {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: 22,
-            textTransform: "uppercase",
-            letterSpacing: "0.18em",
-            color: "#6f685f",
+            color: "#666666",
           },
-          div({ display: "flex" }, eyebrow),
           div({ display: "flex" }, "johnjeong.com"),
-        ),
-        div(
-          {
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: "28px",
-          },
-          div(
-            {
-              display: "flex",
-              fontSize: getTitleSize(title),
-              lineHeight: 1.02,
-              letterSpacing: "-0.05em",
-              fontWeight: 700,
-              maxWidth: "1000px",
-            },
-            title,
-          ),
-          div(
-            {
-              display: "flex",
-              fontSize: 30,
-              lineHeight: 1.32,
-              color: "#5e584f",
-              maxWidth: "920px",
-            },
-            description,
-          ),
-        ),
-        div(
-          {
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-          },
-          div(
-            {
-              display: "flex",
-              alignItems: "center",
-              gap: "14px",
-              fontSize: 28,
-            },
-            div({
-              width: "14px",
-              height: "14px",
-              display: "flex",
-              borderRadius: "9999px",
-              backgroundColor: "#1a1a1a",
-            }),
-            div({ display: "flex" }, SITE_NAME),
-          ),
-          div(
-            {
-              display: "flex",
-              fontSize: 24,
-              color: "#6f685f",
-            },
-            "simple & intuitive stuff",
-          ),
+          div({ display: "flex" }, "simple & intuitive stuff"),
         ),
       ),
     ),
