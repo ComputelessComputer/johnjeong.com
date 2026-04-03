@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
+import { isPublishedEssay } from "../../lib/essays";
 
 export function getStaticPaths() {
   return [
@@ -11,9 +12,11 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const essays = await getCollection("essays", ({ data }) => data.published && data.lang === lang);
+const essays = (await getCollection("essays", isPublishedEssay)).filter(
+  (essay) => essay.data.lang === lang
+);
 const sortedEssays = essays.sort((a, b) =>
-  new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime()
+  b.data.created_at.getTime() - a.data.created_at.getTime()
 );
 ---
 

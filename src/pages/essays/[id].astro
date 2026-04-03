@@ -3,16 +3,20 @@ import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
 import Giscus from "../../components/Giscus.astro";
+import {
+  isPublishedEssay,
+  type PublishedEssayEntry,
+} from "../../lib/essays";
 
 export async function getStaticPaths() {
-  const essays = await getCollection("essays", ({ data }) => data.published);
+  const essays = await getCollection("essays", isPublishedEssay);
   return essays.map((essay) => ({
     params: { id: essay.id },
     props: { essay },
   }));
 }
 
-const { essay } = Astro.props;
+const { essay } = Astro.props as { essay: PublishedEssayEntry };
 const { Content } = await render(essay);
 
 const date = essay.data.created_at.toLocaleDateString("en-US", {

@@ -1,17 +1,28 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+const essayBaseSchema = {
+  title: z.string(),
+  description: z.string().optional(),
+  updated_at: z.coerce.date().optional(),
+  tags: z.array(z.string()).optional(),
+  lang: z.enum(["en", "ko"]).default("en"),
+};
+
 const essays = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./part-of-my-brain/essays" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    created_at: z.coerce.date(),
-    updated_at: z.coerce.date().optional(),
-    published: z.boolean().default(false),
-    tags: z.array(z.string()).optional(),
-    lang: z.enum(["en", "ko"]).default("en"),
-  }),
+  schema: z.union([
+    z.object({
+      ...essayBaseSchema,
+      created_at: z.coerce.date(),
+      published: z.literal(true),
+    }),
+    z.object({
+      ...essayBaseSchema,
+      created_at: z.coerce.date().optional(),
+      published: z.literal(false).default(false),
+    }),
+  ]),
 });
 
 const inspirations = defineCollection({
