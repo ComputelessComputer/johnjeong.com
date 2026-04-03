@@ -13,6 +13,8 @@ export const prerender = false;
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+const INSTRUMENT_SERIF_ITALIC_PATH = "/fonts/instrument-serif-italic.ttf";
+const fontCache = new Map<string, Promise<ArrayBuffer>>();
 
 function div(style: CSSProperties, ...children: ReactNode[]) {
   return createElement("div", { style }, ...children);
@@ -40,7 +42,28 @@ function getTitleSize(title: string) {
   return 82;
 }
 
-export const GET: APIRoute = ({ url }) => {
+function getInstrumentSerifItalic(url: URL) {
+  const fontUrl = new URL(INSTRUMENT_SERIF_ITALIC_PATH, url.origin).toString();
+
+  if (!fontCache.has(fontUrl)) {
+    fontCache.set(
+      fontUrl,
+      fetch(fontUrl).then(async (response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Failed to load Instrument Serif italic font: ${response.status}`,
+          );
+        }
+
+        return response.arrayBuffer();
+      }),
+    );
+  }
+
+  return fontCache.get(fontUrl)!;
+}
+
+export const GET: APIRoute = async ({ url }) => {
   const title = getTextParam(url, "title", SITE_NAME, OG_TITLE_MAX_LENGTH);
   const eyebrow = getTextParam(
     url,
@@ -48,6 +71,7 @@ export const GET: APIRoute = ({ url }) => {
     SITE_NAME,
     OG_EYEBROW_MAX_LENGTH,
   );
+  const instrumentSerifItalic = await getInstrumentSerifItalic(url);
 
   return new ImageResponse(
     div(
@@ -87,7 +111,7 @@ export const GET: APIRoute = ({ url }) => {
             letterSpacing: "-0.06em",
             fontWeight: 400,
             fontStyle: "italic",
-            fontFamily: "Georgia, serif",
+            fontFamily: "Instrument Serif",
             maxWidth: "900px",
           },
           title,
@@ -108,6 +132,14 @@ export const GET: APIRoute = ({ url }) => {
     {
       width: WIDTH,
       height: HEIGHT,
+      fonts: [
+        {
+          name: "Instrument Serif",
+          data: instrumentSerifItalic,
+          weight: 400,
+          style: "italic",
+        },
+      ],
       headers: {
         "cache-control":
           "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800",
