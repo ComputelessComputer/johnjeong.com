@@ -205,6 +205,7 @@ const ogImageUrl = toAbsoluteUrl(
       }
 
       .prose li.task-list-item {
+        display: block;
         list-style: none;
         margin-left: -4px;
       }
@@ -214,6 +215,16 @@ const ogImageUrl = toAbsoluteUrl(
       }
 
       .prose li.task-list-item::marker {
+        content: "";
+      }
+
+      .prose details > summary {
+        list-style: none;
+      }
+
+      .prose details > summary::-webkit-details-marker,
+      .prose details > summary::marker {
+        display: none;
         content: "";
       }
 
