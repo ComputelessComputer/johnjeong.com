@@ -5,9 +5,52 @@ const IMAGE_EXTENSIONS_REGEX =
   /\.(avif|bmp|gif|ico|jpe?g|png|svg|tiff?|webp)(?:[?#].*)?$/i;
 const EXCALIDRAW_FILE_REGEX = /\.excalidraw(?:\.md)?(?:[?#].*)?$/i;
 const WIKILINK_OR_EMBED_REGEX = /(!)?\[\[([^[\]]+)\]\]/g;
+const ESSAYS_DIR_SEGMENT = "/part-of-my-brain/essays/";
+const BARE_ESSAY_LINK_REGEX =
+  /^(?<slug>[a-z0-9]+(?:-[a-z0-9]+)*)(?<suffix>(?:[?#].*)?)$/i;
 
 function isExternalOrAbsoluteUrl(url) {
   return /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/|#)/i.test(url);
+}
+
+function isEssayMarkdownFile(file) {
+  if (!file) {
+    return false;
+  }
+
+  const filePath =
+    typeof file.path === "string"
+      ? file.path
+      : Array.isArray(file.history) && typeof file.history[0] === "string"
+        ? file.history[0]
+        : "";
+
+  return filePath.replaceAll("\\", "/").includes(ESSAYS_DIR_SEGMENT);
+}
+
+function normalizeEssayLinkUrl(url) {
+  if (typeof url !== "string") {
+    return url;
+  }
+
+  const trimmed = url.trim();
+  if (
+    !trimmed ||
+    isExternalOrAbsoluteUrl(trimmed) ||
+    trimmed.startsWith("./") ||
+    trimmed.startsWith("../") ||
+    trimmed.includes("/") ||
+    trimmed.includes("\\")
+  ) {
+    return trimmed;
+  }
+
+  const match = BARE_ESSAY_LINK_REGEX.exec(trimmed);
+  if (!match?.groups?.slug) {
+    return trimmed;
+  }
+
+  return `/essays/${match.groups.slug}${match.groups.suffix ?? ""}`;
 }
 
 function normalizeImageUrl(url) {
@@ -90,7 +133,9 @@ function consumeTrailingEmbedBang(parent, index) {
  * Remark plugin to transform [[page name]] syntax into links to /pages/slug
  */
 export function remarkWikilinks() {
-  return (tree) => {
+  return (tree, file) => {
+    const isEssayFile = isEssayMarkdownFile(file);
+
     visit(tree, "image", (node, index, parent) => {
       if (
         isExcalidrawFilePath(node.url) &&
@@ -106,6 +151,12 @@ export function remarkWikilinks() {
 
       node.url = normalizeImageUrl(node.url);
     });
+
+    if (isEssayFile) {
+      visit(tree, "link", (node) => {
+        node.url = normalizeEssayLinkUrl(node.url);
+      });
+    }
 
     visit(tree, "text", (node, index, parent) => {
       const text = node.value;
