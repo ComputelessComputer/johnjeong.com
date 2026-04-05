@@ -131,6 +131,37 @@ const ogImageUrl = toAbsoluteUrl(
         text-wrap: balance;
       }
 
+      .prose :is(h1, h2, h3, h4, h5, h6)[id] {
+        position: relative;
+        cursor: copy;
+      }
+
+      .prose :is(h1, h2, h3, h4, h5, h6)[id]::after {
+        content: "#";
+        position: absolute;
+        top: 0.15em;
+        right: 0;
+        opacity: 0;
+        color: #8a8a8a;
+        font-family: var(--font-mono);
+        font-size: 0.6em;
+        line-height: 1;
+        pointer-events: none;
+        transition:
+          opacity 0.15s ease,
+          color 0.15s ease;
+      }
+
+      .prose :is(h1, h2, h3, h4, h5, h6)[id]:hover::after,
+      .prose :is(h1, h2, h3, h4, h5, h6)[id][data-copy-state="copied"]::after {
+        opacity: 1;
+      }
+
+      .prose :is(h1, h2, h3, h4, h5, h6)[id][data-copy-state="copied"]::after {
+        content: "Copied";
+        color: #2f6f44;
+      }
+
       .prose :is(h2, h3) {
         font-family: var(--font-serif);
         font-weight: 400;
@@ -378,6 +409,76 @@ const ogImageUrl = toAbsoluteUrl(
         window.addEventListener('scroll', updateBlur);
         window.addEventListener('resize', updateBlur);
         updateBlur();
+      });
+    </script>
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        const headingSelector = ".prose :is(h1, h2, h3, h4, h5, h6)[id]";
+        let resetCopiedStateTimeout = 0;
+        let activeCopiedHeading = null;
+
+        const clearCopiedState = () => {
+          if (activeCopiedHeading instanceof HTMLElement) {
+            delete activeCopiedHeading.dataset.copyState;
+          }
+          activeCopiedHeading = null;
+        };
+
+        const showCopiedState = (heading) => {
+          clearCopiedState();
+          heading.dataset.copyState = "copied";
+          activeCopiedHeading = heading;
+
+          window.clearTimeout(resetCopiedStateTimeout);
+          resetCopiedStateTimeout = window.setTimeout(() => {
+            clearCopiedState();
+          }, 1500);
+        };
+
+        const copyText = async (value) => {
+          if (!navigator.clipboard?.writeText) {
+            throw new Error("Clipboard API is unavailable.");
+          }
+
+          await navigator.clipboard.writeText(value);
+        };
+
+        for (const heading of document.querySelectorAll(headingSelector)) {
+          if (!heading.hasAttribute("title")) {
+            heading.setAttribute("title", "Click to copy section link");
+          }
+        }
+
+        document.addEventListener("click", async (event) => {
+          if (event.defaultPrevented || !(event.target instanceof Element)) {
+            return;
+          }
+
+          if (event.target.closest("a, button, input, textarea, select, summary")) {
+            return;
+          }
+
+          const heading = event.target.closest(headingSelector);
+          if (!(heading instanceof HTMLElement) || !heading.id) {
+            return;
+          }
+
+          const selection = window.getSelection();
+          if (selection?.type === "Range" && selection.toString().trim()) {
+            return;
+          }
+
+          const sectionUrl = new URL(window.location.href);
+          sectionUrl.hash = heading.id;
+
+          try {
+            await copyText(sectionUrl.toString());
+            window.history.replaceState(null, "", sectionUrl);
+            showCopiedState(heading);
+          } catch (error) {
+            console.error(error);
+          }
+        });
       });
     </script>
     <script is:inline>
