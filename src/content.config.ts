@@ -1,11 +1,28 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+const emptyishToUndefined = (value: unknown) =>
+  value === "" || value === null ? undefined : value;
+
+const optionalDraftString = z.preprocess(
+  emptyishToUndefined,
+  z.string().optional(),
+);
+const optionalDraftDate = z.preprocess(
+  emptyishToUndefined,
+  z.coerce.date().optional(),
+);
+const optionalDraftTags = z.preprocess(
+  emptyishToUndefined,
+  z.array(z.string()).optional(),
+);
+const draftLang = z.preprocess(
+  emptyishToUndefined,
+  z.enum(["en", "ko"]).default("en"),
+);
+
 const essayBaseSchema = {
   title: z.string(),
-  description: z.string().optional(),
-  updated_at: z.coerce.date().optional(),
-  tags: z.array(z.string()).optional(),
   lang: z.enum(["en", "ko"]).default("en"),
 };
 
@@ -14,12 +31,19 @@ const essays = defineCollection({
   schema: z.union([
     z.object({
       ...essayBaseSchema,
+      description: z.string().optional(),
+      updated_at: z.coerce.date().optional(),
+      tags: z.array(z.string()).optional(),
       created_at: z.coerce.date(),
       published: z.literal(true),
     }),
     z.object({
       ...essayBaseSchema,
-      created_at: z.coerce.date().optional(),
+      description: optionalDraftString,
+      updated_at: optionalDraftDate,
+      tags: optionalDraftTags,
+      lang: draftLang,
+      created_at: optionalDraftDate,
       published: z.literal(false).default(false),
     }),
   ]),
