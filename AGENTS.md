@@ -1,6 +1,11 @@
 - use bun
 - use `bun fmt` for formatting
 
+## Git
+
+- commit and push directly to `main`
+- do not create separate branches
+
 ## Procedure
 
 - before finishing any code change, run `bun run check`
