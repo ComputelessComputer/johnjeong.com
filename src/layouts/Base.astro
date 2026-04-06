@@ -141,6 +141,10 @@ const ogImageUrl = toAbsoluteUrl(
         position: absolute;
         top: 0.15em;
         right: 0;
+        display: inline-grid;
+        place-items: center;
+        width: 1em;
+        height: 1em;
         opacity: 0;
         color: #8a8a8a;
         font-family: var(--font-mono);
@@ -158,8 +162,12 @@ const ogImageUrl = toAbsoluteUrl(
       }
 
       .prose :is(h1, h2, h3, h4, h5, h6)[id][data-copy-state="copied"]::after {
-        content: "Copied";
-        color: #2f6f44;
+        content: "";
+        color: transparent;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%232f6f44' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5 6.5 11.5 12.5 4.5'/%3E%3C/svg%3E");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
       }
 
       .prose :is(h2, h3) {
