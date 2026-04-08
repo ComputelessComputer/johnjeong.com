@@ -2,501 +2,93 @@
 import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
 
-const manifesto = [
-  "Taste matters more in the AI era, not less. Average work is getting cheaper. Clear judgment is getting more valuable.",
-  "Simplicity is respect. The best products remove friction, clarify intent, and feel obvious in hindsight.",
-  "Tools should be durable and legible. I like systems that are easy to inspect, easy to trust, and built to last.",
-  "Craftsmanship is still a competitive advantage. The people who care about details will keep building the future.",
+const interests = [
+  "Building software that feels simple, clear, and durable.",
+  "Writing about taste, craftsmanship, and the process of making useful things.",
+  "Collecting lessons, references, and ideas worth returning to.",
+  "Photography and keeping a record of what I notice.",
 ];
 ---
 
 <Base
   title="John Jeong"
-  description="John Jeong's manifesto on craftsmanship, software, and the kind of work worth making."
+  description="Co-founder & Co-CEO at Char. Notes on software, work, and things I care about."
   ogEyebrow="About"
+  hideFooter={true}
 >
-  <Header currentPage="home" />
+  <Header
+    currentPage="home"
+    subtitle='Co-founder & Co-CEO at <a href="https://char.com" target="_blank" rel="noopener" class="hyprnote-link">Char</a>.'
+  />
 
-  <section class="hero">
-    <p class="eyebrow">Introduction</p>
-    <h2>I'm John Jeong.</h2>
-    <p class="lede">
-      I build software, write essays, and care deeply about real craftsmanship.
+  <section class="intro">
+    <p>I'm John Jeong.</p>
+    <p>
+      I work on <a href="https://char.com" target="_blank" rel="noopener">Char</a>.
+      I like building software that is simple, legible, and built to last.
     </p>
     <p>
-      I am interested in tools that feel inevitable. Software that is simple,
-      precise, durable, and made with enough taste that it earns trust.
-    </p>
-    <p>
-      This site is where I share what I am learning, what I believe, and the
-      things I want to see more of in the world.
+      This site is where I keep essays, lessons, inspirations, and a few photos.
     </p>
   </section>
 
-  <section class="manifesto" aria-labelledby="manifesto-title">
-    <p class="eyebrow">Manifesto</p>
-    <h2 id="manifesto-title">What I believe</h2>
-    <ul class="manifesto-list">
-      {manifesto.map((item) => (
+  <section aria-labelledby="interests-title">
+    <h2 id="interests-title">Things I'm working on and interested in</h2>
+    <ul class="interest-list">
+      {interests.map((item) => (
         <li>{item}</li>
       ))}
     </ul>
   </section>
 
-  <section class="manifesto-cta" aria-labelledby="modernfaber-title">
-    <h2 id="modernfaber-title">If that resonates, join Modern Faber.</h2>
+  <section class="elsewhere" aria-labelledby="elsewhere-title">
+    <h2 id="elsewhere-title">Elsewhere</h2>
     <p>
-      I am building <a href="https://modernfaber.com" target="_blank" rel="noopener">Modern Faber</a>
-      for people who still believe great work should feel crafted, not generated.
+      <a href="https://x.com/computeless" target="_blank" rel="noopener">X</a>,
+      <a href="https://github.com/ComputelessComputer" target="_blank" rel="noopener">GitHub</a>,
+      <a href="https://www.linkedin.com/in/johntopia/" target="_blank" rel="noopener">LinkedIn</a>,
+      and <a href="/cal">calendar</a>.
     </p>
     <p>
-      If you care about real craftsmanship, taste, and building things properly,
-      that is where you should go next.
+      This site is open source.
+      <a href="/essays/building-my-new-website">Here's how I built it</a>.
     </p>
-    <div class="signature-signoff">
-      <p class="signature-label">Signed</p>
-      <p class="signature-mark" data-signature aria-hidden="true">John Jeong</p>
-    </div>
   </section>
-
-  <p class="open-source-note">
-    This site is open source. <a href="/essays/building-my-new-website">Here's how I built it</a>.
-  </p>
-
-  <div class="social">
-    <a href="https://www.linkedin.com/in/johntopia/" target="_blank" rel="noopener" aria-label="LinkedIn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-      </svg>
-    </a>
-    <a href="https://x.com/computeless" target="_blank" rel="noopener" aria-label="Twitter">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-      </svg>
-    </a>
-    <a href="https://github.com/ComputelessComputer" target="_blank" rel="noopener" aria-label="GitHub">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-      </svg>
-    </a>
-    <button id="video-chat-toggle" aria-label="Video Chat" class="video-chat-btn">
-      <svg width="24" height="24" viewBox="0 0 32 32" fill="currentColor">
-        <rect x="8" y="12" width="9" height="2"/>
-        <rect x="8" y="17" width="5" height="2"/>
-        <path d="M21,26H4a2.0023,2.0023,0,0,1-2-2V8A2.0023,2.0023,0,0,1,4,6H21a2.0023,2.0023,0,0,1,2,2v4.0566l5.4189-3.87A.9995.9995,0,0,1,30,9V23a.9995.9995,0,0,1-1.5811.8135L23,19.9434V24A2.0023,2.0023,0,0,1,21,26ZM4,8V24.001L21,24V18a.9995.9995,0,0,1,1.5811-.8135L28,21.0566V10.9434l-5.4189,3.87A.9995.9995,0,0,1,21,14V8Z"/>
-      </svg>
-    </button>
-  </div>
-
-  <div class="contact-section collapsed" id="contact-section">
-    <div class="macos-window">
-      <div class="macos-titlebar">
-        <div class="macos-buttons">
-          <button class="macos-btn close" id="close-contact" aria-label="Close"></button>
-          <span class="macos-btn minimize"></span>
-          <span class="macos-btn maximize"></span>
-        </div>
-        <a href="/cal" id="chat-btn" class="send-btn" aria-label="Send">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
-          </svg>
-        </a>
-      </div>
-      <div class="macos-content">
-        <div class="mail-field">
-          <span class="mail-label">to:</span>
-          <span class="mail-value">john@hyprnote.com</span>
-        </div>
-        <div class="mail-field">
-          <span class="mail-label">subject:</span>
-          <span class="mail-value">wanna chat?</span>
-        </div>
-        <div class="mail-field">
-          <span class="mail-label">from:</span>
-          <input type="email" id="contact-email" placeholder="sjobs@apple.com" />
-        </div>
-        <div class="mail-body">
-          <p>hey i'm <span class="name-wrapper"><input type="text" id="contact-name" placeholder="steve jobs" />.</span></p>
-          <p>let's chat!</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </Base>
 
 <style>
-  .hero,
-  .manifesto,
-  .manifesto-cta {
+  section {
     margin-bottom: 2rem;
   }
-  .eyebrow {
-    margin-bottom: 0.5rem;
-    color: #666;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+
+  .intro {
+    margin-top: 1.5rem;
   }
-  .hero h2,
-  .manifesto h2,
-  .manifesto-cta h2 {
+
+  .intro p:last-child,
+  .elsewhere p:last-child,
+  .interest-list {
+    margin-bottom: 0;
+  }
+
+  h2 {
     margin-top: 0;
     margin-bottom: 0.75rem;
   }
-  .lede {
-    font-size: 1.15rem;
-    line-height: 1.55;
-    text-wrap: balance;
-  }
-  .manifesto-list {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 0;
-  }
-  .manifesto-list li {
-    padding: 0.9rem 0 0.9rem 1rem;
-    border-top: 1px solid #e5e5e5;
-    position: relative;
-  }
-  .manifesto-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 1.1rem;
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 50%;
-    background: #1a1a1a;
-  }
-  .manifesto-list li:last-child {
-    border-bottom: 1px solid #e5e5e5;
-  }
-  .manifesto-cta {
-    padding: 1.25rem;
-    border: 1px solid #d8d3cb;
-    background: #f8f5ef;
-    border-radius: 12px;
-  }
-  .signature-signoff {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(26, 26, 26, 0.12);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  .signature-label {
-    margin-bottom: 0.35rem;
-    color: #7c7469;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .signature-mark {
-    margin-bottom: 0;
-    width: fit-content;
-    max-width: 100%;
-    font-family: var(--font-signature);
-    font-size: clamp(2.8rem, 9vw, 4.5rem);
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1.6px #1a1a1a;
-    text-wrap: nowrap;
-    clip-path: inset(0 100% 0 0);
-    opacity: 0;
-    transform: translateY(10px) rotate(-2deg);
-  }
-  .signature-mark.is-visible {
-    animation: draw-signature 1.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  @keyframes draw-signature {
-    0% {
-      clip-path: inset(0 100% 0 0);
-      opacity: 0;
-      transform: translateY(10px) rotate(-2deg);
-    }
-    20% {
-      opacity: 1;
-    }
-    100% {
-      clip-path: inset(0 0 0 0);
-      opacity: 1;
-      transform: translateY(0) rotate(-2deg);
-    }
-  }
-  .manifesto-cta > p:last-of-type,
-  .open-source-note {
-    margin-bottom: 0;
-  }
-  .social {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    align-items: center;
-  }
-  .social a, .social button {
-    color: #666;
-    transition: color 0.2s;
-    display: flex;
-    align-items: center;
-  }
-  .social a:hover, .social button:hover {
-    color: #1a1a1a;
-  }
-  .video-chat-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-  }
-  .video-chat-btn.active {
-    color: #1a1a1a;
-  }
-  .contact-section {
-    margin-top: 1.5rem;
-    max-height: 400px;
-    opacity: 1;
-    transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
-  }
-  .contact-section.collapsed {
-    max-height: 0;
-    opacity: 0;
-    margin-top: 0;
-  }
-  .macos-window {
-    border: 1px solid #c0c0c0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    background: #fff;
-  }
-  .macos-titlebar {
-    background: linear-gradient(to bottom, #e8e8e8, #d0d0d0);
-    padding: 4px 6px 4px 10px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #b0b0b0;
-  }
-  .macos-buttons {
-    display: flex;
-    gap: 8px;
-  }
-  .macos-btn {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    cursor: default;
-  }
-  .macos-btn.close {
-    background: #ff5f57;
-    border: 1px solid #e14640;
-    cursor: pointer;
-  }
-  .macos-btn.close:hover {
-    background: #ff3b30;
-  }
-  .macos-btn.minimize {
-    background: #ffbd2e;
-    border: 1px solid #dfa123;
-  }
-  .macos-btn.maximize {
-    background: #28c840;
-    border: 1px solid #1aab29;
-  }
-  .send-btn {
-    margin-left: auto;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #007aff;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .send-btn:hover {
-    background: #0056b3;
-  }
-  .macos-content {
-    padding: 0;
-    font-size: 14px;
-  }
-  .mail-field {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-bottom: 1px solid #e5e5e5;
-    gap: 8px;
-  }
-  .mail-label {
-    color: #888;
-    font-weight: 500;
-  }
-  .mail-value {
-    color: #1a1a1a;
-  }
-  .mail-field input,
-  .mail-body input {
-    border: none;
-    border-bottom: 1px solid #ccc;
-    padding: 0;
-    font-size: inherit;
-    font-family: inherit;
-    background: transparent;
-    outline: none;
-  }
-  .mail-field input::placeholder,
-  .mail-body input::placeholder {
-    color: #aaa;
-  }
-  #contact-email {
-    flex: 1;
-    border-bottom: none;
-  }
-  #contact-name {
-    border-bottom: none;
-  }
-  .name-wrapper {
-    display: inline;
-    white-space: nowrap;
-  }
-  .mail-body {
-    padding: 12px;
-    background: #fff;
-  }
-  .mail-body p {
-    margin: 0 0 8px 0;
-    color: #1a1a1a;
-    line-height: 1.8;
-  }
-  .mail-body .btn {
-    padding: 0.1rem 0.35rem;
-    font-size: 0.85rem;
-    vertical-align: middle;
-    line-height: 1.2;
-  }
-  .mail-body .chat-line {
-    text-align: center;
-  }
-  .contact-section .btn.pressed {
-    transform: translateY(2px);
-    box-shadow: 0 0 0 #c0c0c0;
+
+  .interest-list {
+    padding-left: 1.1rem;
   }
 
-  @media (max-width: 640px) {
-    .manifesto-cta {
-      padding: 1rem;
-    }
+  .interest-list li {
+    margin-bottom: 0.6rem;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .signature-mark {
-      clip-path: inset(0 0 0 0);
-      opacity: 1;
-      transform: rotate(-2deg);
-    }
-    .signature-mark.is-visible {
-      animation: none;
-    }
+  .interest-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .elsewhere p {
+    margin-bottom: 0.65rem;
   }
 </style>
-
-<script>
-  const nameInput = document.getElementById('contact-name') as HTMLInputElement;
-  const emailInput = document.getElementById('contact-email') as HTMLInputElement;
-  const chatBtn = document.getElementById('chat-btn') as HTMLAnchorElement;
-  const contactSection = document.getElementById('contact-section');
-  const videoChatToggle = document.getElementById('video-chat-toggle');
-  const closeContact = document.getElementById('close-contact');
-  const signatureMark = document.querySelector('[data-signature]') as HTMLElement | null;
-
-  function updateChatLink() {
-    const params = new URLSearchParams();
-    if (nameInput.value) params.set('name', nameInput.value);
-    if (emailInput.value) params.set('email', emailInput.value);
-    const query = params.toString();
-    chatBtn.href = '/cal' + (query ? '?' + query : '');
-  }
-
-  function toggleContact() {
-    contactSection?.classList.toggle('collapsed');
-    videoChatToggle?.classList.toggle('active');
-  }
-
-  function closeContactSection() {
-    contactSection?.classList.add('collapsed');
-    videoChatToggle?.classList.remove('active');
-  }
-
-  videoChatToggle?.addEventListener('click', toggleContact);
-  closeContact?.addEventListener('click', closeContactSection);
-
-  function measureText(text: string, font: string) {
-    const span = document.createElement('span');
-    span.style.visibility = 'hidden';
-    span.style.position = 'absolute';
-    span.style.whiteSpace = 'pre';
-    span.style.font = font;
-    span.textContent = text;
-    document.body.appendChild(span);
-    const width = span.offsetWidth;
-    document.body.removeChild(span);
-    return width;
-  }
-
-  function resizeNameInput() {
-    const font = getComputedStyle(nameInput).font;
-    const placeholderWidth = measureText(nameInput.placeholder, font);
-    const valueWidth = nameInput.value ? measureText(nameInput.value, font) : 0;
-    nameInput.style.width = (nameInput.value ? valueWidth : placeholderWidth) + 2 + 'px';
-  }
-
-  nameInput?.addEventListener('input', () => {
-    resizeNameInput();
-    updateChatLink();
-  });
-  emailInput?.addEventListener('input', updateChatLink);
-
-  // Initial resize
-  resizeNameInput();
-
-  function submitChat() {
-    updateChatLink();
-    chatBtn.classList.add('pressed');
-    setTimeout(() => {
-      chatBtn.classList.remove('pressed');
-      window.location.href = chatBtn.href;
-    }, 100);
-  }
-
-  emailInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      submitChat();
-    }
-  });
-
-  if (signatureMark && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const signatureObserver = new IntersectionObserver(
-      (entries, observer) => {
-        const isVisible = entries.some((entry) => entry.isIntersecting);
-        if (!isVisible) return;
-
-        signatureMark.classList.add('is-visible');
-        observer.disconnect();
-      },
-      { threshold: 0.6 },
-    );
-
-    signatureObserver.observe(signatureMark);
-  } else {
-    signatureMark?.classList.add('is-visible');
-  }
-</script>

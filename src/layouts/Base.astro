@@ -15,6 +15,7 @@ interface Props {
   ogEyebrow?: string;
   ogTitle?: string;
   ogDescription?: string;
+  hideFooter?: boolean;
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   ogEyebrow,
   ogTitle = title,
   ogDescription = description,
+  hideFooter = false,
 } = Astro.props;
 
 const documentTitle = title === SITE_NAME ? SITE_NAME : `${title} - ${SITE_NAME}`;
@@ -632,7 +634,7 @@ const ogImageUrl = toAbsoluteUrl(
   </head>
   <body>
     <slot />
-    <Footer />
+    {!hideFooter && <Footer />}
     <div class="scroll-blur-bottom"></div>
   </body>
 </html>
