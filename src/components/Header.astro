@@ -13,6 +13,8 @@ const {
   showGoBack = false,
 } = Astro.props;
 
+const shouldAnimateTitle = !Astro.slots.has("title-extra") && currentPage === "home" && title === "John Jeong";
+
 const navItems = [
   { href: "/", label: "About", key: "home" },
   { href: "/essays/en", label: "Essays", key: "essays" },
@@ -25,9 +27,21 @@ const navItems = [
 <header>
   <h1>
     {currentPage ? (
-      Astro.slots.has('title-extra') ? <slot name="title-extra" /> : title
+      Astro.slots.has('title-extra') ? (
+        <slot name="title-extra" />
+      ) : shouldAnimateTitle ? (
+        <span class="signature-wordmark" data-title={title}>{title}</span>
+      ) : (
+        title
+      )
     ) : (
-      <a href="/">{title}</a>
+      <a href="/">
+        {shouldAnimateTitle ? (
+          <span class="signature-wordmark" data-title={title}>{title}</span>
+        ) : (
+          title
+        )}
+      </a>
     )}
   </h1>
   {subtitle && (
@@ -60,6 +74,21 @@ const navItems = [
   }
   header h1 a {
     text-decoration: none;
+  }
+  .signature-wordmark {
+    position: relative;
+    display: inline-block;
+  }
+  .signature-wordmark::after {
+    content: attr(data-title);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    -webkit-text-stroke: 1.05px #1a1a1a;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    pointer-events: none;
+    animation: signature-stroke-pass 1.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
   }
   .subtitle {
     color: #666;
@@ -157,6 +186,29 @@ const navItems = [
     opacity: 0.5;
     white-space: nowrap;
     margin-top: 0.25rem;
+  }
+  @keyframes signature-stroke-pass {
+    0% {
+      clip-path: inset(0 100% 0 0);
+      opacity: 0;
+    }
+    18% {
+      opacity: 0.95;
+    }
+    82% {
+      clip-path: inset(0 0 0 0);
+      opacity: 0.95;
+    }
+    100% {
+      clip-path: inset(0 0 0 0);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .signature-wordmark::after {
+      animation: none;
+      opacity: 0;
+    }
   }
 </style>
 
