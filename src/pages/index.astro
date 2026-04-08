@@ -177,18 +177,21 @@ const interests = [
 
   .contact-section {
     margin-top: 1.5rem;
+    margin-bottom: 1rem;
     max-height: 400px;
     opacity: 1;
     transition:
       max-height 0.3s ease,
       opacity 0.3s ease,
-      margin-top 0.3s ease;
+      margin-top 0.3s ease,
+      margin-bottom 0.3s ease;
   }
 
   .contact-section.collapsed {
     max-height: 0;
     opacity: 0;
     margin-top: 0;
+    margin-bottom: 0;
   }
 
   .macos-window {
