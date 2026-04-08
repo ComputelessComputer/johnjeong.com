@@ -68,11 +68,27 @@ const ogImageUrl = toAbsoluteUrl(
     <meta name="twitter:url" content={canonicalUrl} />
     <meta name="twitter:image" content={ogImageUrl} />
     <style is:global>
+      @font-face {
+        font-family: "Brittany Signature";
+        src:
+          local("Brittany Signature"),
+          local("BrittanySignature"),
+          local("Brittany Signature Regular"),
+          local("BrittanySignatureRegular");
+        font-display: swap;
+      }
+
       :root {
         --max-width: 640px;
         --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         --font-serif: "Instrument Serif", serif;
         --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+        --font-signature:
+          "Brittany Signature",
+          "Snell Roundhand",
+          "Apple Chancery",
+          "Segoe Script",
+          cursive;
       }
 
       *,
