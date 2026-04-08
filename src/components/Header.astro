@@ -93,6 +93,7 @@ const navItems = [
   .signature-wordmark-fill,
   .signature-wordmark-stroke {
     grid-area: 1 / 1;
+    font-synthesis: none;
   }
   .signature-wordmark-fill {
     opacity: 0;
@@ -108,9 +109,8 @@ const navItems = [
       var(--signature-bleed-top)
       var(--signature-bleed-x)
       var(--signature-bleed-bottom);
-    color: #1a1a1a;
-    -webkit-text-fill-color: #1a1a1a;
-    -webkit-text-stroke: 1.05px #1a1a1a;
+    color: inherit;
+    -webkit-text-fill-color: currentColor;
     clip-path: inset(0 100% 0 0);
     pointer-events: none;
     animation: signature-stroke-pass 1.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
