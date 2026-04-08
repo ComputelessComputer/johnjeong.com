@@ -82,9 +82,13 @@ const navItems = [
     text-decoration: none;
   }
   .signature-wordmark {
+    --signature-bleed-x: 0.16em;
+    --signature-bleed-top: 0.08em;
+    --signature-bleed-bottom: 0.14em;
     position: relative;
     display: inline-grid;
     place-items: center;
+    overflow: visible;
   }
   .signature-wordmark-fill,
   .signature-wordmark-stroke {
@@ -96,7 +100,14 @@ const navItems = [
   }
   .signature-wordmark-stroke {
     position: absolute;
-    inset: 0;
+    top: calc(var(--signature-bleed-top) * -1);
+    right: calc(var(--signature-bleed-x) * -1);
+    bottom: calc(var(--signature-bleed-bottom) * -1);
+    left: calc(var(--signature-bleed-x) * -1);
+    padding:
+      var(--signature-bleed-top)
+      var(--signature-bleed-x)
+      var(--signature-bleed-bottom);
     color: transparent;
     -webkit-text-stroke: 1.05px #1a1a1a;
     clip-path: inset(0 100% 0 0);
