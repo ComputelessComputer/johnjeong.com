@@ -6,7 +6,12 @@ interface Props {
   showGoBack?: boolean;
 }
 
-const { currentPage, title = "John Jeong", subtitle = 'Co-founder & Co-CEO at <a href="https://char.com" target="_blank" rel="noopener" class="hyprnote-link">{Char}</a>', showGoBack = false } = Astro.props;
+const {
+  currentPage,
+  title = "John Jeong",
+  subtitle = 'Co-founder & Co-CEO at <a href="https://char.com" target="_blank" rel="noopener" class="hyprnote-link hyprnote-logo-link"><img src="/char.svg" alt="Char" class="char-logo" width="332" height="100" /></a>',
+  showGoBack = false,
+} = Astro.props;
 
 const navItems = [
   { href: "/", label: "About", key: "home" },
@@ -67,6 +72,15 @@ const navItems = [
   .hyprnote-link {
     font-family: var(--font-serif);
     text-decoration: none;
+  }
+  .hyprnote-logo-link {
+    display: inline-flex;
+    align-items: baseline;
+  }
+  .char-logo {
+    width: auto;
+    height: 0.95em;
+    vertical-align: -0.08em;
   }
   .hyprnote-link:hover {
     text-decoration: underline;
