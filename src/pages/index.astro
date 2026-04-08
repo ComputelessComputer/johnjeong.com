@@ -1,18 +1,63 @@
 ---
 import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
+
+const manifesto = [
+  "Taste matters more in the AI era, not less. Average work is getting cheaper. Clear judgment is getting more valuable.",
+  "Simplicity is respect. The best products remove friction, clarify intent, and feel obvious in hindsight.",
+  "Tools should be durable and legible. I like systems that are easy to inspect, easy to trust, and built to last.",
+  "Craftsmanship is still a competitive advantage. The people who care about details will keep building the future.",
+];
 ---
 
 <Base
   title="John Jeong"
-  description="Co-founder & Co-CEO at Char. Essays, lessons, inspirations, notes, and photos."
+  description="John Jeong's manifesto on craftsmanship, software, and the kind of work worth making."
   ogEyebrow="About"
 >
   <Header currentPage="home" />
 
-  <p>I like simple & intuitive stuff.</p>
+  <section class="hero">
+    <p class="eyebrow">Introduction</p>
+    <h2>I'm John Jeong.</h2>
+    <p class="lede">
+      I build software, write essays, and care deeply about real craftsmanship.
+    </p>
+    <p>
+      I am interested in tools that feel inevitable. Software that is simple,
+      precise, durable, and made with enough taste that it earns trust.
+    </p>
+    <p>
+      This site is where I share what I am learning, what I believe, and the
+      things I want to see more of in the world.
+    </p>
+  </section>
 
-  <p>This site is open source. <a href="/essays/building-my-new-website">Here's how I built it</a>.</p>
+  <section class="manifesto" aria-labelledby="manifesto-title">
+    <p class="eyebrow">Manifesto</p>
+    <h2 id="manifesto-title">What I believe</h2>
+    <ul class="manifesto-list">
+      {manifesto.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="manifesto-cta" aria-labelledby="modernfaber-title">
+    <h2 id="modernfaber-title">If that resonates, join Modern Faber.</h2>
+    <p>
+      I am building <a href="https://modernfaber.com" target="_blank" rel="noopener">Modern Faber</a>
+      for people who still believe great work should feel crafted, not generated.
+    </p>
+    <p>
+      If you care about real craftsmanship, taste, and building things properly,
+      that is where you should go next.
+    </p>
+  </section>
+
+  <p class="open-source-note">
+    This site is open source. <a href="/essays/building-my-new-website">Here's how I built it</a>.
+  </p>
 
   <div class="social">
     <a href="https://www.linkedin.com/in/johntopia/" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -76,6 +121,63 @@ import Header from "../components/Header.astro";
 </Base>
 
 <style>
+  .hero,
+  .manifesto,
+  .manifesto-cta {
+    margin-bottom: 2rem;
+  }
+  .eyebrow {
+    margin-bottom: 0.5rem;
+    color: #666;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hero h2,
+  .manifesto h2,
+  .manifesto-cta h2 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+  }
+  .lede {
+    font-size: 1.15rem;
+    line-height: 1.55;
+    text-wrap: balance;
+  }
+  .manifesto-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  .manifesto-list li {
+    padding: 0.9rem 0 0.9rem 1rem;
+    border-top: 1px solid #e5e5e5;
+    position: relative;
+  }
+  .manifesto-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.1rem;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: #1a1a1a;
+  }
+  .manifesto-list li:last-child {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .manifesto-cta {
+    padding: 1.25rem;
+    border: 1px solid #d8d3cb;
+    background: #f8f5ef;
+    border-radius: 12px;
+  }
+  .manifesto-cta p:last-child,
+  .open-source-note {
+    margin-bottom: 0;
+  }
   .social {
     display: flex;
     gap: 1rem;
@@ -234,6 +336,12 @@ import Header from "../components/Header.astro";
   .contact-section .btn.pressed {
     transform: translateY(2px);
     box-shadow: 0 0 0 #c0c0c0;
+  }
+
+  @media (max-width: 640px) {
+    .manifesto-cta {
+      padding: 1rem;
+    }
   }
 </style>
 
