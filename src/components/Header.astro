@@ -30,14 +30,20 @@ const navItems = [
       Astro.slots.has('title-extra') ? (
         <slot name="title-extra" />
       ) : shouldAnimateTitle ? (
-        <span class="signature-wordmark" data-title={title}>{title}</span>
+        <span class="signature-wordmark">
+          <span class="signature-wordmark-fill">{title}</span>
+          <span class="signature-wordmark-stroke" aria-hidden="true">{title}</span>
+        </span>
       ) : (
         title
       )
     ) : (
       <a href="/">
         {shouldAnimateTitle ? (
-          <span class="signature-wordmark" data-title={title}>{title}</span>
+          <span class="signature-wordmark">
+            <span class="signature-wordmark-fill">{title}</span>
+            <span class="signature-wordmark-stroke" aria-hidden="true">{title}</span>
+          </span>
         ) : (
           title
         )}
@@ -77,16 +83,23 @@ const navItems = [
   }
   .signature-wordmark {
     position: relative;
-    display: inline-block;
+    display: inline-grid;
+    place-items: center;
   }
-  .signature-wordmark::after {
-    content: attr(data-title);
+  .signature-wordmark-fill,
+  .signature-wordmark-stroke {
+    grid-area: 1 / 1;
+  }
+  .signature-wordmark-fill {
+    opacity: 0;
+    animation: signature-fill-reveal 0.18s ease-out 1.42s forwards;
+  }
+  .signature-wordmark-stroke {
     position: absolute;
     inset: 0;
     color: transparent;
     -webkit-text-stroke: 1.05px #1a1a1a;
     clip-path: inset(0 100% 0 0);
-    opacity: 0;
     pointer-events: none;
     animation: signature-stroke-pass 1.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
   }
@@ -190,22 +203,31 @@ const navItems = [
   @keyframes signature-stroke-pass {
     0% {
       clip-path: inset(0 100% 0 0);
-      opacity: 0;
+      opacity: 1;
     }
-    18% {
-      opacity: 0.95;
-    }
-    82% {
+    88% {
       clip-path: inset(0 0 0 0);
-      opacity: 0.95;
+      opacity: 1;
     }
     100% {
       clip-path: inset(0 0 0 0);
       opacity: 0;
     }
   }
+  @keyframes signature-fill-reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .signature-wordmark::after {
+    .signature-wordmark-fill {
+      animation: none;
+      opacity: 1;
+    }
+    .signature-wordmark-stroke {
       animation: none;
       opacity: 0;
     }
