@@ -53,6 +53,10 @@ const manifesto = [
       If you care about real craftsmanship, taste, and building things properly,
       that is where you should go next.
     </p>
+    <div class="signature-signoff">
+      <p class="signature-label">Signed</p>
+      <p class="signature-mark" data-signature aria-hidden="true">John Jeong</p>
+    </div>
   </section>
 
   <p class="open-source-note">
@@ -174,7 +178,55 @@ const manifesto = [
     background: #f8f5ef;
     border-radius: 12px;
   }
-  .manifesto-cta p:last-child,
+  .signature-signoff {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(26, 26, 26, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .signature-label {
+    margin-bottom: 0.35rem;
+    color: #7c7469;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .signature-mark {
+    margin-bottom: 0;
+    width: fit-content;
+    max-width: 100%;
+    font-family: "Snell Roundhand", "Apple Chancery", "Segoe Script", cursive;
+    font-size: clamp(2.8rem, 9vw, 4.5rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.6px #1a1a1a;
+    text-wrap: nowrap;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    transform: translateY(10px) rotate(-2deg);
+  }
+  .signature-mark.is-visible {
+    animation: draw-signature 1.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes draw-signature {
+    0% {
+      clip-path: inset(0 100% 0 0);
+      opacity: 0;
+      transform: translateY(10px) rotate(-2deg);
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+      transform: translateY(0) rotate(-2deg);
+    }
+  }
+  .manifesto-cta > p:last-of-type,
   .open-source-note {
     margin-bottom: 0;
   }
@@ -343,6 +395,17 @@ const manifesto = [
       padding: 1rem;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signature-mark {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+      transform: rotate(-2deg);
+    }
+    .signature-mark.is-visible {
+      animation: none;
+    }
+  }
 </style>
 
 <script>
@@ -352,6 +415,7 @@ const manifesto = [
   const contactSection = document.getElementById('contact-section');
   const videoChatToggle = document.getElementById('video-chat-toggle');
   const closeContact = document.getElementById('close-contact');
+  const signatureMark = document.querySelector('[data-signature]') as HTMLElement | null;
 
   function updateChatLink() {
     const params = new URLSearchParams();
@@ -418,4 +482,21 @@ const manifesto = [
       submitChat();
     }
   });
+
+  if (signatureMark && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const signatureObserver = new IntersectionObserver(
+      (entries, observer) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting);
+        if (!isVisible) return;
+
+        signatureMark.classList.add('is-visible');
+        observer.disconnect();
+      },
+      { threshold: 0.6 },
+    );
+
+    signatureObserver.observe(signatureMark);
+  } else {
+    signatureMark?.classList.add('is-visible');
+  }
 </script>
