@@ -3,6 +3,8 @@ import { ImageResponse } from "@vercel/og";
 import { createElement } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
+  DEFAULT_DESCRIPTION,
+  OG_DESCRIPTION_MAX_LENGTH,
   OG_EYEBROW_MAX_LENGTH,
   OG_TITLE_MAX_LENGTH,
   SITE_NAME,
@@ -65,6 +67,12 @@ function getInstrumentSerifItalic(url: URL) {
 
 export const GET: APIRoute = async ({ url }) => {
   const title = getTextParam(url, "title", SITE_NAME, OG_TITLE_MAX_LENGTH);
+  const description = getTextParam(
+    url,
+    "description",
+    DEFAULT_DESCRIPTION,
+    OG_DESCRIPTION_MAX_LENGTH,
+  );
   const eyebrow = getTextParam(
     url,
     "eyebrow",
@@ -80,7 +88,8 @@ export const GET: APIRoute = async ({ url }) => {
         height: "100%",
         display: "flex",
         padding: "48px",
-        backgroundColor: "#ffffff",
+        backgroundImage:
+          "linear-gradient(135deg, #ffffff 0%, #f5f5f5 58%, #e9e9e9 100%)",
         color: "#1a1a1a",
       },
       div(
@@ -90,42 +99,50 @@ export const GET: APIRoute = async ({ url }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          border: "1px solid #e6e6e6",
+          border: "1px solid #dddddd",
           padding: "46px 52px",
+          backgroundColor: "rgba(255, 255, 255, 0.72)",
         },
         div(
           {
             display: "flex",
-            fontSize: 18,
-            textTransform: "uppercase",
-            letterSpacing: "0.16em",
-            color: "#666666",
+            flexDirection: "column",
+            gap: "24px",
+            maxWidth: "920px",
           },
-          eyebrow,
+          div(
+            {
+              display: "flex",
+              fontSize: getTitleSize(title),
+              lineHeight: 1.02,
+              letterSpacing: "-0.06em",
+              fontWeight: 400,
+              fontStyle: "italic",
+              fontFamily: "Instrument Serif",
+            },
+            title,
+          ),
+          div(
+            {
+              display: "flex",
+              fontSize: 30,
+              lineHeight: 1.35,
+              letterSpacing: "-0.03em",
+              color: "#4f4f4f",
+              maxWidth: "840px",
+            },
+            description,
+          ),
         ),
         div(
           {
             display: "flex",
-            fontSize: getTitleSize(title),
-            lineHeight: 1.02,
-            letterSpacing: "-0.06em",
-            fontWeight: 400,
-            fontStyle: "italic",
-            fontFamily: "Instrument Serif",
-            maxWidth: "900px",
-          },
-          title,
-        ),
-        div(
-          {
-            display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
-            fontSize: 22,
+            fontSize: 21,
             color: "#666666",
+            letterSpacing: "-0.02em",
           },
-          div({ display: "flex" }, "johnjeong.com"),
-          div({ display: "flex" }, "simple & intuitive stuff"),
+          `johnjeong.com / ${eyebrow}`,
         ),
       ),
     ),
