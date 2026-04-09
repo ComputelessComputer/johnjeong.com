@@ -128,14 +128,22 @@ const navItems = [
     --signature-bleed-bottom: 0.14em;
     position: relative;
     display: inline-grid;
-    place-items: center;
+    justify-items: start;
+    align-items: start;
     overflow: visible;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: top;
   }
   .signature-wordmark-fill,
   .signature-wordmark-stroke,
   .signature-wordmark-video {
     grid-area: 1 / 1;
     font-synthesis: none;
+  }
+  .signature-wordmark-fill,
+  .signature-wordmark-stroke {
+    display: block;
   }
   .signature-wordmark-fill {
     opacity: 0;
@@ -168,6 +176,7 @@ const navItems = [
     height: auto;
     max-width: none;
     object-fit: contain;
+    object-position: top left;
     opacity: 1;
     pointer-events: none;
     transition: opacity 0.14s ease;
