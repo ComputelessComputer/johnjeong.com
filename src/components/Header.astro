@@ -4,9 +4,6 @@ interface Props {
   title?: string;
   subtitle?: string;
   showGoBack?: boolean;
-  titleVideoSrc?: string;
-  titleVideoType?: string;
-  titleVideoPoster?: string;
 }
 
 const {
@@ -14,13 +11,7 @@ const {
   title = "John Jeong",
   subtitle = 'Co-founder & Co-CEO at <a href="https://char.com" target="_blank" rel="noopener" class="hyprnote-link hyprnote-logo-link"><img src="/char.svg" alt="Char" class="char-logo" width="332" height="100" /></a>',
   showGoBack = false,
-  titleVideoSrc,
-  titleVideoType,
-  titleVideoPoster,
 } = Astro.props;
-
-const shouldAnimateTitle = !Astro.slots.has("title-extra") && currentPage === "home" && title === "John Jeong";
-const shouldShowTitleVideo = shouldAnimateTitle && Boolean(titleVideoSrc);
 
 const navItems = [
   { href: "/", label: "About", key: "home" },
@@ -36,56 +27,12 @@ const navItems = [
     {currentPage ? (
       Astro.slots.has('title-extra') ? (
         <slot name="title-extra" />
-      ) : shouldAnimateTitle ? (
-        <span
-          class:list={["signature-wordmark", { "has-video": shouldShowTitleVideo }]}
-          data-signature-video={shouldShowTitleVideo ? "" : undefined}
-        >
-          <span class="signature-wordmark-fill">{title}</span>
-          <span class="signature-wordmark-stroke" aria-hidden="true">{title}</span>
-          {shouldShowTitleVideo && (
-            <video
-              class="signature-wordmark-video"
-              aria-hidden="true"
-              autoplay
-              muted
-              playsinline
-              preload="auto"
-              poster={titleVideoPoster}
-            >
-              <source src={titleVideoSrc} type={titleVideoType} />
-            </video>
-          )}
-        </span>
       ) : (
         title
       )
     ) : (
       <a href="/">
-        {shouldAnimateTitle ? (
-          <span
-            class:list={["signature-wordmark", { "has-video": shouldShowTitleVideo }]}
-            data-signature-video={shouldShowTitleVideo ? "" : undefined}
-          >
-            <span class="signature-wordmark-fill">{title}</span>
-            <span class="signature-wordmark-stroke" aria-hidden="true">{title}</span>
-            {shouldShowTitleVideo && (
-              <video
-                class="signature-wordmark-video"
-                aria-hidden="true"
-                autoplay
-                muted
-                playsinline
-                preload="auto"
-                poster={titleVideoPoster}
-              >
-                <source src={titleVideoSrc} type={titleVideoType} />
-              </video>
-            )}
-          </span>
-        ) : (
-          title
-        )}
+        {title}
       </a>
     )}
   </h1>
@@ -119,76 +66,6 @@ const navItems = [
   }
   header h1 a {
     text-decoration: none;
-  }
-  .signature-wordmark {
-    --signature-bleed-x: 0.16em;
-    --signature-bleed-top: 0.08em;
-    --signature-bleed-bottom: 0.14em;
-    position: relative;
-    display: inline-grid;
-    justify-items: start;
-    align-items: start;
-    overflow: visible;
-    line-height: 1;
-    white-space: nowrap;
-    vertical-align: top;
-  }
-  .signature-wordmark-fill,
-  .signature-wordmark-stroke,
-  .signature-wordmark-video {
-    grid-area: 1 / 1;
-    font-synthesis: none;
-  }
-  .signature-wordmark-fill,
-  .signature-wordmark-stroke {
-    display: block;
-  }
-  .signature-wordmark-fill {
-    opacity: 0;
-    animation: signature-fill-reveal 0.18s ease-out 1.42s forwards;
-  }
-  .signature-wordmark-stroke {
-    position: absolute;
-    top: calc(var(--signature-bleed-top) * -1);
-    right: calc(var(--signature-bleed-x) * -1);
-    bottom: calc(var(--signature-bleed-bottom) * -1);
-    left: calc(var(--signature-bleed-x) * -1);
-    padding:
-      var(--signature-bleed-top)
-      var(--signature-bleed-x)
-      var(--signature-bleed-bottom);
-    color: inherit;
-    -webkit-text-fill-color: currentColor;
-    clip-path: inset(0 100% 0 0);
-    pointer-events: none;
-    animation: signature-stroke-pass 1.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
-  }
-  .signature-wordmark-video {
-    position: absolute;
-    top: calc(var(--signature-bleed-top) * -1);
-    right: calc(var(--signature-bleed-x) * -1);
-    bottom: calc(var(--signature-bleed-bottom) * -1);
-    left: calc(var(--signature-bleed-x) * -1);
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: none;
-    object-fit: contain;
-    object-position: top left;
-    opacity: 1;
-    pointer-events: none;
-    transition: opacity 0.14s ease;
-    will-change: opacity;
-  }
-  .signature-wordmark.has-video .signature-wordmark-fill {
-    opacity: 1;
-    animation: none;
-  }
-  .signature-wordmark.has-video .signature-wordmark-stroke {
-    display: none;
-  }
-  .signature-wordmark.has-video .signature-wordmark-video.is-hidden {
-    display: none;
   }
   .subtitle {
     color: #666;
@@ -288,71 +165,10 @@ const navItems = [
     white-space: nowrap;
     margin-top: 0.25rem;
   }
-  @keyframes signature-stroke-pass {
-    0% {
-      clip-path: inset(0 100% 0 0);
-      opacity: 1;
-    }
-    88% {
-      clip-path: inset(0 0 0 0);
-      opacity: 1;
-    }
-    100% {
-      clip-path: inset(0 0 0 0);
-      opacity: 0;
-    }
-  }
-  @keyframes signature-fill-reveal {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .signature-wordmark-fill {
-      animation: none;
-      opacity: 1;
-    }
-    .signature-wordmark-stroke {
-      animation: none;
-      opacity: 0;
-    }
-    .signature-wordmark-video {
-      display: none;
-    }
-  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const signatureWordmarks = document.querySelectorAll<HTMLElement>('[data-signature-video]');
-
-    for (const wordmark of signatureWordmarks) {
-      const video = wordmark.querySelector<HTMLVideoElement>('.signature-wordmark-video');
-
-      if (!video) {
-        continue;
-      }
-
-      video.addEventListener('ended', () => {
-        video.pause();
-
-        if (video.duration > 0) {
-          video.currentTime = Math.max(video.duration - 0.001, 0);
-        }
-      }, { once: true });
-
-      video.addEventListener('error', () => {
-        video.classList.add('is-hidden');
-      }, { once: true });
-
-      video.addEventListener('stalled', () => {
-        video.classList.add('is-hidden');
-      }, { once: true });
-    }
-
     // Nav scroll fade indicators
     const navContainer = document.querySelector('.nav-container');
     const nav = document.querySelector('.main-nav');
