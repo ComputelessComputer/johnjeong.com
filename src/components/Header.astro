@@ -158,13 +158,20 @@ const navItems = [
     animation: signature-stroke-pass 1.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
   }
   .signature-wordmark-video {
+    position: absolute;
+    top: calc(var(--signature-bleed-top) * -1);
+    right: calc(var(--signature-bleed-x) * -1);
+    bottom: calc(var(--signature-bleed-bottom) * -1);
+    left: calc(var(--signature-bleed-x) * -1);
     display: block;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
+    max-width: none;
     object-fit: contain;
     opacity: 1;
     pointer-events: none;
     transition: opacity 0.14s ease;
+    will-change: opacity;
   }
   .signature-wordmark.has-video .signature-wordmark-fill {
     opacity: 1;
