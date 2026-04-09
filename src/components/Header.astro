@@ -39,8 +39,7 @@ const navItems = [
       ) : shouldAnimateTitle ? (
         <span
           class:list={["signature-wordmark", { "has-video": shouldShowTitleVideo }]}
-          data-signature-video-handoff={shouldShowTitleVideo ? "" : undefined}
-          data-signature-font='Instrument Serif'
+          data-signature-video={shouldShowTitleVideo ? "" : undefined}
         >
           <span class="signature-wordmark-fill">{title}</span>
           <span class="signature-wordmark-stroke" aria-hidden="true">{title}</span>
@@ -66,8 +65,7 @@ const navItems = [
         {shouldAnimateTitle ? (
           <span
             class:list={["signature-wordmark", { "has-video": shouldShowTitleVideo }]}
-            data-signature-video-handoff={shouldShowTitleVideo ? "" : undefined}
-            data-signature-font='Instrument Serif'
+            data-signature-video={shouldShowTitleVideo ? "" : undefined}
           >
             <span class="signature-wordmark-fill">{title}</span>
             <span class="signature-wordmark-stroke" aria-hidden="true">{title}</span>
@@ -189,10 +187,7 @@ const navItems = [
   .signature-wordmark.has-video .signature-wordmark-stroke {
     display: none;
   }
-  .signature-wordmark.has-video.is-video-complete .signature-wordmark-video {
-    opacity: 0;
-  }
-  .signature-wordmark.has-video.is-video-complete .signature-wordmark-video.is-hidden {
+  .signature-wordmark.has-video .signature-wordmark-video.is-hidden {
     display: none;
   }
   .subtitle {
@@ -332,25 +327,7 @@ const navItems = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const signatureWordmarks = document.querySelectorAll<HTMLElement>('[data-signature-video-handoff]');
-
-    const waitForSignatureFont = async (wordmark: HTMLElement) => {
-      if (!('fonts' in document)) {
-        return;
-      }
-
-      const fontFamily = wordmark.dataset.signatureFont || 'Instrument Serif';
-      const fontSize = getComputedStyle(wordmark).fontSize || '2.25rem';
-
-      try {
-        await Promise.allSettled([
-          document.fonts.load(`${fontSize} "${fontFamily}"`),
-          document.fonts.ready,
-        ]);
-      } catch {
-        return;
-      }
-    };
+    const signatureWordmarks = document.querySelectorAll<HTMLElement>('[data-signature-video]');
 
     for (const wordmark of signatureWordmarks) {
       const video = wordmark.querySelector<HTMLVideoElement>('.signature-wordmark-video');
@@ -359,32 +336,19 @@ const navItems = [
         continue;
       }
 
-      const completeHandoff = async () => {
-        await waitForSignatureFont(wordmark);
-        wordmark.classList.add('is-video-complete');
-
-        const hideVideo = () => {
-          video.classList.add('is-hidden');
-        };
-
-        video.addEventListener('transitionend', hideVideo, { once: true });
-      };
-
       video.addEventListener('ended', () => {
-        void completeHandoff();
+        video.pause();
+
+        if (video.duration > 0) {
+          video.currentTime = Math.max(video.duration - 0.001, 0);
+        }
       }, { once: true });
 
-      if (video.ended) {
-        void completeHandoff();
-      }
-
       video.addEventListener('error', () => {
-        wordmark.classList.add('is-video-complete');
         video.classList.add('is-hidden');
       }, { once: true });
 
       video.addEventListener('stalled', () => {
-        wordmark.classList.add('is-video-complete');
         video.classList.add('is-hidden');
       }, { once: true });
     }
