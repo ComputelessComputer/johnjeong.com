@@ -31,9 +31,9 @@ const essays = defineCollection({
   schema: z.union([
     z.object({
       ...essayBaseSchema,
-      description: z.string().optional(),
-      updated_at: z.coerce.date().optional(),
-      tags: z.array(z.string()).optional(),
+      description: optionalDraftString,
+      updated_at: optionalDraftDate,
+      tags: optionalDraftTags,
       created_at: z.coerce.date(),
       published: z.literal(true),
     }),
