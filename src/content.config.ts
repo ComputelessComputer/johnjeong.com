@@ -16,6 +16,10 @@ const optionalDraftTags = z.preprocess(
   emptyishToUndefined,
   z.array(z.string()).optional(),
 );
+const draftTitle = z.preprocess(
+  emptyishToUndefined,
+  z.string().default("Untitled"),
+);
 const draftLang = z.preprocess(
   emptyishToUndefined,
   z.enum(["en", "ko"]).default("en"),
@@ -24,6 +28,11 @@ const draftLang = z.preprocess(
 const essayBaseSchema = {
   title: z.string(),
   lang: z.enum(["en", "ko"]).default("en"),
+};
+
+const draftEssayBaseSchema = {
+  title: draftTitle,
+  lang: draftLang,
 };
 
 const essays = defineCollection({
@@ -38,11 +47,10 @@ const essays = defineCollection({
       published: z.literal(true),
     }),
     z.object({
-      ...essayBaseSchema,
+      ...draftEssayBaseSchema,
       description: optionalDraftString,
       updated_at: optionalDraftDate,
       tags: optionalDraftTags,
-      lang: draftLang,
       created_at: optionalDraftDate,
       published: z.literal(false).default(false),
     }),
