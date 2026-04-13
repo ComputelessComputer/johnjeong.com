@@ -9,49 +9,39 @@ const interests = [
   "Photography and keeping a record of what I notice.",
 ];
 
-const projectGroups = [
+const projects = [
   {
-    name: "fastrepl",
-    items: [
-      {
-        name: "Char",
-        href: "https://char.com",
-        description: "The core thing I work on: software that helps founders stay on top of their day.",
-      },
-      {
-        name: "Philo",
-        href: "https://philo.so",
-        description: "A lightweight daily notes tool that carries unfinished work forward.",
-      },
-      {
-        name: "Openbird",
-        href: "https://openbird.vercel.app",
-        description: "An exploration of software that can understand what has already been done.",
-      },
-    ],
+    name: "Char",
+    href: "https://char.com",
+    description: "The core thing I work on: software that helps founders stay on top of their day.",
   },
   {
-    name: "ComputelessComputer",
-    items: [
-      {
-        name: "aipm",
-        href: "https://github.com/ComputelessComputer/aipm",
-        description: "A small AI task manager I built for myself.",
-      },
-      {
-        name: "slate",
-        href: "https://github.com/ComputelessComputer/slate",
-        description: "A small tool that syncs my reMarkable notes into Obsidian.",
-      },
-      {
-        name: "part of my brain",
-        href: "https://github.com/ComputelessComputer/part-of-my-brain",
-        description: "The public slice of my Obsidian vault that powers the writing on this site.",
-      },
-      {
-        name: "modernfaber",
-      },
-    ],
+    name: "Philo",
+    href: "https://philo.so",
+    description: "A lightweight daily notes tool that carries unfinished work forward.",
+  },
+  {
+    name: "Openbird",
+    href: "https://openbird.vercel.app",
+    description: "An exploration of software that can understand what has already been done.",
+  },
+  {
+    name: "aipm",
+    href: "https://github.com/ComputelessComputer/aipm",
+    description: "A small AI task manager I built for myself.",
+  },
+  {
+    name: "slate",
+    href: "https://github.com/ComputelessComputer/slate",
+    description: "A small tool that syncs my reMarkable notes into Obsidian.",
+  },
+  {
+    name: "part of my brain",
+    href: "https://github.com/ComputelessComputer/part-of-my-brain",
+    description: "The public slice of my Obsidian vault that powers the writing on this site.",
+  },
+  {
+    name: "modernfaber",
   },
 ];
 ---
@@ -77,34 +67,24 @@ const projectGroups = [
     </p>
   </section>
 
-  <section class="projects" aria-labelledby="projects-title">
-    <h2 id="projects-title">Projects, current and past</h2>
-    <div class="project-groups">
-      {projectGroups.map((group) => (
-        <div class="project-group">
-          <h3>{group.name}</h3>
-          <ul class="project-list">
-            {group.items.map((item) => (
-              <li>
-                {item.href ? (
-                  <a href={item.href} target="_blank" rel="noopener">{item.name}</a>
-                ) : (
-                  <span class="project-name">{item.name}</span>
-                )}
-                {item.description && <p>{item.description}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </section>
-
   <section aria-labelledby="interests-title">
     <h2 id="interests-title">Things I'm working on and interested in</h2>
     <ul class="interest-list">
       {interests.map((item) => (
         <li>{item}</li>
+      ))}
+    </ul>
+    <div class="section-separator" aria-hidden="true"></div>
+    <ul class="project-flow-list">
+      {projects.map((item) => (
+        <li>
+          {item.href ? (
+            <a href={item.href} target="_blank" rel="noopener">{item.name}</a>
+          ) : (
+            <span class="project-name">{item.name}</span>
+          )}
+          {item.description && <span>: {item.description}</span>}
+        </li>
       ))}
     </ul>
   </section>
@@ -173,10 +153,7 @@ const projectGroups = [
       </div>
     </div>
 
-    <p>
-      This site is open source.
-      <a href="/essays/building-my-new-website">Here's how I built it</a>.
-    </p>
+    <p>This site is <a href="https://github.com/ComputelessComputer/johnjeong.com" target="_blank" rel="noopener">open source</a>.</p>
   </section>
 </Base>
 
@@ -191,63 +168,14 @@ const projectGroups = [
 
   .intro p:last-child,
   .elsewhere p:last-child,
-  .project-list li:last-child,
-  .project-list li p,
-  .interest-list {
+  .interest-list,
+  .project-flow-list {
     margin-bottom: 0;
   }
 
   h2 {
     margin-top: 0;
     margin-bottom: 0.75rem;
-  }
-
-  .projects {
-    margin-top: 2.25rem;
-  }
-
-  .project-groups {
-    display: grid;
-    gap: 1.25rem;
-  }
-
-  .project-group {
-    border-top: 1px solid #e5e5e5;
-    padding-top: 1rem;
-  }
-
-  .project-group h3 {
-    margin-top: 0;
-    margin-bottom: 0.65rem;
-    font-size: 1rem;
-    font-family: var(--font-mono);
-    font-weight: 500;
-  }
-
-  .project-list {
-    list-style: none;
-  }
-
-  .project-list li {
-    margin-bottom: 0.9rem;
-  }
-
-  .project-list a {
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .project-name {
-    font-weight: 600;
-  }
-
-  .project-list a:hover {
-    text-decoration: underline;
-  }
-
-  .project-list p {
-    margin-top: 0.15rem;
-    color: #555;
   }
 
   .interest-list {
@@ -260,6 +188,42 @@ const projectGroups = [
 
   .interest-list li:last-child {
     margin-bottom: 0;
+  }
+
+  .section-separator {
+    width: 100%;
+    height: 1px;
+    margin: 1rem 0 0.95rem;
+    background: linear-gradient(90deg, rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.03));
+  }
+
+  .project-flow-list {
+    list-style: none;
+    padding-left: 0;
+    color: #555;
+  }
+
+  .project-flow-list li {
+    margin-bottom: 0.65rem;
+  }
+
+  .project-flow-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .project-flow-list a {
+    font-weight: 600;
+    text-decoration: none;
+    color: #1a1a1a;
+  }
+
+  .project-flow-list a:hover {
+    text-decoration: underline;
+  }
+
+  .project-name {
+    font-weight: 600;
+    color: #1a1a1a;
   }
 
   .social {
