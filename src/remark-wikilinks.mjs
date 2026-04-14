@@ -1,3 +1,4 @@
+import path from "node:path";
 import { visit } from "unist-util-visit";
 
 const ASSETS_DIR_PREFIX = "../assets/";
@@ -5,7 +6,10 @@ const IMAGE_EXTENSIONS_REGEX =
   /\.(avif|bmp|gif|ico|jpe?g|png|svg|tiff?|webp)(?:[?#].*)?$/i;
 const EXCALIDRAW_FILE_REGEX = /\.excalidraw(?:\.md)?(?:[?#].*)?$/i;
 const WIKILINK_OR_EMBED_REGEX = /(!)?\[\[([^[\]]+)\]\]/g;
+const MARKDOWN_EXTENSION_REGEX = /\.md$/i;
 const ESSAYS_DIR_SEGMENT = "/part-of-my-brain/essays/";
+const VAULT_DIR_SEGMENT = "/part-of-my-brain/";
+const BARE_RELATIVE_ENTRY_REGEX = /^[a-z0-9._-]+$/i;
 const BARE_ESSAY_LINK_REGEX =
   /^(?<slug>[a-z0-9]+(?:-[a-z0-9]+)*)(?<suffix>(?:[?#].*)?)$/i;
 
@@ -14,18 +18,228 @@ function isExternalOrAbsoluteUrl(url) {
 }
 
 function isEssayMarkdownFile(file) {
+  const filePath = getMarkdownFilePath(file);
+
+  return filePath.replaceAll("\\", "/").includes(ESSAYS_DIR_SEGMENT);
+}
+
+function getMarkdownFilePath(file) {
   if (!file) {
+    return "";
+  }
+
+  return typeof file.path === "string"
+    ? file.path
+    : Array.isArray(file.history) && typeof file.history[0] === "string"
+      ? file.history[0]
+      : "";
+}
+
+function getVaultRelativeFilePath(file) {
+  const filePath = getMarkdownFilePath(file).replaceAll("\\", "/");
+  const markerIndex = filePath.lastIndexOf(VAULT_DIR_SEGMENT);
+
+  if (markerIndex === -1) {
+    return "";
+  }
+
+  return filePath.slice(markerIndex + VAULT_DIR_SEGMENT.length);
+}
+
+function splitWikilinkTarget(target) {
+  if (typeof target !== "string") {
+    return { path: "", suffix: "" };
+  }
+
+  const trimmed = target.trim();
+  const suffixIndex = trimmed.search(/[?#]/);
+
+  if (suffixIndex === -1) {
+    return { path: trimmed, suffix: "" };
+  }
+
+  return {
+    path: trimmed.slice(0, suffixIndex),
+    suffix: trimmed.slice(suffixIndex),
+  };
+}
+
+function stripMarkdownExtension(value) {
+  return typeof value === "string"
+    ? value.replace(MARKDOWN_EXTENSION_REGEX, "")
+    : value;
+}
+
+function parseWikilinkBody(body) {
+  const trimmed = typeof body === "string" ? body.trim() : "";
+  const separatorIndex = trimmed.indexOf("|");
+
+  if (separatorIndex === -1) {
+    return {
+      target: trimmed,
+      label: getDefaultWikilinkLabel(trimmed),
+    };
+  }
+
+  const target = trimmed.slice(0, separatorIndex).trim();
+  const label = trimmed.slice(separatorIndex + 1).trim();
+
+  return {
+    target,
+    label: label || getDefaultWikilinkLabel(target),
+  };
+}
+
+function getDefaultWikilinkLabel(target) {
+  const { path: targetPath } = splitWikilinkTarget(target);
+  const normalizedTargetPath = stripMarkdownExtension(
+    targetPath.replaceAll("\\", "/"),
+  );
+
+  if (!normalizedTargetPath) {
+    return "";
+  }
+
+  return normalizedTargetPath.split("/").pop() ?? normalizedTargetPath;
+}
+
+function getWikilinkCurrentDirectory(file) {
+  const vaultRelativeFilePath = getVaultRelativeFilePath(file);
+
+  if (!vaultRelativeFilePath) {
+    return "";
+  }
+
+  return path.posix.dirname(vaultRelativeFilePath);
+}
+
+function getTopLevelVaultDirectory(directoryPath) {
+  if (typeof directoryPath !== "string" || !directoryPath) {
+    return "";
+  }
+
+  return directoryPath.split("/")[0] ?? "";
+}
+
+function canResolveBareWikilinkRelative(targetPath, file) {
+  if (
+    typeof targetPath !== "string" ||
+    !targetPath ||
+    targetPath.includes("/") ||
+    !BARE_RELATIVE_ENTRY_REGEX.test(targetPath)
+  ) {
     return false;
   }
 
-  const filePath =
-    typeof file.path === "string"
-      ? file.path
-      : Array.isArray(file.history) && typeof file.history[0] === "string"
-        ? file.history[0]
-        : "";
+  const currentDirectory = getWikilinkCurrentDirectory(file);
+  const currentCollection = getTopLevelVaultDirectory(currentDirectory);
 
-  return filePath.replaceAll("\\", "/").includes(ESSAYS_DIR_SEGMENT);
+  return (
+    currentCollection === "essays" ||
+    currentCollection === "inspirations" ||
+    currentCollection === "lessons"
+  );
+}
+
+function mapVaultPathToUrl(vaultPath, suffix = "") {
+  if (typeof vaultPath !== "string") {
+    return null;
+  }
+
+  const normalizedPath = stripMarkdownExtension(
+    vaultPath.replaceAll("\\", "/").replace(/^\/+/, ""),
+  );
+
+  if (!normalizedPath || normalizedPath === ".") {
+    return null;
+  }
+
+  const [collection, ...segments] = normalizedPath.split("/");
+  const entryPath = segments.join("/");
+
+  if (collection === "essays" && entryPath) {
+    return `/essays/${entryPath}${suffix}`;
+  }
+
+  if (collection === "inspirations" && entryPath) {
+    return `/inspirations/${entryPath}${suffix}`;
+  }
+
+  if (collection === "lessons" && entryPath) {
+    return `/lessons/${entryPath}${suffix}`;
+  }
+
+  if (collection === "pages" && entryPath) {
+    return `/pages/${slugifyPageName(entryPath)}${suffix}`;
+  }
+
+  return null;
+}
+
+function resolveWikilinkUrl(target, file) {
+  if (typeof target !== "string") {
+    return target;
+  }
+
+  const trimmed = target.trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  if (isExternalOrAbsoluteUrl(trimmed)) {
+    return trimmed;
+  }
+
+  const { path: targetPath, suffix } = splitWikilinkTarget(trimmed);
+  const normalizedTargetPath = targetPath.replaceAll("\\", "/");
+
+  if (!normalizedTargetPath) {
+    return trimmed;
+  }
+
+  if (
+    normalizedTargetPath.startsWith("./") ||
+    normalizedTargetPath.startsWith("../")
+  ) {
+    const currentDirectory = getWikilinkCurrentDirectory(file);
+
+    if (currentDirectory) {
+      const resolvedPath = path.posix.normalize(
+        path.posix.join(currentDirectory, normalizedTargetPath),
+      );
+      const resolvedUrl = mapVaultPathToUrl(resolvedPath, suffix);
+
+      if (resolvedUrl) {
+        return resolvedUrl;
+      }
+    }
+  }
+
+  if (normalizedTargetPath.includes("/")) {
+    const directUrl = mapVaultPathToUrl(
+      path.posix.normalize(normalizedTargetPath),
+      suffix,
+    );
+
+    if (directUrl) {
+      return directUrl;
+    }
+  } else if (canResolveBareWikilinkRelative(normalizedTargetPath, file)) {
+    const currentDirectory = getWikilinkCurrentDirectory(file);
+
+    if (currentDirectory) {
+      const resolvedUrl = mapVaultPathToUrl(
+        path.posix.join(currentDirectory, normalizedTargetPath),
+        suffix,
+      );
+
+      if (resolvedUrl) {
+        return resolvedUrl;
+      }
+    }
+  }
+
+  return `/pages/${slugifyPageName(getDefaultWikilinkLabel(targetPath))}${suffix}`;
 }
 
 function normalizeEssayLinkUrl(url) {
@@ -186,7 +400,7 @@ export function remarkWikilinks() {
         }
 
         let isEmbed = Boolean(match[1]);
-        const target = match[2].trim();
+        const { target, label } = parseWikilinkBody(match[2]);
         if (!isEmbed && match.index === 0) {
           isEmbed = consumeTrailingEmbedBang(parent, index);
         }
@@ -201,7 +415,7 @@ export function remarkWikilinks() {
             children.push({
               type: "image",
               url: normalizeImageUrl(target),
-              alt: target.split("/").pop() ?? target,
+              alt: label || (target.split("/").pop() ?? target),
             });
           } else {
             // Preserve unknown embed syntax as plain text.
@@ -211,12 +425,10 @@ export function remarkWikilinks() {
             });
           }
         } else {
-          const slug = slugifyPageName(target);
-
           children.push({
             type: "link",
-            url: `/pages/${slug}`,
-            children: [{ type: "text", value: target }],
+            url: resolveWikilinkUrl(target, file),
+            children: [{ type: "text", value: label }],
           });
         }
 
@@ -244,7 +456,7 @@ export function remarkWikilinks() {
  * Rehype plugin to transform [[page name]] syntax into links (operates on HTML)
  */
 export function rehypeWikilinks() {
-  return (tree) => {
+  return (tree, file) => {
     visit(tree, "text", (node, index, parent) => {
       const wikilinkRegex = /(!)?\[\[([^[\]]+)\]\]/g;
       const text = node.value;
@@ -270,7 +482,7 @@ export function rehypeWikilinks() {
         }
 
         let isEmbed = Boolean(match[1]);
-        const target = match[2].trim();
+        const { target, label } = parseWikilinkBody(match[2]);
 
         if (!isEmbed && match.index === 0) {
           isEmbed = consumeTrailingEmbedBang(parent, index);
@@ -310,7 +522,7 @@ export function rehypeWikilinks() {
               tagName: "img",
               properties: {
                 src: normalizeImageUrl(target),
-                alt: target.split("/").pop() ?? target,
+                alt: label || (target.split("/").pop() ?? target),
               },
               children: [],
             });
@@ -321,13 +533,11 @@ export function rehypeWikilinks() {
             });
           }
         } else {
-          const slug = slugifyPageName(target);
-
           children.push({
             type: "element",
             tagName: "a",
-            properties: { href: `/pages/${slug}` },
-            children: [{ type: "text", value: target }],
+            properties: { href: resolveWikilinkUrl(target, file) },
+            children: [{ type: "text", value: label }],
           });
         }
 
