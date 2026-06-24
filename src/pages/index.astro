@@ -12,18 +12,18 @@ const interests = [
 
 <Base
   title="John Jeong"
-  description="Co-founder & Co-CEO at Char. Notes on software, work, and things I care about."
+  description="Co-founder @ Fastrepl. Notes on software, work, and things I care about."
   ogEyebrow="About"
 >
   <Header
     currentPage="home"
-    subtitle='Co-founder & Co-CEO at <a href="https://char.com" target="_blank" rel="noopener" class="hyprnote-link hyprnote-logo-link"><img src="/char.svg" alt="Char" class="char-logo" width="332" height="100" /></a>'
+    subtitle='Co-founder @ <a href="https://fastrepl.com" target="_blank" rel="noopener">Fastrepl</a>.'
   />
 
   <section class="intro">
     <p>I'm John Jeong.</p>
     <p>
-      I work on <a href="https://char.com" target="_blank" rel="noopener">Char</a>.
+      I work on <a href="https://char.com" target="_blank" rel="noopener" class="char-logo-link"><img src="/char.svg" alt="Char" class="char-logo" width="332" height="100" /></a>.
       I like building software that is simple, legible, and built to last.
     </p>
     <p>
@@ -121,6 +121,18 @@ const interests = [
   .elsewhere p:last-child,
   .interest-list {
     margin-bottom: 0;
+  }
+
+  .char-logo-link {
+    display: inline-block;
+    line-height: 0;
+    vertical-align: -0.08em;
+  }
+
+  .char-logo {
+    display: block;
+    width: auto;
+    height: 0.84em;
   }
 
   h2 {

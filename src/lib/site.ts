@@ -2,7 +2,7 @@ export const SITE_URL = "https://johnjeong.com";
 export const SITE_NAME = "John Jeong";
 export const TWITTER_HANDLE = "@computeless";
 export const DEFAULT_DESCRIPTION =
-  "Co-founder & Co-CEO at Char. Essays, lessons, inspirations, notes, and photos.";
+  "Co-founder @ Fastrepl. Essays, lessons, inspirations, notes, and photos.";
 
 export const OG_TITLE_MAX_LENGTH = 96;
 export const OG_DESCRIPTION_MAX_LENGTH = 180;

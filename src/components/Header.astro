@@ -9,7 +9,7 @@ interface Props {
 const {
   currentPage,
   title = "John Jeong",
-  subtitle = 'Co-founder & Co-CEO at <a href="https://char.com" target="_blank" rel="noopener" class="hyprnote-link hyprnote-logo-link"><img src="/char.svg" alt="Char" class="char-logo" width="332" height="100" /></a>',
+  subtitle = 'Co-founder @ <a href="https://fastrepl.com" target="_blank" rel="noopener">Fastrepl</a>.',
   showGoBack = false,
 } = Astro.props;
 
@@ -74,24 +74,6 @@ const navItems = [
   }
   .subtitle .subtitle-text {
     display: block;
-  }
-  .hyprnote-link {
-    font-family: var(--font-serif);
-    text-decoration: none;
-  }
-  .hyprnote-logo-link {
-    display: inline-block;
-    line-height: 0;
-    vertical-align: -0.08em;
-  }
-  .char-logo {
-    display: block;
-    width: auto;
-    height: 0.84em;
-  }
-  .hyprnote-link:hover {
-    text-decoration: underline;
-    text-decoration-style: dotted;
   }
   .nav-container {
     position: relative;

@@ -4,6 +4,24 @@ import { glob } from "astro/loaders";
 const emptyishToUndefined = (value: unknown) =>
   value === "" || value === null ? undefined : value;
 
+const draftTagsToUndefined = (value: unknown) => {
+  if (value === "" || value === null) {
+    return undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    return value;
+  }
+
+  const tags = value
+    .filter(
+      (tag): tag is string => typeof tag === "string" && tag.trim().length > 0,
+    )
+    .map((tag) => tag.trim());
+
+  return tags.length ? tags : undefined;
+};
+
 const optionalDraftString = z.preprocess(
   emptyishToUndefined,
   z.string().optional(),
@@ -13,7 +31,7 @@ const optionalDraftDate = z.preprocess(
   z.coerce.date().optional(),
 );
 const optionalDraftTags = z.preprocess(
-  emptyishToUndefined,
+  draftTagsToUndefined,
   z.array(z.string()).optional(),
 );
 const draftTitle = z.preprocess(
