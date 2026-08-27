@@ -23,7 +23,7 @@ const interests = [
   <section class="intro">
     <p>I'm John Jeong.</p>
     <p>
-      I work on <a href="https://char.com" target="_blank" rel="noopener" class="char-logo-link"><img src="/char.svg" alt="Char" class="char-logo" width="103" height="30" /></a>.
+      I work on <a href="https://char.com" target="_blank" rel="noopener" class="product-logo-link"><img src="/char.svg" alt="Char" class="product-logo" width="103" height="30" /></a> and <a href="https://anarlog.so" target="_blank" rel="noopener" class="product-logo-link anarlog-logo-link"><img src="/anarlog.svg" alt="Anarlog" class="product-logo anarlog-logo" width="1205" height="334" /></a>.
       I like building software that is simple, legible, and built to last.
     </p>
     <p>
@@ -123,16 +123,24 @@ const interests = [
     margin-bottom: 0;
   }
 
-  .char-logo-link {
+  .product-logo-link {
     display: inline-block;
     line-height: 0;
     vertical-align: -0.08em;
   }
 
-  .char-logo {
+  .anarlog-logo-link {
+    vertical-align: -0.23em;
+  }
+
+  .product-logo {
     display: block;
     width: auto;
     height: 0.84em;
+  }
+
+  .anarlog-logo {
+    height: 1.1em;
   }
 
   h2 {
