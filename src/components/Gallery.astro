@@ -6,6 +6,12 @@ import path from 'node:path';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.GOOGLE_MAPS_API_KEY;
 
+// Photos where satellite imagery (showing real terrain/relief) is more useful than the default road map.
+// Google's Embed API only supports 'roadmap' or 'satellite' as maptype values (no dedicated terrain layer).
+const SATELLITE_MAP_FILENAMES = new Set([
+  'CB68A1E9-7D47-416C-8B8A-71D4104D6FFA_1_105_c.jpeg', // Mt. Gwanak (관악산) hike
+]);
+
 const galleryDir = path.join(process.cwd(), 'part-of-my-brain/gallery');
 const files = fs.readdirSync(galleryDir).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
 
@@ -91,7 +97,7 @@ images.sort((a, b) => {
               {image.location}
               <div class="map-tooltip">
                 <iframe
-src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${image.location.replace(' ', '')}&zoom=15`}
+src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${image.location.replace(' ', '')}&zoom=15${SATELLITE_MAP_FILENAMES.has(image.filename) ? '&maptype=satellite' : ''}`}
                   width="280"
                   height="200"
                   style="border:0;"
